@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\ACER\\Desktop\\DoAnTotNghiep\\K22CNT4-LeTrungKien-2210900034-DoAnTotNghiep\\DGSV\\DGSV.csproj": {}
+    "C:\\Users\\ACER\\Desktop\\DoAnTotNghiep\\K22CNT4-LeTrungKien-2210900034-DoAnTotNghiep\\DGSV_BE\\DGSV.csproj": {}
   },
   "projects": {
-    "C:\\Users\\ACER\\Desktop\\DoAnTotNghiep\\K22CNT4-LeTrungKien-2210900034-DoAnTotNghiep\\DGSV\\DGSV.csproj": {
+    "C:\\Users\\ACER\\Desktop\\DoAnTotNghiep\\K22CNT4-LeTrungKien-2210900034-DoAnTotNghiep\\DGSV_BE\\DGSV.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\ACER\\Desktop\\DoAnTotNghiep\\K22CNT4-LeTrungKien-2210900034-DoAnTotNghiep\\DGSV\\DGSV.csproj",
+        "projectUniqueName": "C:\\Users\\ACER\\Desktop\\DoAnTotNghiep\\K22CNT4-LeTrungKien-2210900034-DoAnTotNghiep\\DGSV_BE\\DGSV.csproj",
         "projectName": "DGSV",
-        "projectPath": "C:\\Users\\ACER\\Desktop\\DoAnTotNghiep\\K22CNT4-LeTrungKien-2210900034-DoAnTotNghiep\\DGSV\\DGSV.csproj",
+        "projectPath": "C:\\Users\\ACER\\Desktop\\DoAnTotNghiep\\K22CNT4-LeTrungKien-2210900034-DoAnTotNghiep\\DGSV_BE\\DGSV.csproj",
         "packagesPath": "C:\\Users\\ACER\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\ACER\\Desktop\\DoAnTotNghiep\\K22CNT4-LeTrungKien-2210900034-DoAnTotNghiep\\DGSV\\obj\\",
+        "outputPath": "C:\\Users\\ACER\\Desktop\\DoAnTotNghiep\\K22CNT4-LeTrungKien-2210900034-DoAnTotNghiep\\DGSV_BE\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

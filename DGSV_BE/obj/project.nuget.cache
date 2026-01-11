@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "8mN7uIjhwGE=",
+  "dgSpecHash": "mG2lco+lW6g=",
   "success": true,
-  "projectFilePath": "C:\\Users\\ACER\\Desktop\\DoAnTotNghiep\\K22CNT4-LeTrungKien-2210900034-DoAnTotNghiep\\DGSV\\DGSV.csproj",
+  "projectFilePath": "C:\\Users\\ACER\\Desktop\\DoAnTotNghiep\\K22CNT4-LeTrungKien-2210900034-DoAnTotNghiep\\DGSV_BE\\DGSV.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\ACER\\.nuget\\packages\\azure.core\\1.25.0\\azure.core.1.25.0.nupkg.sha512",
     "C:\\Users\\ACER\\.nuget\\packages\\azure.identity\\1.7.0\\azure.identity.1.7.0.nupkg.sha512",
