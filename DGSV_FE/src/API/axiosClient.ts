@@ -29,12 +29,16 @@ axiosClient.interceptors.request.use(
 axiosClient.interceptors.response.use(
   (response) => response,
   (error) => {
-    if (error.response?.status === 401) {
+    const isLoginApi = error.config?.url?.includes("/login");
+
+    if (error.response?.status === 401 && !isLoginApi) {
       localStorage.removeItem("user");
       window.location.href = "/login";
     }
+
     return Promise.reject(error);
   }
 );
+
 
 export default axiosClient;

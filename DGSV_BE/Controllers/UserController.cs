@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using DGSV.Api.Data;
+using DGSV.Api.DTO;
 
 namespace DGSV.Api.Controllers
 {
@@ -15,86 +16,166 @@ namespace DGSV.Api.Controllers
             _context = context;
         }
 
-        [HttpGet("info/{role}/{userId}")]
-        public async Task<IActionResult> GetUserInfo(string role, string userId)
+        // ==================================================
+        // GET: api/user/all
+        // ==================================================
+        [HttpGet("all")]
+        public async Task<IActionResult> GetAllUsers()
         {
-            object userInfo;
+            var students = await _context.Students
+                .Select(s => new UserResponseDto
+                {
+                    Id = s.Id,
+                    FullName = s.FullName,
+                    Role = "STUDENT",
+                    Email = s.Email,
+                    Phone = s.Phone,
+                    IsActive = s.IsActive
+                }).ToListAsync();
 
+            var lecturers = await _context.Lecturers
+                .Select(l => new UserResponseDto
+                {
+                    Id = l.Id,
+                    FullName = l.FullName,
+                    Role = "LECTURER",
+                    Email = l.Email,
+                    Phone = l.Phone,
+                    IsActive = l.IsActive
+                }).ToListAsync();
+
+            var admins = await _context.AccountAdmins
+                .Include(a => a.Role)
+                .Select(a => new UserResponseDto
+                {
+                    Id = a.Id.ToString(),
+                    FullName = a.FullName,
+                    Role = "ADMIN",
+                    Email = null,
+                    Phone = null,
+                    IsActive = a.IsActive
+                }).ToListAsync();
+
+            return Ok(admins.Concat(lecturers).Concat(students));
+        }
+
+        // ==================================================
+        // PUT: api/user/{role}/{id}
+        // ==================================================
+        [HttpPut("{role}/{id}")]
+        public async Task<IActionResult> UpdateUser(
+            string role,
+            string id,
+            [FromBody] UserUpdateDto dto)
+        {
             switch (role.ToUpper())
             {
-                case "ADMIN":
-                    if (!int.TryParse(userId, out int adminId))
-                        return BadRequest("Invalid admin id");
-
-                    var admin = await _context.AccountAdmins
-                        .Include(a => a.Role)
-                        .FirstOrDefaultAsync(a => a.Id == adminId);
-
-                    if (admin == null) return NotFound();
-
-                    userInfo = new
+                case "STUDENT":
                     {
-                        id = admin.Id,
-                        fullName = admin.FullName,
-                        userName = admin.UserName,
-                        role = admin.Role.RoleName,
-                        isActive = admin.IsActive
-                    };
-                    break;
+                        var student = await _context.Students.FindAsync(id);
+                        if (student == null) return NotFound();
+
+                        student.FullName = dto.FullName;
+                        student.Email = dto.Email;
+                        student.Phone = dto.Phone;
+                        student.IsActive = dto.IsActive;
+
+                        // 🔥 SYNC ACCOUNT STUDENT
+                        var accountStudent = await _context.AccountStudents
+                            .FirstOrDefaultAsync(a => a.StudentId == student.Id);
+
+                        if (accountStudent != null)
+                            accountStudent.IsActive = dto.IsActive;
+
+                        break;
+                    }
 
                 case "LECTURER":
-                    var lecturer = await _context.Lecturers
-                        .Include(l => l.Department)
-                        .Include(l => l.Position)
-                        .FirstOrDefaultAsync(l => l.Id == userId);
-
-                    if (lecturer == null) return NotFound();
-
-                    userInfo = new
                     {
-                        id = lecturer.Id,
-                        fullName = lecturer.FullName,
-                        birthday = lecturer.Birthday,
-                        email = lecturer.Email,
-                        phone = lecturer.Phone,
-                        department = lecturer.Department?.Name,
-                        position = lecturer.Position?.Name,
-                        isActive = lecturer.IsActive
-                    };
-                    break;
+                        var lecturer = await _context.Lecturers.FindAsync(id);
+                        if (lecturer == null) return NotFound();
 
-                case "STUDENT":
-                    var student = await _context.Students
-                        .Include(s => s.Class)
-                            .ThenInclude(c => c.Course)
-                        .Include(s => s.Class)
-                            .ThenInclude(c => c.Department)
-                        .Include(s => s.Position)
-                        .FirstOrDefaultAsync(s => s.Id == userId);
+                        lecturer.FullName = dto.FullName;
+                        lecturer.Email = dto.Email;
+                        lecturer.Phone = dto.Phone;
+                        lecturer.IsActive = dto.IsActive;
 
-                    if (student == null) return NotFound();
+                        // 🔥 SYNC ACCOUNT LECTURER
+                        var accountLecturer = await _context.AccountLecturers
+                            .FirstOrDefaultAsync(a => a.LecturerId == lecturer.Id);
 
-                    userInfo = new
-                    {
-                        id = student.Id,
-                        fullName = student.FullName,
-                        birthday = student.Birthday,
-                        email = student.Email,
-                        phone = student.Phone,
-                        gender = (bool)student.Gender ? "Nam" : "Nữ",
-                        className = student.Class?.Name,
-                        course = student.Class?.Course?.Name,
-                        department = student.Class?.Department?.Name,
-                        position = student.Position?.Name,
-                        isActive = student.IsActive
-                    };
-                    break;
+                        if (accountLecturer != null)
+                            accountLecturer.IsActive = dto.IsActive;
+
+                        break;
+                    }
 
                 default:
-                    return BadRequest("Invalid role");
+                    return BadRequest("Role không hợp lệ");
             }
 
-            return Ok(userInfo);
+            await _context.SaveChangesAsync();
+            return Ok("Cập nhật thành công");
+        }
+
+        // ==================================================
+        // DELETE (SOFT): api/user/{role}/{id}
+        // ==================================================
+        [HttpDelete("{role}/{id}")]
+        public async Task<IActionResult> DeleteUser(string role, string id)
+        {
+            switch (role.ToUpper())
+            {
+                case "STUDENT":
+                    {
+                        var student = await _context.Students.FindAsync(id);
+                        if (student == null) return NotFound();
+
+                        student.IsActive = false;
+
+                        var accountStudent = await _context.AccountStudents
+                            .FirstOrDefaultAsync(a => a.StudentId == student.Id);
+
+                        if (accountStudent != null)
+                            accountStudent.IsActive = false;
+
+                        break;
+                    }
+
+                case "LECTURER":
+                    {
+                        var lecturer = await _context.Lecturers.FindAsync(id);
+                        if (lecturer == null) return NotFound();
+
+                        lecturer.IsActive = false;
+
+                        var accountLecturer = await _context.AccountLecturers
+                            .FirstOrDefaultAsync(a => a.LecturerId == lecturer.Id);
+
+                        if (accountLecturer != null)
+                            accountLecturer.IsActive = false;
+
+                        break;
+                    }
+
+                case "ADMIN":
+                    {
+                        if (!int.TryParse(id, out int adminId))
+                            return BadRequest();
+
+                        var admin = await _context.AccountAdmins.FindAsync(adminId);
+                        if (admin == null) return NotFound();
+
+                        admin.IsActive = false;
+                        break;
+                    }
+
+                default:
+                    return BadRequest("Role không hợp lệ");
+            }
+
+            await _context.SaveChangesAsync();
+            return Ok("Người dùng đã bị khóa");
         }
     }
 }

@@ -3,6 +3,54 @@
   "WorkspaceRootPath": "C:\\Users\\ACER\\Desktop\\DoAnTotNghiep\\K22CNT4-LeTrungKien-2210900034-DoAnTotNghiep\\DGSV_BE\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{5C2AACC5-F324-8F97-7F88-B86BE902E02F}|DGSV.csproj|c:\\users\\acer\\desktop\\doantotnghiep\\k22cnt4-letrungkien-2210900034-doantotnghiep\\dgsv_be\\models\\accountlecturer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5C2AACC5-F324-8F97-7F88-B86BE902E02F}|DGSV.csproj|solutionrelative:models\\accountlecturer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5C2AACC5-F324-8F97-7F88-B86BE902E02F}|DGSV.csproj|c:\\users\\acer\\desktop\\doantotnghiep\\k22cnt4-letrungkien-2210900034-doantotnghiep\\dgsv_be\\controllers\\logincontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5C2AACC5-F324-8F97-7F88-B86BE902E02F}|DGSV.csproj|solutionrelative:controllers\\logincontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5C2AACC5-F324-8F97-7F88-B86BE902E02F}|DGSV.csproj|c:\\users\\acer\\desktop\\doantotnghiep\\k22cnt4-letrungkien-2210900034-doantotnghiep\\dgsv_be\\controllers\\usercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5C2AACC5-F324-8F97-7F88-B86BE902E02F}|DGSV.csproj|solutionrelative:controllers\\usercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5C2AACC5-F324-8F97-7F88-B86BE902E02F}|DGSV.csproj|c:\\users\\acer\\desktop\\doantotnghiep\\k22cnt4-letrungkien-2210900034-doantotnghiep\\dgsv_be\\models\\accountstudent.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5C2AACC5-F324-8F97-7F88-B86BE902E02F}|DGSV.csproj|solutionrelative:models\\accountstudent.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5C2AACC5-F324-8F97-7F88-B86BE902E02F}|DGSV.csproj|c:\\users\\acer\\desktop\\doantotnghiep\\k22cnt4-letrungkien-2210900034-doantotnghiep\\dgsv_be\\models\\accountadmin.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5C2AACC5-F324-8F97-7F88-B86BE902E02F}|DGSV.csproj|solutionrelative:models\\accountadmin.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5C2AACC5-F324-8F97-7F88-B86BE902E02F}|DGSV.csproj|c:\\users\\acer\\desktop\\doantotnghiep\\k22cnt4-letrungkien-2210900034-doantotnghiep\\dgsv_be\\dto\\userupdatedto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5C2AACC5-F324-8F97-7F88-B86BE902E02F}|DGSV.csproj|solutionrelative:dto\\userupdatedto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5C2AACC5-F324-8F97-7F88-B86BE902E02F}|DGSV.csproj|c:\\users\\acer\\desktop\\doantotnghiep\\k22cnt4-letrungkien-2210900034-doantotnghiep\\dgsv_be\\dto\\usercreatedto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5C2AACC5-F324-8F97-7F88-B86BE902E02F}|DGSV.csproj|solutionrelative:dto\\usercreatedto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5C2AACC5-F324-8F97-7F88-B86BE902E02F}|DGSV.csproj|c:\\users\\acer\\desktop\\doantotnghiep\\k22cnt4-letrungkien-2210900034-doantotnghiep\\dgsv_be\\dto\\userresponsedto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5C2AACC5-F324-8F97-7F88-B86BE902E02F}|DGSV.csproj|solutionrelative:dto\\userresponsedto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5C2AACC5-F324-8F97-7F88-B86BE902E02F}|DGSV.csproj|c:\\users\\acer\\desktop\\doantotnghiep\\k22cnt4-letrungkien-2210900034-doantotnghiep\\dgsv_be\\dto\\answerupdatedto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5C2AACC5-F324-8F97-7F88-B86BE902E02F}|DGSV.csproj|solutionrelative:dto\\answerupdatedto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5C2AACC5-F324-8F97-7F88-B86BE902E02F}|DGSV.csproj|c:\\users\\acer\\desktop\\doantotnghiep\\k22cnt4-letrungkien-2210900034-doantotnghiep\\dgsv_be\\dto\\answerresponsedto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5C2AACC5-F324-8F97-7F88-B86BE902E02F}|DGSV.csproj|solutionrelative:dto\\answerresponsedto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5C2AACC5-F324-8F97-7F88-B86BE902E02F}|DGSV.csproj|c:\\users\\acer\\desktop\\doantotnghiep\\k22cnt4-letrungkien-2210900034-doantotnghiep\\dgsv_be\\dto\\answercreatedto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5C2AACC5-F324-8F97-7F88-B86BE902E02F}|DGSV.csproj|solutionrelative:dto\\answercreatedto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5C2AACC5-F324-8F97-7F88-B86BE902E02F}|DGSV.csproj|c:\\users\\acer\\desktop\\doantotnghiep\\k22cnt4-letrungkien-2210900034-doantotnghiep\\dgsv_be\\controllers\\answerlistcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5C2AACC5-F324-8F97-7F88-B86BE902E02F}|DGSV.csproj|solutionrelative:controllers\\answerlistcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{5C2AACC5-F324-8F97-7F88-B86BE902E02F}|DGSV.csproj|c:\\users\\acer\\desktop\\doantotnghiep\\k22cnt4-letrungkien-2210900034-doantotnghiep\\dgsv_be\\controllers\\questioncontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{5C2AACC5-F324-8F97-7F88-B86BE902E02F}|DGSV.csproj|solutionrelative:controllers\\questioncontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -35,24 +83,12 @@
       "RelativeMoniker": "D:0:0:{5C2AACC5-F324-8F97-7F88-B86BE902E02F}|DGSV.csproj|solutionrelative:dto\\questionresponsedto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{5C2AACC5-F324-8F97-7F88-B86BE902E02F}|DGSV.csproj|c:\\users\\acer\\desktop\\doantotnghiep\\k22cnt4-letrungkien-2210900034-doantotnghiep\\dgsv_be\\controllers\\answerlistcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{5C2AACC5-F324-8F97-7F88-B86BE902E02F}|DGSV.csproj|solutionrelative:controllers\\answerlistcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{5C2AACC5-F324-8F97-7F88-B86BE902E02F}|DGSV.csproj|c:\\users\\acer\\desktop\\doantotnghiep\\k22cnt4-letrungkien-2210900034-doantotnghiep\\dgsv_be\\controllers\\logincontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{5C2AACC5-F324-8F97-7F88-B86BE902E02F}|DGSV.csproj|solutionrelative:controllers\\logincontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{5C2AACC5-F324-8F97-7F88-B86BE902E02F}|DGSV.csproj|c:\\users\\acer\\desktop\\doantotnghiep\\k22cnt4-letrungkien-2210900034-doantotnghiep\\dgsv_be\\models\\questionlist.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{5C2AACC5-F324-8F97-7F88-B86BE902E02F}|DGSV.csproj|solutionrelative:models\\questionlist.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{5C2AACC5-F324-8F97-7F88-B86BE902E02F}|DGSV.csproj|c:\\users\\acer\\desktop\\doantotnghiep\\k22cnt4-letrungkien-2210900034-doantotnghiep\\dgsv_be\\dto\\registerfromexceldto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{5C2AACC5-F324-8F97-7F88-B86BE902E02F}|DGSV.csproj|solutionrelative:dto\\registerfromexceldto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{5C2AACC5-F324-8F97-7F88-B86BE902E02F}|DGSV.csproj|c:\\users\\acer\\desktop\\doantotnghiep\\k22cnt4-letrungkien-2210900034-doantotnghiep\\dgsv_be\\controllers\\usercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{5C2AACC5-F324-8F97-7F88-B86BE902E02F}|DGSV.csproj|solutionrelative:controllers\\usercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{5C2AACC5-F324-8F97-7F88-B86BE902E02F}|DGSV.csproj|c:\\users\\acer\\desktop\\doantotnghiep\\k22cnt4-letrungkien-2210900034-doantotnghiep\\dgsv_be\\controllers\\admincontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -79,16 +115,8 @@
       "RelativeMoniker": "D:0:0:{5C2AACC5-F324-8F97-7F88-B86BE902E02F}|DGSV.csproj|solutionrelative:models\\department.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{5C2AACC5-F324-8F97-7F88-B86BE902E02F}|DGSV.csproj|c:\\users\\acer\\desktop\\doantotnghiep\\k22cnt4-letrungkien-2210900034-doantotnghiep\\dgsv_be\\models\\accountlecturer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{5C2AACC5-F324-8F97-7F88-B86BE902E02F}|DGSV.csproj|solutionrelative:models\\accountlecturer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{5C2AACC5-F324-8F97-7F88-B86BE902E02F}|DGSV.csproj|c:\\users\\acer\\desktop\\doantotnghiep\\k22cnt4-letrungkien-2210900034-doantotnghiep\\dgsv_be\\helpers\\genderhelper.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{5C2AACC5-F324-8F97-7F88-B86BE902E02F}|DGSV.csproj|solutionrelative:helpers\\genderhelper.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{5C2AACC5-F324-8F97-7F88-B86BE902E02F}|DGSV.csproj|c:\\users\\acer\\desktop\\doantotnghiep\\k22cnt4-letrungkien-2210900034-doantotnghiep\\dgsv_be\\models\\accountstudent.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{5C2AACC5-F324-8F97-7F88-B86BE902E02F}|DGSV.csproj|solutionrelative:models\\accountstudent.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{5C2AACC5-F324-8F97-7F88-B86BE902E02F}|DGSV.csproj|c:\\users\\acer\\desktop\\doantotnghiep\\k22cnt4-letrungkien-2210900034-doantotnghiep\\dgsv_be\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -97,10 +125,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{5C2AACC5-F324-8F97-7F88-B86BE902E02F}|DGSV.csproj|c:\\users\\acer\\desktop\\doantotnghiep\\k22cnt4-letrungkien-2210900034-doantotnghiep\\dgsv_be\\models\\semester.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{5C2AACC5-F324-8F97-7F88-B86BE902E02F}|DGSV.csproj|solutionrelative:models\\semester.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{5C2AACC5-F324-8F97-7F88-B86BE902E02F}|DGSV.csproj|c:\\users\\acer\\desktop\\doantotnghiep\\k22cnt4-letrungkien-2210900034-doantotnghiep\\dgsv_be\\models\\accountadmin.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{5C2AACC5-F324-8F97-7F88-B86BE902E02F}|DGSV.csproj|solutionrelative:models\\accountadmin.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{5C2AACC5-F324-8F97-7F88-B86BE902E02F}|DGSV.csproj|c:\\users\\acer\\desktop\\doantotnghiep\\k22cnt4-letrungkien-2210900034-doantotnghiep\\dgsv_be\\models\\position.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -134,11 +158,239 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 5,
           "Children": [
             {
               "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "AnswerCreateDTO.cs",
+              "DocumentMoniker": "C:\\Users\\ACER\\Desktop\\DoAnTotNghiep\\K22CNT4-LeTrungKien-2210900034-DoAnTotNghiep\\DGSV_BE\\DTO\\AnswerCreateDTO.cs",
+              "RelativeDocumentMoniker": "DTO\\AnswerCreateDTO.cs",
+              "ToolTip": "C:\\Users\\ACER\\Desktop\\DoAnTotNghiep\\K22CNT4-LeTrungKien-2210900034-DoAnTotNghiep\\DGSV_BE\\DTO\\AnswerCreateDTO.cs",
+              "RelativeToolTip": "DTO\\AnswerCreateDTO.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-11T18:17:33.93Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "AnswerListController.cs",
+              "DocumentMoniker": "C:\\Users\\ACER\\Desktop\\DoAnTotNghiep\\K22CNT4-LeTrungKien-2210900034-DoAnTotNghiep\\DGSV_BE\\Controllers\\AnswerListController.cs",
+              "RelativeDocumentMoniker": "Controllers\\AnswerListController.cs",
+              "ToolTip": "C:\\Users\\ACER\\Desktop\\DoAnTotNghiep\\K22CNT4-LeTrungKien-2210900034-DoAnTotNghiep\\DGSV_BE\\Controllers\\AnswerListController.cs",
+              "RelativeToolTip": "Controllers\\AnswerListController.cs",
+              "ViewState": "AgIAAGEAAAAAAAAAAAAYwIMAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-10T19:10:25.47Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "AccountAdmin.cs",
+              "DocumentMoniker": "C:\\Users\\ACER\\Desktop\\DoAnTotNghiep\\K22CNT4-LeTrungKien-2210900034-DoAnTotNghiep\\DGSV_BE\\Models\\AccountAdmin.cs",
+              "RelativeDocumentMoniker": "Models\\AccountAdmin.cs",
+              "ToolTip": "C:\\Users\\ACER\\Desktop\\DoAnTotNghiep\\K22CNT4-LeTrungKien-2210900034-DoAnTotNghiep\\DGSV_BE\\Models\\AccountAdmin.cs",
+              "RelativeToolTip": "Models\\AccountAdmin.cs",
+              "ViewState": "AgIAAAEAAAAAAAAAAAAAwAsAAAAsAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-26T06:54:18.657Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "AccountStudent.cs",
+              "DocumentMoniker": "C:\\Users\\ACER\\Desktop\\DoAnTotNghiep\\K22CNT4-LeTrungKien-2210900034-DoAnTotNghiep\\DGSV_BE\\Models\\AccountStudent.cs",
+              "RelativeDocumentMoniker": "Models\\AccountStudent.cs",
+              "ToolTip": "C:\\Users\\ACER\\Desktop\\DoAnTotNghiep\\K22CNT4-LeTrungKien-2210900034-DoAnTotNghiep\\DGSV_BE\\Models\\AccountStudent.cs",
+              "RelativeToolTip": "Models\\AccountStudent.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABkAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-26T07:42:21.041Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "LoginController.cs",
+              "DocumentMoniker": "C:\\Users\\ACER\\Desktop\\DoAnTotNghiep\\K22CNT4-LeTrungKien-2210900034-DoAnTotNghiep\\DGSV_BE\\Controllers\\LoginController.cs",
+              "RelativeDocumentMoniker": "Controllers\\LoginController.cs",
+              "ToolTip": "C:\\Users\\ACER\\Desktop\\DoAnTotNghiep\\K22CNT4-LeTrungKien-2210900034-DoAnTotNghiep\\DGSV_BE\\Controllers\\LoginController.cs",
+              "RelativeToolTip": "Controllers\\LoginController.cs",
+              "ViewState": "AgIAABgAAAAAAAAAAAArwDAAAAAoAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-26T07:57:53.727Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
               "DocumentIndex": 0,
+              "Title": "AccountLecturer.cs",
+              "DocumentMoniker": "C:\\Users\\ACER\\Desktop\\DoAnTotNghiep\\K22CNT4-LeTrungKien-2210900034-DoAnTotNghiep\\DGSV_BE\\Models\\AccountLecturer.cs",
+              "RelativeDocumentMoniker": "Models\\AccountLecturer.cs",
+              "ToolTip": "C:\\Users\\ACER\\Desktop\\DoAnTotNghiep\\K22CNT4-LeTrungKien-2210900034-DoAnTotNghiep\\DGSV_BE\\Models\\AccountLecturer.cs",
+              "RelativeToolTip": "Models\\AccountLecturer.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABEAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-26T07:35:34.607Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "UserController.cs",
+              "DocumentMoniker": "C:\\Users\\ACER\\Desktop\\DoAnTotNghiep\\K22CNT4-LeTrungKien-2210900034-DoAnTotNghiep\\DGSV_BE\\Controllers\\UserController.cs",
+              "RelativeDocumentMoniker": "Controllers\\UserController.cs",
+              "ToolTip": "C:\\Users\\ACER\\Desktop\\DoAnTotNghiep\\K22CNT4-LeTrungKien-2210900034-DoAnTotNghiep\\DGSV_BE\\Controllers\\UserController.cs",
+              "RelativeToolTip": "Controllers\\UserController.cs",
+              "ViewState": "AgIAAJkAAAAAAAAAAAAkwLUAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-07T03:19:13.877Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 18,
+              "Title": "SumaryOfPoint.cs",
+              "DocumentMoniker": "C:\\Users\\ACER\\Desktop\\DoAnTotNghiep\\K22CNT4-LeTrungKien-2210900034-DoAnTotNghiep\\DGSV_BE\\Models\\SumaryOfPoint.cs",
+              "RelativeDocumentMoniker": "Models\\SumaryOfPoint.cs",
+              "ToolTip": "C:\\Users\\ACER\\Desktop\\DoAnTotNghiep\\K22CNT4-LeTrungKien-2210900034-DoAnTotNghiep\\DGSV_BE\\Models\\SumaryOfPoint.cs",
+              "RelativeToolTip": "Models\\SumaryOfPoint.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABIAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-26T07:45:34.963Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 17,
+              "Title": "GroupQuestion.cs",
+              "DocumentMoniker": "C:\\Users\\ACER\\Desktop\\DoAnTotNghiep\\K22CNT4-LeTrungKien-2210900034-DoAnTotNghiep\\DGSV_BE\\Models\\GroupQuestion.cs",
+              "RelativeDocumentMoniker": "Models\\GroupQuestion.cs",
+              "ToolTip": "C:\\Users\\ACER\\Desktop\\DoAnTotNghiep\\K22CNT4-LeTrungKien-2210900034-DoAnTotNghiep\\DGSV_BE\\Models\\GroupQuestion.cs",
+              "RelativeToolTip": "Models\\GroupQuestion.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-26T07:37:42.048Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 16,
+              "Title": "AnswerList.cs",
+              "DocumentMoniker": "C:\\Users\\ACER\\Desktop\\DoAnTotNghiep\\K22CNT4-LeTrungKien-2210900034-DoAnTotNghiep\\DGSV_BE\\Models\\AnswerList.cs",
+              "RelativeDocumentMoniker": "Models\\AnswerList.cs",
+              "ToolTip": "C:\\Users\\ACER\\Desktop\\DoAnTotNghiep\\K22CNT4-LeTrungKien-2210900034-DoAnTotNghiep\\DGSV_BE\\Models\\AnswerList.cs",
+              "RelativeToolTip": "Models\\AnswerList.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABgAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-26T07:40:41.132Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "UserResponseDto.cs",
+              "DocumentMoniker": "C:\\Users\\ACER\\Desktop\\DoAnTotNghiep\\K22CNT4-LeTrungKien-2210900034-DoAnTotNghiep\\DGSV_BE\\DTO\\UserResponseDto.cs",
+              "RelativeDocumentMoniker": "DTO\\UserResponseDto.cs",
+              "ToolTip": "C:\\Users\\ACER\\Desktop\\DoAnTotNghiep\\K22CNT4-LeTrungKien-2210900034-DoAnTotNghiep\\DGSV_BE\\DTO\\UserResponseDto.cs",
+              "RelativeToolTip": "DTO\\UserResponseDto.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-11T18:33:16.102Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "UserCreateDto.cs",
+              "DocumentMoniker": "C:\\Users\\ACER\\Desktop\\DoAnTotNghiep\\K22CNT4-LeTrungKien-2210900034-DoAnTotNghiep\\DGSV_BE\\DTO\\UserCreateDto.cs",
+              "RelativeDocumentMoniker": "DTO\\UserCreateDto.cs",
+              "ToolTip": "C:\\Users\\ACER\\Desktop\\DoAnTotNghiep\\K22CNT4-LeTrungKien-2210900034-DoAnTotNghiep\\DGSV_BE\\DTO\\UserCreateDto.cs",
+              "RelativeToolTip": "DTO\\UserCreateDto.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-11T18:33:32.206Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "UserUpdateDto.cs",
+              "DocumentMoniker": "C:\\Users\\ACER\\Desktop\\DoAnTotNghiep\\K22CNT4-LeTrungKien-2210900034-DoAnTotNghiep\\DGSV_BE\\DTO\\UserUpdateDto.cs",
+              "RelativeDocumentMoniker": "DTO\\UserUpdateDto.cs",
+              "ToolTip": "C:\\Users\\ACER\\Desktop\\DoAnTotNghiep\\K22CNT4-LeTrungKien-2210900034-DoAnTotNghiep\\DGSV_BE\\DTO\\UserUpdateDto.cs",
+              "RelativeToolTip": "DTO\\UserUpdateDto.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-11T18:33:44.283Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 15,
+              "Title": "TypeQuestion.cs",
+              "DocumentMoniker": "C:\\Users\\ACER\\Desktop\\DoAnTotNghiep\\K22CNT4-LeTrungKien-2210900034-DoAnTotNghiep\\DGSV_BE\\Models\\TypeQuestion.cs",
+              "RelativeDocumentMoniker": "Models\\TypeQuestion.cs",
+              "ToolTip": "C:\\Users\\ACER\\Desktop\\DoAnTotNghiep\\K22CNT4-LeTrungKien-2210900034-DoAnTotNghiep\\DGSV_BE\\Models\\TypeQuestion.cs",
+              "RelativeToolTip": "Models\\TypeQuestion.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAABEAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-26T07:37:18.751Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "AnswerUpdateDto.cs",
+              "DocumentMoniker": "C:\\Users\\ACER\\Desktop\\DoAnTotNghiep\\K22CNT4-LeTrungKien-2210900034-DoAnTotNghiep\\DGSV_BE\\DTO\\AnswerUpdateDto.cs",
+              "RelativeDocumentMoniker": "DTO\\AnswerUpdateDto.cs",
+              "ToolTip": "C:\\Users\\ACER\\Desktop\\DoAnTotNghiep\\K22CNT4-LeTrungKien-2210900034-DoAnTotNghiep\\DGSV_BE\\DTO\\AnswerUpdateDto.cs",
+              "RelativeToolTip": "DTO\\AnswerUpdateDto.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-11T18:22:44.568Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
+              "Title": "AppDbContext.cs",
+              "DocumentMoniker": "C:\\Users\\ACER\\Desktop\\DoAnTotNghiep\\K22CNT4-LeTrungKien-2210900034-DoAnTotNghiep\\DGSV_BE\\Data\\AppDbContext.cs",
+              "RelativeDocumentMoniker": "Data\\AppDbContext.cs",
+              "ToolTip": "C:\\Users\\ACER\\Desktop\\DoAnTotNghiep\\K22CNT4-LeTrungKien-2210900034-DoAnTotNghiep\\DGSV_BE\\Data\\AppDbContext.cs",
+              "RelativeToolTip": "Data\\AppDbContext.cs",
+              "ViewState": "AgIAABEAAAAAAAAAAIA6wB0AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-26T06:42:30.757Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "AnswerResponseDTO.cs",
+              "DocumentMoniker": "C:\\Users\\ACER\\Desktop\\DoAnTotNghiep\\K22CNT4-LeTrungKien-2210900034-DoAnTotNghiep\\DGSV_BE\\DTO\\AnswerResponseDTO.cs",
+              "RelativeDocumentMoniker": "DTO\\AnswerResponseDTO.cs",
+              "ToolTip": "C:\\Users\\ACER\\Desktop\\DoAnTotNghiep\\K22CNT4-LeTrungKien-2210900034-DoAnTotNghiep\\DGSV_BE\\DTO\\AnswerResponseDTO.cs",
+              "RelativeToolTip": "DTO\\AnswerResponseDTO.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-11T18:17:59.753Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 19,
+              "Title": "QuestionResponseDTO.cs",
+              "DocumentMoniker": "C:\\Users\\ACER\\Desktop\\DoAnTotNghiep\\K22CNT4-LeTrungKien-2210900034-DoAnTotNghiep\\DGSV_BE\\DTO\\QuestionResponseDTO.cs",
+              "RelativeDocumentMoniker": "DTO\\QuestionResponseDTO.cs",
+              "ToolTip": "C:\\Users\\ACER\\Desktop\\DoAnTotNghiep\\K22CNT4-LeTrungKien-2210900034-DoAnTotNghiep\\DGSV_BE\\DTO\\QuestionResponseDTO.cs",
+              "RelativeToolTip": "DTO\\QuestionResponseDTO.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-09T19:32:58.57Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
               "Title": "QuestionController.cs",
               "DocumentMoniker": "C:\\Users\\ACER\\Desktop\\DoAnTotNghiep\\K22CNT4-LeTrungKien-2210900034-DoAnTotNghiep\\DGSV_BE\\Controllers\\QuestionController.cs",
               "RelativeDocumentMoniker": "Controllers\\QuestionController.cs",
@@ -151,7 +403,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 13,
               "Title": "QuestionCreateDTO.cs",
               "DocumentMoniker": "C:\\Users\\ACER\\Desktop\\DoAnTotNghiep\\K22CNT4-LeTrungKien-2210900034-DoAnTotNghiep\\DGSV_BE\\DTO\\QuestionCreateDTO.cs",
               "RelativeDocumentMoniker": "DTO\\QuestionCreateDTO.cs",
@@ -163,103 +415,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "AppDbContext.cs",
-              "DocumentMoniker": "C:\\Users\\ACER\\Desktop\\DoAnTotNghiep\\K22CNT4-LeTrungKien-2210900034-DoAnTotNghiep\\DGSV_BE\\Data\\AppDbContext.cs",
-              "RelativeDocumentMoniker": "Data\\AppDbContext.cs",
-              "ToolTip": "C:\\Users\\ACER\\Desktop\\DoAnTotNghiep\\K22CNT4-LeTrungKien-2210900034-DoAnTotNghiep\\DGSV_BE\\Data\\AppDbContext.cs",
-              "RelativeToolTip": "Data\\AppDbContext.cs",
-              "ViewState": "AgIAABEAAAAAAAAAAIA6wB0AAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-26T06:42:30.757Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "TypeQuestion.cs",
-              "DocumentMoniker": "C:\\Users\\ACER\\Desktop\\DoAnTotNghiep\\K22CNT4-LeTrungKien-2210900034-DoAnTotNghiep\\DGSV_BE\\Models\\TypeQuestion.cs",
-              "RelativeDocumentMoniker": "Models\\TypeQuestion.cs",
-              "ToolTip": "C:\\Users\\ACER\\Desktop\\DoAnTotNghiep\\K22CNT4-LeTrungKien-2210900034-DoAnTotNghiep\\DGSV_BE\\Models\\TypeQuestion.cs",
-              "RelativeToolTip": "Models\\TypeQuestion.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAABEAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-26T07:37:18.751Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "AnswerList.cs",
-              "DocumentMoniker": "C:\\Users\\ACER\\Desktop\\DoAnTotNghiep\\K22CNT4-LeTrungKien-2210900034-DoAnTotNghiep\\DGSV_BE\\Models\\AnswerList.cs",
-              "RelativeDocumentMoniker": "Models\\AnswerList.cs",
-              "ToolTip": "C:\\Users\\ACER\\Desktop\\DoAnTotNghiep\\K22CNT4-LeTrungKien-2210900034-DoAnTotNghiep\\DGSV_BE\\Models\\AnswerList.cs",
-              "RelativeToolTip": "Models\\AnswerList.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABgAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-26T07:40:41.132Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "GroupQuestion.cs",
-              "DocumentMoniker": "C:\\Users\\ACER\\Desktop\\DoAnTotNghiep\\K22CNT4-LeTrungKien-2210900034-DoAnTotNghiep\\DGSV_BE\\Models\\GroupQuestion.cs",
-              "RelativeDocumentMoniker": "Models\\GroupQuestion.cs",
-              "ToolTip": "C:\\Users\\ACER\\Desktop\\DoAnTotNghiep\\K22CNT4-LeTrungKien-2210900034-DoAnTotNghiep\\DGSV_BE\\Models\\GroupQuestion.cs",
-              "RelativeToolTip": "Models\\GroupQuestion.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-26T07:37:42.048Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "SumaryOfPoint.cs",
-              "DocumentMoniker": "C:\\Users\\ACER\\Desktop\\DoAnTotNghiep\\K22CNT4-LeTrungKien-2210900034-DoAnTotNghiep\\DGSV_BE\\Models\\SumaryOfPoint.cs",
-              "RelativeDocumentMoniker": "Models\\SumaryOfPoint.cs",
-              "ToolTip": "C:\\Users\\ACER\\Desktop\\DoAnTotNghiep\\K22CNT4-LeTrungKien-2210900034-DoAnTotNghiep\\DGSV_BE\\Models\\SumaryOfPoint.cs",
-              "RelativeToolTip": "Models\\SumaryOfPoint.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABIAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-26T07:45:34.963Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 7,
-              "Title": "QuestionResponseDto.cs",
-              "DocumentMoniker": "C:\\Users\\ACER\\Desktop\\DoAnTotNghiep\\K22CNT4-LeTrungKien-2210900034-DoAnTotNghiep\\DGSV_BE\\DTO\\QuestionResponseDto.cs",
-              "RelativeDocumentMoniker": "DTO\\QuestionResponseDto.cs",
-              "ToolTip": "C:\\Users\\ACER\\Desktop\\DoAnTotNghiep\\K22CNT4-LeTrungKien-2210900034-DoAnTotNghiep\\DGSV_BE\\DTO\\QuestionResponseDto.cs",
-              "RelativeToolTip": "DTO\\QuestionResponseDto.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-09T19:32:58.57Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 8,
-              "Title": "AnswerListController.cs",
-              "DocumentMoniker": "C:\\Users\\ACER\\Desktop\\DoAnTotNghiep\\K22CNT4-LeTrungKien-2210900034-DoAnTotNghiep\\DGSV_BE\\Controllers\\AnswerListController.cs",
-              "RelativeDocumentMoniker": "Controllers\\AnswerListController.cs",
-              "ToolTip": "C:\\Users\\ACER\\Desktop\\DoAnTotNghiep\\K22CNT4-LeTrungKien-2210900034-DoAnTotNghiep\\DGSV_BE\\Controllers\\AnswerListController.cs",
-              "RelativeToolTip": "Controllers\\AnswerListController.cs",
-              "ViewState": "AgIAAFQAAAAAAAAAAAAkwIIAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-10T19:10:25.47Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 9,
-              "Title": "LoginController.cs",
-              "DocumentMoniker": "C:\\Users\\ACER\\Desktop\\DoAnTotNghiep\\K22CNT4-LeTrungKien-2210900034-DoAnTotNghiep\\DGSV_BE\\Controllers\\LoginController.cs",
-              "RelativeDocumentMoniker": "Controllers\\LoginController.cs",
-              "ToolTip": "C:\\Users\\ACER\\Desktop\\DoAnTotNghiep\\K22CNT4-LeTrungKien-2210900034-DoAnTotNghiep\\DGSV_BE\\Controllers\\LoginController.cs",
-              "RelativeToolTip": "Controllers\\LoginController.cs",
-              "ViewState": "AgIAADAAAAAAAAAAAAAuwEAAAAA4AAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-26T07:57:53.727Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 10,
+              "DocumentIndex": 20,
               "Title": "QuestionList.cs",
               "DocumentMoniker": "C:\\Users\\ACER\\Desktop\\DoAnTotNghiep\\K22CNT4-LeTrungKien-2210900034-DoAnTotNghiep\\DGSV_BE\\Models\\QuestionList.cs",
               "RelativeDocumentMoniker": "Models\\QuestionList.cs",
@@ -271,7 +427,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 11,
+              "DocumentIndex": 21,
               "Title": "RegisterFromExcelDTO.cs",
               "DocumentMoniker": "C:\\Users\\ACER\\Desktop\\DoAnTotNghiep\\K22CNT4-LeTrungKien-2210900034-DoAnTotNghiep\\DGSV_BE\\DTO\\RegisterFromExcelDTO.cs",
               "RelativeDocumentMoniker": "DTO\\RegisterFromExcelDTO.cs",
@@ -283,19 +439,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 12,
-              "Title": "UserController.cs",
-              "DocumentMoniker": "C:\\Users\\ACER\\Desktop\\DoAnTotNghiep\\K22CNT4-LeTrungKien-2210900034-DoAnTotNghiep\\DGSV_BE\\Controllers\\UserController.cs",
-              "RelativeDocumentMoniker": "Controllers\\UserController.cs",
-              "ToolTip": "C:\\Users\\ACER\\Desktop\\DoAnTotNghiep\\K22CNT4-LeTrungKien-2210900034-DoAnTotNghiep\\DGSV_BE\\Controllers\\UserController.cs",
-              "RelativeToolTip": "Controllers\\UserController.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAFAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-07T03:19:13.877Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 13,
+              "DocumentIndex": 22,
               "Title": "AdminController.cs",
               "DocumentMoniker": "C:\\Users\\ACER\\Desktop\\DoAnTotNghiep\\K22CNT4-LeTrungKien-2210900034-DoAnTotNghiep\\DGSV_BE\\Controllers\\AdminController.cs",
               "RelativeDocumentMoniker": "Controllers\\AdminController.cs",
@@ -307,7 +451,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 14,
+              "DocumentIndex": 23,
               "Title": "LoginRequestDTO.cs",
               "DocumentMoniker": "C:\\Users\\ACER\\Desktop\\DoAnTotNghiep\\K22CNT4-LeTrungKien-2210900034-DoAnTotNghiep\\DGSV_BE\\DTO\\LoginRequestDTO.cs",
               "RelativeDocumentMoniker": "DTO\\LoginRequestDTO.cs",
@@ -319,7 +463,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 15,
+              "DocumentIndex": 24,
               "Title": "RegisterController.cs",
               "DocumentMoniker": "C:\\Users\\ACER\\Desktop\\DoAnTotNghiep\\K22CNT4-LeTrungKien-2210900034-DoAnTotNghiep\\DGSV_BE\\Controllers\\RegisterController.cs",
               "RelativeDocumentMoniker": "Controllers\\RegisterController.cs",
@@ -331,7 +475,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 16,
+              "DocumentIndex": 25,
               "Title": "Student.cs",
               "DocumentMoniker": "C:\\Users\\ACER\\Desktop\\DoAnTotNghiep\\K22CNT4-LeTrungKien-2210900034-DoAnTotNghiep\\DGSV_BE\\Models\\Student.cs",
               "RelativeDocumentMoniker": "Models\\Student.cs",
@@ -343,7 +487,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 17,
+              "DocumentIndex": 26,
               "Title": "Class.cs",
               "DocumentMoniker": "C:\\Users\\ACER\\Desktop\\DoAnTotNghiep\\K22CNT4-LeTrungKien-2210900034-DoAnTotNghiep\\DGSV_BE\\Models\\Class.cs",
               "RelativeDocumentMoniker": "Models\\Class.cs",
@@ -355,7 +499,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 18,
+              "DocumentIndex": 27,
               "Title": "Department.cs",
               "DocumentMoniker": "C:\\Users\\ACER\\Desktop\\DoAnTotNghiep\\K22CNT4-LeTrungKien-2210900034-DoAnTotNghiep\\DGSV_BE\\Models\\Department.cs",
               "RelativeDocumentMoniker": "Models\\Department.cs",
@@ -367,19 +511,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 19,
-              "Title": "AccountLecturer.cs",
-              "DocumentMoniker": "C:\\Users\\ACER\\Desktop\\DoAnTotNghiep\\K22CNT4-LeTrungKien-2210900034-DoAnTotNghiep\\DGSV_BE\\Models\\AccountLecturer.cs",
-              "RelativeDocumentMoniker": "Models\\AccountLecturer.cs",
-              "ToolTip": "C:\\Users\\ACER\\Desktop\\DoAnTotNghiep\\K22CNT4-LeTrungKien-2210900034-DoAnTotNghiep\\DGSV_BE\\Models\\AccountLecturer.cs",
-              "RelativeToolTip": "Models\\AccountLecturer.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAADwvxYAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-26T07:35:34.607Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 20,
+              "DocumentIndex": 28,
               "Title": "GenderHelper.cs",
               "DocumentMoniker": "C:\\Users\\ACER\\Desktop\\DoAnTotNghiep\\K22CNT4-LeTrungKien-2210900034-DoAnTotNghiep\\DGSV_BE\\Helpers\\GenderHelper.cs",
               "RelativeDocumentMoniker": "Helpers\\GenderHelper.cs",
@@ -391,19 +523,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 21,
-              "Title": "AccountStudent.cs",
-              "DocumentMoniker": "C:\\Users\\ACER\\Desktop\\DoAnTotNghiep\\K22CNT4-LeTrungKien-2210900034-DoAnTotNghiep\\DGSV_BE\\Models\\AccountStudent.cs",
-              "RelativeDocumentMoniker": "Models\\AccountStudent.cs",
-              "ToolTip": "C:\\Users\\ACER\\Desktop\\DoAnTotNghiep\\K22CNT4-LeTrungKien-2210900034-DoAnTotNghiep\\DGSV_BE\\Models\\AccountStudent.cs",
-              "RelativeToolTip": "Models\\AccountStudent.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABkAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-26T07:42:21.041Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 22,
+              "DocumentIndex": 29,
               "Title": "Program.cs",
               "DocumentMoniker": "C:\\Users\\ACER\\Desktop\\DoAnTotNghiep\\K22CNT4-LeTrungKien-2210900034-DoAnTotNghiep\\DGSV_BE\\Program.cs",
               "RelativeDocumentMoniker": "Program.cs",
@@ -415,7 +535,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 23,
+              "DocumentIndex": 30,
               "Title": "Semester.cs",
               "DocumentMoniker": "C:\\Users\\ACER\\Desktop\\DoAnTotNghiep\\K22CNT4-LeTrungKien-2210900034-DoAnTotNghiep\\DGSV_BE\\Models\\Semester.cs",
               "RelativeDocumentMoniker": "Models\\Semester.cs",
@@ -427,19 +547,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 24,
-              "Title": "AccountAdmin.cs",
-              "DocumentMoniker": "C:\\Users\\ACER\\Desktop\\DoAnTotNghiep\\K22CNT4-LeTrungKien-2210900034-DoAnTotNghiep\\DGSV_BE\\Models\\AccountAdmin.cs",
-              "RelativeDocumentMoniker": "Models\\AccountAdmin.cs",
-              "ToolTip": "C:\\Users\\ACER\\Desktop\\DoAnTotNghiep\\K22CNT4-LeTrungKien-2210900034-DoAnTotNghiep\\DGSV_BE\\Models\\AccountAdmin.cs",
-              "RelativeToolTip": "Models\\AccountAdmin.cs",
-              "ViewState": "AgIAAAEAAAAAAAAAAAAAwAsAAAAsAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-26T06:54:18.657Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 25,
+              "DocumentIndex": 31,
               "Title": "Position.cs",
               "DocumentMoniker": "C:\\Users\\ACER\\Desktop\\DoAnTotNghiep\\K22CNT4-LeTrungKien-2210900034-DoAnTotNghiep\\DGSV_BE\\Models\\Position.cs",
               "RelativeDocumentMoniker": "Models\\Position.cs",
@@ -451,7 +559,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 26,
+              "DocumentIndex": 32,
               "Title": "Course.cs",
               "DocumentMoniker": "C:\\Users\\ACER\\Desktop\\DoAnTotNghiep\\K22CNT4-LeTrungKien-2210900034-DoAnTotNghiep\\DGSV_BE\\Models\\Course.cs",
               "RelativeDocumentMoniker": "Models\\Course.cs",
@@ -463,7 +571,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 27,
+              "DocumentIndex": 33,
               "Title": "Role.cs",
               "DocumentMoniker": "C:\\Users\\ACER\\Desktop\\DoAnTotNghiep\\K22CNT4-LeTrungKien-2210900034-DoAnTotNghiep\\DGSV_BE\\Models\\Role.cs",
               "RelativeDocumentMoniker": "Models\\Role.cs",
@@ -475,7 +583,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 28,
+              "DocumentIndex": 34,
               "Title": "ClassAnswer.cs",
               "DocumentMoniker": "C:\\Users\\ACER\\Desktop\\DoAnTotNghiep\\K22CNT4-LeTrungKien-2210900034-DoAnTotNghiep\\DGSV_BE\\Models\\ClassAnswer.cs",
               "RelativeDocumentMoniker": "Models\\ClassAnswer.cs",
@@ -487,7 +595,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 29,
+              "DocumentIndex": 35,
               "Title": "SelfAnswer.cs",
               "DocumentMoniker": "C:\\Users\\ACER\\Desktop\\DoAnTotNghiep\\K22CNT4-LeTrungKien-2210900034-DoAnTotNghiep\\DGSV_BE\\Models\\SelfAnswer.cs",
               "RelativeDocumentMoniker": "Models\\SelfAnswer.cs",
@@ -499,7 +607,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 30,
+              "DocumentIndex": 36,
               "Title": "appsettings.json",
               "DocumentMoniker": "C:\\Users\\ACER\\Desktop\\DoAnTotNghiep\\K22CNT4-LeTrungKien-2210900034-DoAnTotNghiep\\DGSV_BE\\appsettings.json",
               "RelativeDocumentMoniker": "appsettings.json",

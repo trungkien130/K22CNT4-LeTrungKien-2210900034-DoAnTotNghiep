@@ -1,4 +1,5 @@
 ﻿using DGSV.Api.Data;
+using DGSV.Api.DTO;
 using DGSV.Api.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -17,25 +18,25 @@ namespace DGSV.Controllers
         }
 
         // ==================================================
-        // GET: api/answerlist
-        // Lấy danh sách câu trả lời
+        // GET: api/AnswerList
         // ==================================================
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
-            var answers = await _context.AnswerLists.ToListAsync();
+            var answers = await _context.AnswerLists
+                .Where(x => x.Status == true)
+                .ToListAsync();
+
             return Ok(answers);
         }
 
         // ==================================================
-        // GET: api/answerlist/{id}
-        // Lấy câu trả lời theo Id
+        // GET: api/AnswerList/{id}
         // ==================================================
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)
         {
             var answer = await _context.AnswerLists.FindAsync(id);
-
             if (answer == null)
                 return NotFound("Không tìm thấy câu trả lời");
 
@@ -43,64 +44,65 @@ namespace DGSV.Controllers
         }
 
         // ==================================================
-        // GET: api/answerlist/question/{questionId}
-        // Lấy danh sách câu trả lời theo QuestionId
+        // GET: api/AnswerList/question/{questionId}
         // ==================================================
         [HttpGet("question/{questionId}")]
         public async Task<IActionResult> GetByQuestionId(int questionId)
         {
             var answers = await _context.AnswerLists
-                .Where(a => a.QuestionId == questionId)
+                .Where(a => a.QuestionId == questionId && a.Status == true)
                 .ToListAsync();
 
             return Ok(answers);
         }
 
         // ==================================================
-        // POST: api/answerlist
-        // Thêm mới câu trả lời
+        // POST: api/AnswerList
         // ==================================================
         [HttpPost]
-        public async Task<IActionResult> Create([FromBody] AnswerList model)
+        public async Task<IActionResult> Create([FromBody] AnswerCreateDto dto)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            model.CreateDate = DateTime.Now;
-            model.UpdateDate = DateTime.Now;
-            model.Status = true;
-            model.Checked = false;
+            var answer = new AnswerList
+            {
+                ContentAnswer = dto.ContentAnswer,
+                QuestionId = dto.QuestionId,
+                AnswerScore = dto.AnswerScore,
+                UpdateBy = dto.UpdateBy,
+                Checked = dto.Checked,
+                Status = true,
+                CreateDate = DateTime.Now,
+                UpdateDate = DateTime.Now
+            };
 
-            _context.AnswerLists.Add(model);
+            _context.AnswerLists.Add(answer);
             await _context.SaveChangesAsync();
 
             return Ok(new
             {
                 message = "Thêm câu trả lời thành công",
-                data = model
+                data = answer
             });
         }
 
         // ==================================================
-        // PUT: api/answerlist/{id}
-        // Cập nhật câu trả lời
+        // PUT: api/AnswerList/{id}
         // ==================================================
         [HttpPut("{id}")]
-        public async Task<IActionResult> Update(int id, [FromBody] AnswerList model)
+        public async Task<IActionResult> Update(int id, [FromBody] AnswerUpdateDto dto)
         {
-            if (id != model.Id)
-                return BadRequest("Id không khớp");
-
             var answer = await _context.AnswerLists.FindAsync(id);
             if (answer == null)
                 return NotFound("Không tìm thấy câu trả lời");
 
-            answer.ContentAnswer = model.ContentAnswer;
-            answer.AnswerScore = model.AnswerScore;
-            answer.QuestionId = model.QuestionId;
-            answer.UpdateBy = model.UpdateBy;
-            answer.Checked = model.Checked;
-            answer.Status = model.Status;
+            answer.ContentAnswer = dto.ContentAnswer;
+            answer.QuestionId = dto.QuestionId;
+            answer.AnswerScore = dto.AnswerScore;
+            answer.UpdateBy = dto.UpdateBy;
+            answer.Status = dto.Status;
+            answer.Checked = dto.Checked;
             answer.UpdateDate = DateTime.Now;
 
             await _context.SaveChangesAsync();
@@ -109,8 +111,7 @@ namespace DGSV.Controllers
         }
 
         // ==================================================
-        // DELETE: api/answerlist/{id}
-        // Xóa câu trả lời (xóa mềm)
+        // DELETE (SOFT): api/AnswerList/{id}
         // ==================================================
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)

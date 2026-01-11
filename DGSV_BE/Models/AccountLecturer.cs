@@ -16,6 +16,9 @@ namespace DGSV.Api.Models
         public string LecturerId { get; set; }
         public int RoleId { get; set; }
 
+        [ForeignKey("LecturerId")]
+        public Lecturer Lecturer { get; set; }
+
         [ForeignKey("RoleId")]
         public Role Role { get; set; }
     }

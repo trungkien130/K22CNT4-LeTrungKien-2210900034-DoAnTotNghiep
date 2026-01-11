@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Mail, Lock, LogIn } from "lucide-react";
 import { loginApi } from "../API/authApi";
 import type { User } from "../types";
@@ -14,54 +14,47 @@ export default function Login({ onLogin }: LoginProps) {
   const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+    e.preventDefault(); // ✅ CHỐNG RELOAD FORM
     setError("");
     setLoading(true);
 
-    const trimmedUsername = UserName.trim();
+    const username = UserName.trim();
 
-    if (!trimmedUsername || !password) {
+    if (!username || !password) {
       setError("Vui lòng nhập đầy đủ tài khoản và mật khẩu");
       setLoading(false);
       return;
     }
 
     try {
-      const res = await loginApi(trimmedUsername, password);
+      // ✅ AXIOS: nếu sai → nhảy thẳng vào catch
+      const res = await loginApi(username, password);
 
-      if (res.status === 200) {
-        const { role, userId, fullName } = res.data;
+      const { role, userId, fullName } = res.data;
 
-        // Tạo object user đầy đủ
-        const userData: User = {
-          name: fullName || trimmedUsername,
-          mssv: role === "STUDENT" ? userId : null,
-          userId: userId, // ← ĐÃ SỬA: đúng cú pháp
-          role: role as "ADMIN" | "LECTURER" | "STUDENT",
-        };
+      const userData: User = {
+        name: fullName || username,
+        mssv: role === "STUDENT" ? userId : null,
+        userId,
+        role,
+      };
 
-        // Lưu vào localStorage
-        localStorage.setItem("user", JSON.stringify(userData));
+      localStorage.setItem("user", JSON.stringify(userData));
 
-        // Gọi callback để App cập nhật state và chuyển trang
-        onLogin(userData);
-      } else {
-        setError("Tên đăng nhập hoặc mật khẩu không đúng!");
-      }
+      // 👉 CHỈ GỌI KHI LOGIN THÀNH CÔNG
+      onLogin(userData);
     } catch (err: any) {
       console.error("Login error:", err);
 
-      let msg =
-        "Không thể kết nối tới server. Vui lòng kiểm tra backend đang chạy trên port 7076.";
+      let msg = "Không thể đăng nhập";
 
       if (err.response) {
-        // Lỗi từ server (401, 500, v.v.)
         if (err.response.status === 401) {
           msg = "Sai tài khoản hoặc mật khẩu";
-        } else if (err.response.data?.message) {
-          msg = err.response.data.message;
         } else if (typeof err.response.data === "string") {
           msg = err.response.data;
+        } else if (err.response.data?.message) {
+          msg = err.response.data.message;
         }
       } else if (err.message) {
         msg = err.message;
@@ -72,6 +65,12 @@ export default function Login({ onLogin }: LoginProps) {
       setLoading(false);
     }
   };
+  useEffect(() => {
+    console.log("LOGIN MOUNT");
+    return () => {
+      console.log("LOGIN UNMOUNT");
+    };
+  }, []);
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 p-4">
@@ -89,6 +88,7 @@ export default function Login({ onLogin }: LoginProps) {
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-5">
+          {/* USERNAME */}
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">
               Tên đăng nhập
@@ -99,14 +99,14 @@ export default function Login({ onLogin }: LoginProps) {
                 type="text"
                 value={UserName}
                 onChange={(e) => setUser(e.target.value)}
+                className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500"
                 placeholder="Tài khoản"
-                className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
-                required
                 autoFocus
               />
             </div>
           </div>
 
+          {/* PASSWORD */}
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">
               Mật khẩu
@@ -117,23 +117,24 @@ export default function Login({ onLogin }: LoginProps) {
                 type="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
+                className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500"
                 placeholder="Mật khẩu"
-                className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
-                required
               />
             </div>
           </div>
 
+          {/* ERROR */}
           {error && (
             <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg text-sm text-center">
               {error}
             </div>
           )}
 
+          {/* SUBMIT */}
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-gradient-to-r from-blue-600 to-indigo-700 hover:from-blue-700 hover:to-indigo-800 text-white py-3 rounded-xl flex items-center justify-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed transition shadow-lg font-medium"
+            className="w-full bg-gradient-to-r from-blue-600 to-indigo-700 text-white py-3 rounded-xl flex items-center justify-center gap-2 disabled:opacity-60"
           >
             <LogIn className="w-5 h-5" />
             {loading ? "Đang đăng nhập..." : "Đăng nhập"}

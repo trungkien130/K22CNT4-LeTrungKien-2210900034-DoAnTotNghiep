@@ -1,7 +1,8 @@
 import axiosClient from "./axiosClient";
+import type { Role } from "../types";
 
 const api = {
-  /* ========== AUTH ========== */
+  /* ================= AUTH ================= */
   login(data: { UserName: string; password: string }) {
     return axiosClient.post("/login", data);
   },
@@ -10,67 +11,61 @@ const api = {
     localStorage.removeItem("user");
   },
 
-  /* ========== USER INFO ========== */
-  /**
-   * Lấy thông tin cá nhân của người dùng hiện tại
-   * @param role - "ADMIN" | "LECTURER" | "STUDENT"
-   * @param userId - ID tương ứng (int cho admin, string cho lecturer/student)
-   */
-  getUserInfo(role: "ADMIN" | "LECTURER" | "STUDENT", userId: string) {
+  /* ================= USER INFO ================= */
+  getUserInfo(role: Role, userId: string | number) {
     return axiosClient.get(`/user/info/${role}/${userId}`);
   },
 
-  /* ========== EVALUATION ========== */
-  getEvaluations() {
-    return axiosClient.get("/evaluations");
+  /* ================= USER ADMIN CRUD ================= */
+  getAllUsers() {
+    return axiosClient.get("/user/all");
   },
 
-  getEvaluationById(id: number) {
-    return axiosClient.get(`/evaluations/${id}`);
+  updateUser(role: Role, id: number, data: any) {
+    return axiosClient.put(`/user/${role}/${id}`, data);
   },
 
-  createEvaluation(data: any) {
-    return axiosClient.post("/evaluations", data);
+  deleteUser(role: Role, id: number) {
+    return axiosClient.delete(`/user/${role}/${id}`);
   },
 
-  updateEvaluation(id: number, data: any) {
-    return axiosClient.put(`/evaluations/${id}`, data);
+  /* ================= QUESTION ================= */
+  getQuestions() {
+    return axiosClient.get("/questions");
   },
 
-  deleteEvaluation(id: number) {
-    return axiosClient.delete(`/evaluations/${id}`);
+  createQuestion(data: any) {
+    return axiosClient.post("/questions", data);
   },
 
-  /* ========== USER / ADMIN MANAGEMENT ========== */
-  getUsers() {
-    return axiosClient.get("/users");
+  updateQuestion(id: number, data: any) {
+    return axiosClient.put(`/questions/${id}`, data);
   },
 
-  deleteUser(id: number) {
-    return axiosClient.delete(`/users/${id}`);
+  deleteQuestion(id: number) {
+    return axiosClient.delete(`/questions/${id}`);
   },
-/* ========== Question ========== */
 
-getQuestions() {
-  return axiosClient.get(`/questions`);
-},
+  /* ================= ANSWER ================= */
+  getAnswers() {
+    return axiosClient.get("/AnswerList");
+  },
 
-getQuestionsById(id: number) {
-  return axiosClient.get(`/questions/${id}`);
-},
+  getAnswersByQuestion(questionId: number) {
+    return axiosClient.get(`/AnswerList/question/${questionId}`);
+  },
 
-createQuestion(data: any) {
-  return axiosClient.post(`/questions`, data);
-},
+  createAnswer(data: any) {
+    return axiosClient.post("/AnswerList", data);
+  },
 
-updateQuestion(id: number, data: any) {
-  return axiosClient.put(`/questions/${id}`, data);
-},
+  updateAnswer(id: number, data: any) {
+    return axiosClient.put(`/AnswerList/${id}`, data);
+  },
 
-deleteQuestion(id: number) {
-  return axiosClient.delete(`/questions/${id}`);
-},
-
+  deleteAnswer(id: number) {
+    return axiosClient.delete(`/AnswerList/${id}`);
+  },
 };
 
 export default api;

@@ -24,17 +24,17 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/AnswerList"
+                "$ref": "#/components/schemas/AnswerCreateDto"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/AnswerList"
+                "$ref": "#/components/schemas/AnswerCreateDto"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/AnswerList"
+                "$ref": "#/components/schemas/AnswerCreateDto"
               }
             }
           }
@@ -87,17 +87,17 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/AnswerList"
+                "$ref": "#/components/schemas/AnswerUpdateDto"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/AnswerList"
+                "$ref": "#/components/schemas/AnswerUpdateDto"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/AnswerList"
+                "$ref": "#/components/schemas/AnswerUpdateDto"
               }
             }
           }
@@ -372,8 +372,20 @@
         }
       }
     },
-    "/api/user/info/{role}/{userId}": {
+    "/api/user/all": {
       "get": {
+        "tags": [
+          "User"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/user/{role}/{id}": {
+      "put": {
         "tags": [
           "User"
         ],
@@ -387,7 +399,54 @@
             }
           },
           {
-            "name": "userId",
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserUpdateDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserUpdateDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserUpdateDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "User"
+        ],
+        "parameters": [
+          {
+            "name": "role",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "id",
             "in": "path",
             "required": true,
             "schema": {
@@ -405,13 +464,9 @@
   },
   "components": {
     "schemas": {
-      "AnswerList": {
+      "AnswerCreateDto": {
         "type": "object",
         "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int32"
-          },
           "contentAnswer": {
             "type": "string",
             "nullable": true
@@ -428,13 +483,30 @@
             "type": "string",
             "nullable": true
           },
-          "createDate": {
+          "checked": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      },
+      "AnswerUpdateDto": {
+        "type": "object",
+        "properties": {
+          "contentAnswer": {
             "type": "string",
-            "format": "date-time"
+            "nullable": true
           },
-          "updateDate": {
+          "questionId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "answerScore": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "updateBy": {
             "type": "string",
-            "format": "date-time"
+            "nullable": true
           },
           "status": {
             "type": "boolean"
@@ -532,6 +604,27 @@
           "position": {
             "type": "string",
             "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "UserUpdateDto": {
+        "type": "object",
+        "properties": {
+          "fullName": {
+            "type": "string",
+            "nullable": true
+          },
+          "email": {
+            "type": "string",
+            "nullable": true
+          },
+          "phone": {
+            "type": "string",
+            "nullable": true
+          },
+          "isActive": {
+            "type": "boolean"
           }
         },
         "additionalProperties": false

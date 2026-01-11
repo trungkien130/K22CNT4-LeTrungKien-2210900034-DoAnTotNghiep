@@ -2,7 +2,7 @@
 using DGSV.Api.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-            using BCrypt.Net;
+
 namespace DGSV.Api.Controllers
 {
     [Route("api/login")]
@@ -25,7 +25,7 @@ namespace DGSV.Api.Controllers
                 return BadRequest("Thiếu UserName hoặc Password");
             }
 
-            // ===== ADMIN =====
+            // ================= ADMIN =================
             var admin = await _context.AccountAdmins
                 .Include(x => x.Role)
                 .FirstOrDefaultAsync(x =>
@@ -43,43 +43,56 @@ namespace DGSV.Api.Controllers
                 });
             }
 
-            // ===== LECTURER =====
-            var lecturer = await _context.AccountLecturers
+            // ================= LECTURER =================
+            var lecturerAccount = await _context.AccountLecturers
                 .Include(x => x.Role)
+                .Include(x => x.Lecturer)
                 .FirstOrDefaultAsync(x =>
                     x.UserName == request.UserName &&
                     x.IsActive);
 
-            if (lecturer != null &&
-                BCrypt.Net.BCrypt.Verify(request.Password, lecturer.PasswordHash))
+            if (lecturerAccount != null)
             {
-                return Ok(new
+                if (!lecturerAccount.Lecturer.IsActive)
+                    return Unauthorized("Tài khoản giảng viên đã bị khóa");
+
+                if (BCrypt.Net.BCrypt.Verify(request.Password, lecturerAccount.PasswordHash))
                 {
-                    message = "Đăng nhập thành công",
-                    role = lecturer.Role.RoleName,
-                    userId = lecturer.Id
-                });
+                    return Ok(new
+                    {
+                        message = "Đăng nhập thành công",
+                        role = lecturerAccount.Role.RoleName,
+                        userId = lecturerAccount.LecturerId,
+                        fullName = lecturerAccount.Lecturer.FullName
+                    });
+                }
             }
 
-            // ===== STUDENT =====
-            var student = await _context.AccountStudents
+            // ================= STUDENT =================
+            var studentAccount = await _context.AccountStudents
                 .Include(x => x.Role)
                 .Include(x => x.Student)
                 .FirstOrDefaultAsync(x =>
                     x.UserName == request.UserName &&
                     x.IsActive);
 
-            if (student != null &&
-                BCrypt.Net.BCrypt.Verify(request.Password, student.PasswordHash))
+            if (studentAccount != null)
             {
-                return Ok(new
+                if (!studentAccount.Student.IsActive)
+                    return Unauthorized("Tài khoản sinh viên đã bị khóa");
+
+                if (BCrypt.Net.BCrypt.Verify(request.Password, studentAccount.PasswordHash))
                 {
-                    message = "Đăng nhập thành công",
-                    role = student.Role.RoleName,
-                    userId = student.StudentId,
-                    fullName = student.Student.FullName
-                });
+                    return Ok(new
+                    {
+                        message = "Đăng nhập thành công",
+                        role = studentAccount.Role.RoleName,
+                        userId = studentAccount.StudentId,
+                        fullName = studentAccount.Student.FullName
+                    });
+                }
             }
+
             return Unauthorized("Sai tài khoản hoặc mật khẩu");
         }
     }

@@ -55,3 +55,37 @@ export interface UserLocal {
   fullName: string;
   role: string;
 }
+export interface Answer {
+  id: number;
+  contentAnswer: string;
+  questionId: number;
+  answerScore: number;
+  updateBy: string;
+  createDate: string;
+  updateDate: string;
+  status: boolean;
+  checked: boolean;
+}
+
+export interface AnswerForm {
+  contentAnswer: string;
+  questionId: number;
+  answerScore: number;
+  updateBy: string;
+  status: boolean;
+  checked: boolean;
+}
+export interface UserAdmin {
+  id: number;
+  fullName: string;
+  email?: string;
+  phone?: string;
+  role: Role;
+  isActive: boolean;
+}
+export interface UserForm {
+  fullName: string;
+  email?: string;
+  phone?: string;
+  isActive: boolean;
+}

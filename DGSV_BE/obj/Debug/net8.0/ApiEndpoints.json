@@ -18,8 +18,8 @@
     "Order": 0,
     "Parameters": [
       {
-        "Name": "model",
-        "Type": "DGSV.Api.Models.AnswerList",
+        "Name": "dto",
+        "Type": "DGSV.Api.DTO.AnswerCreateDto",
         "IsRequired": true
       }
     ],
@@ -55,8 +55,8 @@
         "IsRequired": true
       },
       {
-        "Name": "model",
-        "Type": "DGSV.Api.Models.AnswerList",
+        "Name": "dto",
+        "Type": "DGSV.Api.DTO.AnswerUpdateDto",
         "IsRequired": true
       }
     ],
@@ -223,9 +223,9 @@
   },
   {
     "ContainingType": "DGSV.Api.Controllers.UserController",
-    "Method": "GetUserInfo",
-    "RelativePath": "api/user/info/{role}/{userId}",
-    "HttpMethod": "GET",
+    "Method": "UpdateUser",
+    "RelativePath": "api/user/{role}/{id}",
+    "HttpMethod": "PUT",
     "IsController": true,
     "Order": 0,
     "Parameters": [
@@ -235,11 +235,47 @@
         "IsRequired": true
       },
       {
-        "Name": "userId",
+        "Name": "id",
+        "Type": "System.String",
+        "IsRequired": true
+      },
+      {
+        "Name": "dto",
+        "Type": "DGSV.Api.DTO.UserUpdateDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "DGSV.Api.Controllers.UserController",
+    "Method": "DeleteUser",
+    "RelativePath": "api/user/{role}/{id}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "role",
+        "Type": "System.String",
+        "IsRequired": true
+      },
+      {
+        "Name": "id",
         "Type": "System.String",
         "IsRequired": true
       }
     ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "DGSV.Api.Controllers.UserController",
+    "Method": "GetAllUsers",
+    "RelativePath": "api/user/all",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
     "ReturnTypes": []
   }
 ]

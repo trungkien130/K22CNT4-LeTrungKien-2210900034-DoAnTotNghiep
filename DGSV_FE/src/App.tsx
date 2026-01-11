@@ -4,14 +4,14 @@ import AdminRoutes from "./Routes/AdminRoutes";
 import UserRoutes from "./Routes/UserRoutes";
 
 export default function App() {
-  const { user, logout } = useAuth();
+  const { user, login, logout } = useAuth();
 
   if (!user) {
-    return <PublicRoutes />;
+    return <PublicRoutes onLogin={login} />;
   }
 
   return user.role === "ADMIN" ? (
-    <AdminRoutes />
+    <AdminRoutes onLogout={logout} />
   ) : (
     <UserRoutes user={user} onLogout={logout} />
   );

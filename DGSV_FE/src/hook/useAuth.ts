@@ -1,18 +1,21 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import type { User } from "../types";
 
 export function useAuth() {
-  const [user, setUser] = useState<User | null>(null);
+  const [user, setUser] = useState<User | null>(() => {
+    const saved = localStorage.getItem("user");
+    return saved ? JSON.parse(saved) : null;
+  });
 
-  useEffect(() => {
-    const raw = localStorage.getItem("user");
-    if (raw) setUser(JSON.parse(raw));
-  }, []);
+  const login = (userData: User) => {
+    localStorage.setItem("user", JSON.stringify(userData));
+    setUser(userData); 
+  };
 
   const logout = () => {
     localStorage.removeItem("user");
     setUser(null);
   };
 
-  return { user, logout };
+  return { user, login, logout };
 }

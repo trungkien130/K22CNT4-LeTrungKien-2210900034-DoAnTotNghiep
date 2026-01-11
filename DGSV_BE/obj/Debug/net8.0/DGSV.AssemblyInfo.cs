@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("DGSV")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+c5c3a5dd6ff40a49fbae210607a2b44d3fe283d6")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+fc55b064a6951463e4a623bd665bbba93e4d189d")]
 [assembly: System.Reflection.AssemblyProductAttribute("DGSV")]
 [assembly: System.Reflection.AssemblyTitleAttribute("DGSV")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
