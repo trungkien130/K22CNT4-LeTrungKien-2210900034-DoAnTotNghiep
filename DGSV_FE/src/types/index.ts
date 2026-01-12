@@ -89,3 +89,20 @@ export interface UserForm {
   phone?: string;
   isActive: boolean;
 }
+export interface Account {
+  id: number;
+  userName: string;
+  fullName?: string;
+  isActive: boolean;
+  studentId?: number | null;
+  lecturerId?: number | null;
+}
+
+export interface EditForm {
+  userName: string;
+  fullName: string;
+  isActive: boolean;
+  roleId: number;
+  studentId: number | null;
+  lecturerId: number | null;
+}

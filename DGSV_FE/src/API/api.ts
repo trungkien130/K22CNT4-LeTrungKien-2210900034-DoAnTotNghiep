@@ -1,6 +1,6 @@
 import axiosClient from "./axiosClient";
 import type { Role } from "../types";
-
+const roleToApi = (role: Role) => role.toLowerCase();
 const api = {
   /* ================= AUTH ================= */
   login(data: { UserName: string; password: string }) {
@@ -28,6 +28,37 @@ const api = {
   deleteUser(role: Role, id: number) {
     return axiosClient.delete(`/user/${role}/${id}`);
   },
+
+  /* ================================================= */
+  /* ============ 🔹 ADD ACCOUNT API 🔹 ============== */
+  /* ================================================= */
+
+  /** GET ALL account theo role (AccountController) */
+  getAccountsByRole(role: Role) {
+    return axiosClient.get(`/account/${role}`);
+  },
+
+  /** GET detail account */
+  getAccountDetail(role: Role, id: number) {
+    return axiosClient.get(`/account/${role}/${id}`);
+  },
+
+  /** UPDATE account (edit) */
+updateAccount(role: Role, id: number, data: any) {
+  return axiosClient.put(`/account/${roleToApi(role)}/${id}`, data);
+},
+
+  /** DELETE account */
+  deleteAccount(role: Role, id: number) {
+    return axiosClient.delete(`/account/${role}/${id}`);
+  },
+  
+changePassword(role: Role, id: number, newPassword: string) {
+  return axiosClient.put(
+    `/account/${role}/${id}/change-password`,
+    { newPassword }
+  );
+},
 
   /* ================= QUESTION ================= */
   getQuestions() {

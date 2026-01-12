@@ -17,7 +17,7 @@ namespace DGSV.Api.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Login([FromBody] LoginRequestDTO request)
+        public async Task<IActionResult> Login([FromBody] LoginRequestDto request)
         {
             if (string.IsNullOrWhiteSpace(request.UserName) ||
                 string.IsNullOrWhiteSpace(request.Password))
@@ -32,8 +32,7 @@ namespace DGSV.Api.Controllers
                     x.UserName == request.UserName &&
                     x.IsActive);
 
-            if (admin != null &&
-                BCrypt.Net.BCrypt.Verify(request.Password, admin.PasswordHash))
+            if (admin != null && VerifyPassword(request.Password, admin.PasswordHash))
             {
                 return Ok(new
                 {
@@ -56,7 +55,7 @@ namespace DGSV.Api.Controllers
                 if (!lecturerAccount.Lecturer.IsActive)
                     return Unauthorized("Tài khoản giảng viên đã bị khóa");
 
-                if (BCrypt.Net.BCrypt.Verify(request.Password, lecturerAccount.PasswordHash))
+                if (VerifyPassword(request.Password, lecturerAccount.PasswordHash))
                 {
                     return Ok(new
                     {
@@ -81,7 +80,7 @@ namespace DGSV.Api.Controllers
                 if (!studentAccount.Student.IsActive)
                     return Unauthorized("Tài khoản sinh viên đã bị khóa");
 
-                if (BCrypt.Net.BCrypt.Verify(request.Password, studentAccount.PasswordHash))
+                if (VerifyPassword(request.Password, studentAccount.PasswordHash))
                 {
                     return Ok(new
                     {
@@ -94,6 +93,32 @@ namespace DGSV.Api.Controllers
             }
 
             return Unauthorized("Sai tài khoản hoặc mật khẩu");
+        }
+
+        // =====================================================
+        // ================= PASSWORD VERIFY ===================
+        // =====================================================
+        private bool VerifyPassword(string inputPassword, string storedHash)
+        {
+            if (string.IsNullOrWhiteSpace(storedHash))
+                return false;
+
+            try
+            {
+                // BCrypt hash
+                if (storedHash.StartsWith("$2"))
+                {
+                    return BCrypt.Net.BCrypt.Verify(inputPassword, storedHash);
+                }
+
+                // Fallback: mật khẩu cũ (plain text)
+                return storedHash == inputPassword;
+            }
+            catch (BCrypt.Net.SaltParseException)
+            {
+                // Hash lỗi → coi như sai mật khẩu
+                return false;
+            }
         }
     }
 }

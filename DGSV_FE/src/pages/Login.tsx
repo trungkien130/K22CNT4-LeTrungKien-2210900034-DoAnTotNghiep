@@ -9,7 +9,7 @@ interface LoginProps {
 
 export default function Login({ onLogin }: LoginProps) {
   const [UserName, setUser] = useState("");
-  const [password, setPassword] = useState("");
+  const [Password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
@@ -20,7 +20,7 @@ export default function Login({ onLogin }: LoginProps) {
 
     const username = UserName.trim();
 
-    if (!username || !password) {
+    if (!username || !Password) {
       setError("Vui lòng nhập đầy đủ tài khoản và mật khẩu");
       setLoading(false);
       return;
@@ -28,7 +28,7 @@ export default function Login({ onLogin }: LoginProps) {
 
     try {
       // ✅ AXIOS: nếu sai → nhảy thẳng vào catch
-      const res = await loginApi(username, password);
+      const res = await loginApi(username, Password);
 
       const { role, userId, fullName } = res.data;
 
@@ -65,13 +65,6 @@ export default function Login({ onLogin }: LoginProps) {
       setLoading(false);
     }
   };
-  useEffect(() => {
-    console.log("LOGIN MOUNT");
-    return () => {
-      console.log("LOGIN UNMOUNT");
-    };
-  }, []);
-
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 p-4">
       <div className="bg-white/90 backdrop-blur-lg p-8 rounded-3xl shadow-2xl w-full max-w-md border border-white/50">
@@ -106,7 +99,7 @@ export default function Login({ onLogin }: LoginProps) {
             </div>
           </div>
 
-          {/* PASSWORD */}
+          {/* Password */}
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">
               Mật khẩu
@@ -114,8 +107,8 @@ export default function Login({ onLogin }: LoginProps) {
             <div className="relative">
               <Lock className="absolute left-3 top-3 w-5 h-5 text-gray-400" />
               <input
-                type="password"
-                value={password}
+                type="Password"
+                value={Password}
                 onChange={(e) => setPassword(e.target.value)}
                 className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500"
                 placeholder="Mật khẩu"

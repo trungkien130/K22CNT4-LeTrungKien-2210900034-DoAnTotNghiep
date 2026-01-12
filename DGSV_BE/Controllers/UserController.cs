@@ -79,8 +79,6 @@ namespace DGSV.Api.Controllers
                         student.Email = dto.Email;
                         student.Phone = dto.Phone;
                         student.IsActive = dto.IsActive;
-
-                        // 🔥 SYNC ACCOUNT STUDENT
                         var accountStudent = await _context.AccountStudents
                             .FirstOrDefaultAsync(a => a.StudentId == student.Id);
 

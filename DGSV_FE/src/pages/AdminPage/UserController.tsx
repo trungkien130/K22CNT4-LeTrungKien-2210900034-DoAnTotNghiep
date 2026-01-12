@@ -98,29 +98,52 @@ export default function UserController() {
       ) : (
         <>
           <div className="overflow-x-auto rounded shadow">
-            <table className="min-w-full bg-white border">
+            <table className="min-w-full bg-white border table-fixed">
               <thead className="bg-gray-100">
                 <tr>
                   <th className="border px-4 py-2 w-16 text-center">ID</th>
-                  <th className="border px-4 py-2">Họ tên</th>
-                  <th className="border px-4 py-2">Role</th>
-                  <th className="border px-4 py-2">Email</th>
-                  <th className="border px-4 py-2 text-center">Trạng thái</th>
+                  <th className="border px-4 py-2 w-[260px]">Họ tên</th>
+                  <th className="border px-4 py-2 w-28">Role</th>
+                  <th className="border px-4 py-2 w-[260px]">Email</th>
+                  <th className="border px-4 py-2 w-36 text-center">
+                    Trạng thái
+                  </th>
                   <th className="border px-4 py-2 w-40 text-center">
                     Thao tác
                   </th>
                 </tr>
               </thead>
+
               <tbody>
                 {paginatedUsers.map((u) => (
                   <tr key={`${u.role}-${u.id}`} className="hover:bg-gray-50">
                     <td className="border px-4 py-2 text-center">{u.id}</td>
-                    <td className="border px-4 py-2">{u.fullName}</td>
-                    <td className="border px-4 py-2">{u.role}</td>
-                    <td className="border px-4 py-2">{u.email || "—"}</td>
-                    <td className="border px-4 py-2 text-center">
-                      {u.isActive ? "Hoạt động" : "Ngưng hoạt động"}
+
+                    {/* FIX CHIỀU CAO */}
+                    <td className="border px-4 py-2 align-top">
+                      <div className="h-12 overflow-hidden break-words">
+                        {u.fullName}
+                      </div>
                     </td>
+
+                    <td className="border px-4 py-2 truncate">{u.role}</td>
+
+                    <td className="border px-4 py-2 truncate">
+                      {u.email || "—"}
+                    </td>
+
+                    <td className="border px-4 py-2 text-center">
+                      <span
+                        className={`px-2 py-1 rounded text-sm ${
+                          u.isActive
+                            ? "bg-green-100 text-green-700"
+                            : "bg-red-100 text-red-700"
+                        }`}
+                      >
+                        {u.isActive ? "Hoạt động" : "Ngưng hoạt động"}
+                      </span>
+                    </td>
+
                     <td className="border px-4 py-2 text-center space-x-2">
                       <button
                         onClick={() => openEdit(u)}
@@ -149,9 +172,9 @@ export default function UserController() {
             </table>
           </div>
 
-          {/* PAGINATION */}
+          {/* PAGINATION – KHÔNG NHẢY */}
           {totalPages > 1 && (
-            <div className="flex justify-center items-center gap-2 mt-6">
+            <div className="min-h-[56px] flex justify-center items-center gap-2 mt-6">
               <button
                 disabled={currentPage === 1}
                 onClick={() => setCurrentPage((p) => p - 1)}

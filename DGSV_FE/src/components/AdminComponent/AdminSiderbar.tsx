@@ -37,6 +37,9 @@ export default function AdminSidebar() {
         <NavLink to="/admin/users" className={linkClass}>
           <Users size={20} /> Người dùng
         </NavLink>
+        <NavLink to="/admin/acounts" className={linkClass}>
+          <Users size={20} /> Tài khoản
+        </NavLink>
       </nav>
     </aside>
   );

@@ -178,29 +178,39 @@ export default function QuestionController() {
       ) : (
         <>
           <div className="overflow-x-auto rounded shadow">
-            <table className="min-w-full bg-white border">
+            <table className="min-w-full bg-white border table-fixed">
               <thead className="bg-gray-100">
                 <tr>
                   <th className="border px-4 py-2 w-16 text-center">ID</th>
-                  <th className="border px-4 py-2">Nội dung</th>
-                  <th className="border px-4 py-2">Loại</th>
-                  <th className="border px-4 py-2">Nhóm</th>
+                  <th className="border px-4 py-2 w-[420px]">Nội dung</th>
+                  <th className="border px-4 py-2 w-40">Loại</th>
+                  <th className="border px-4 py-2 w-40">Nhóm</th>
                   <th className="border px-4 py-2 w-40 text-center">
                     Thao tác
                   </th>
                 </tr>
               </thead>
+
               <tbody>
                 {paginatedQuestions.map((q) => (
                   <tr key={q.id} className="hover:bg-gray-50">
                     <td className="border px-4 py-2 text-center">{q.id}</td>
-                    <td className="border px-4 py-2">{q.contentQuestion}</td>
-                    <td className="border px-4 py-2">
+
+                    {/* FIX CỨNG CHIỀU CAO -> KHÔNG NHẢY */}
+                    <td className="border px-4 py-2 align-top">
+                      <div className="h-18 overflow-hidden break-words">
+                        {q.contentQuestion}
+                      </div>
+                    </td>
+
+                    <td className="border px-4 py-2 truncate">
                       {q.typeQuestionName || "—"}
                     </td>
-                    <td className="border px-4 py-2">
+
+                    <td className="border px-4 py-2 truncate">
                       {q.groupQuestionName || "—"}
                     </td>
+
                     <td className="border px-4 py-2 text-center space-x-2">
                       <button
                         onClick={() => openEdit(q)}
@@ -229,9 +239,9 @@ export default function QuestionController() {
             </table>
           </div>
 
-          {/* PAGINATION */}
+          {/* PAGINATION – KHÔNG NHẢY */}
           {totalPages > 1 && (
-            <div className="flex justify-center items-center gap-2 mt-6">
+            <div className="min-h-[56px] flex justify-center items-center gap-2 mt-6">
               <button
                 disabled={currentPage === 1}
                 onClick={() => setCurrentPage((p) => p - 1)}

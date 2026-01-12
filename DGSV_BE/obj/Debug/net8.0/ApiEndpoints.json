@@ -1,5 +1,94 @@
 [
   {
+    "ContainingType": "DGSV.Api.Controllers.AccountController",
+    "Method": "GetByRole",
+    "RelativePath": "api/Account/{role}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "role",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "DGSV.Api.Controllers.AccountController",
+    "Method": "Update",
+    "RelativePath": "api/Account/{role}/{id}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "role",
+        "Type": "System.String",
+        "IsRequired": true
+      },
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "dto",
+        "Type": "AccountUpdateDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "DGSV.Api.Controllers.AccountController",
+    "Method": "Delete",
+    "RelativePath": "api/Account/{role}/{id}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "role",
+        "Type": "System.String",
+        "IsRequired": true
+      },
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "DGSV.Api.Controllers.AccountController",
+    "Method": "ChangePassword",
+    "RelativePath": "api/Account/{role}/{id}/change-password",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "role",
+        "Type": "System.String",
+        "IsRequired": true
+      },
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "dto",
+        "Type": "DGSV.Api.DTOs.ChangePasswordDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "DGSV.Controllers.AnswerListController",
     "Method": "GetAll",
     "RelativePath": "api/AnswerList",
@@ -136,7 +225,7 @@
     "Parameters": [
       {
         "Name": "request",
-        "Type": "DGSV.Api.Models.LoginRequestDTO",
+        "Type": "DGSV.Api.Models.LoginRequestDto",
         "IsRequired": true
       }
     ],

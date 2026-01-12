@@ -3,6 +3,7 @@ import api from "../../API/api";
 import type { Answer } from "../../types";
 import AnswerFormModal from "./AnswerFormModal";
 import type { AnswerForm } from "../../types";
+
 const ITEMS_PER_PAGE = 10;
 
 export default function AnswerController() {
@@ -29,6 +30,7 @@ export default function AnswerController() {
     try {
       const res = await api.getAnswers();
       setAnswers(res.data ?? []);
+      setCurrentPage(1);
     } catch (err) {
       console.error("Lỗi lấy đáp án:", err);
     } finally {
@@ -67,6 +69,7 @@ export default function AnswerController() {
     setOpenModal(true);
   };
 
+  // ================= SAVE =================
   const handleSave = async () => {
     if (!form.contentAnswer.trim() || form.questionId === 0) {
       alert("Vui lòng nhập đầy đủ thông tin");
@@ -137,11 +140,11 @@ export default function AnswerController() {
       ) : (
         <>
           <div className="overflow-x-auto rounded shadow">
-            <table className="min-w-full bg-white border">
+            <table className="min-w-full bg-white border table-fixed">
               <thead className="bg-gray-100">
                 <tr>
-                  <th className="border px-4 py-2 w-16">ID</th>
-                  <th className="border px-4 py-2">Nội dung</th>
+                  <th className="border px-4 py-2 w-16 text-center">ID</th>
+                  <th className="border px-4 py-2 w-[420px]">Nội dung</th>
                   <th className="border px-4 py-2 w-24 text-center">Điểm</th>
                   <th className="border px-4 py-2 w-32 text-center">
                     Question ID
@@ -151,17 +154,27 @@ export default function AnswerController() {
                   </th>
                 </tr>
               </thead>
+
               <tbody>
                 {paginatedAnswers.map((a) => (
                   <tr key={a.id} className="hover:bg-gray-50">
                     <td className="border px-4 py-2 text-center">{a.id}</td>
-                    <td className="border px-4 py-2">{a.contentAnswer}</td>
+
+                    {/* FIX CỨNG CHIỀU CAO */}
+                    <td className="border px-4 py-2 align-top">
+                      <div className="h-16 overflow-hidden break-words">
+                        {a.contentAnswer}
+                      </div>
+                    </td>
+
                     <td className="border px-4 py-2 text-center font-semibold">
                       {a.answerScore}
                     </td>
+
                     <td className="border px-4 py-2 text-center">
                       {a.questionId}
                     </td>
+
                     <td className="border px-4 py-2 text-center space-x-2">
                       <button
                         onClick={() => openEdit(a)}
@@ -190,22 +203,36 @@ export default function AnswerController() {
             </table>
           </div>
 
-          {/* PAGINATION */}
+          {/* PAGINATION – KHÔNG NHẢY */}
           {totalPages > 1 && (
-            <div className="flex justify-center gap-2 mt-6">
-              {Array.from({ length: totalPages }).map((_, i) => (
+            <div className="min-h-[56px] flex justify-center items-center gap-2 mt-6">
+              <button
+                disabled={currentPage === 1}
+                onClick={() => setCurrentPage((p) => p - 1)}
+                className="px-3 py-1 border rounded disabled:opacity-50"
+              >
+                ← Trước
+              </button>
+
+              {[...Array(totalPages)].map((_, i) => (
                 <button
                   key={i}
                   onClick={() => setCurrentPage(i + 1)}
                   className={`px-3 py-1 border rounded ${
-                    currentPage === i + 1
-                      ? "bg-purple-600 text-white"
-                      : "bg-white"
+                    currentPage === i + 1 ? "bg-purple-600 text-white" : ""
                   }`}
                 >
                   {i + 1}
                 </button>
               ))}
+
+              <button
+                disabled={currentPage === totalPages}
+                onClick={() => setCurrentPage((p) => p + 1)}
+                className="px-3 py-1 border rounded disabled:opacity-50"
+              >
+                Sau →
+              </button>
             </div>
           )}
         </>
