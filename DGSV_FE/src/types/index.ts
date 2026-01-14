@@ -4,8 +4,8 @@ export type Role = "STUDENT" | "LECTURER" | "ADMIN";
 
 export interface User {
   name: string;
-  mssv: string | null;     
-  userId: string | number; 
+  mssv: string | null;
+  userId: string | number;
   role: Role;
 }
 
@@ -80,13 +80,22 @@ export interface UserAdmin {
   fullName: string;
   email?: string;
   phone?: string;
+  className?: string; // ✅ Thêm className
+  classId?: number; // ✅ Thêm classId
   role: Role;
   isActive: boolean;
+
+  // ✅ Extended Info
+  birthday?: string;
+  gender?: boolean;
+  departmentName?: string;
+  position?: string;
 }
 export interface UserForm {
   fullName: string;
   email?: string;
   phone?: string;
+  classId?: number; // ✅ Thêm classId cho form update
   isActive: boolean;
 }
 export interface Account {
@@ -94,15 +103,48 @@ export interface Account {
   userName: string;
   fullName?: string;
   isActive: boolean;
-  studentId?: number | null;
-  lecturerId?: number | null;
+
+  // ✅ Extended Info
+  email?: string;
+  phone?: string;
+  birthday?: string;
+  gender?: boolean;
+  className?: string;
+  departmentName?: string;
+  position?: string;
+  role?: string; // Sometimes returned as string in DTO
 }
+
 
 export interface EditForm {
   userName: string;
   fullName: string;
   isActive: boolean;
-  roleId: number;
-  studentId: number | null;
-  lecturerId: number | null;
 }
+
+export interface UserInfo {
+  id: string;
+  fullName: string;
+  birthday?: string | null;
+  email?: string | null;
+  phone?: string | null;
+  gender?: string | null;
+  department?: string;
+  position?: string;
+  className?: string;
+  course?: string;
+  isActive: boolean;
+  role?: Role;
+}
+export interface RegisterForm {
+  userName: string;
+  password: string;
+  role: Role;
+  fullName: string;
+  email?: string;
+  phone?: string;
+  birthday?: string;
+  gender?: boolean;
+  position?: string;
+}
+

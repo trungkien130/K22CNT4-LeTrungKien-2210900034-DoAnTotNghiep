@@ -10,6 +10,39 @@ const api = {
   logout() {
     localStorage.removeItem("user");
   },
+  register(data: any) {
+    return axiosClient.post("/auth/register", data);
+  },
+
+  /* ============ ACCOUNT ============ */
+  getAccountsByRole(role: Role) {
+    return axiosClient.get(`/Account/${role}`);
+  },
+
+  importExcel(file: File) {
+    const formData = new FormData();
+    formData.append("file", file);
+
+    return axiosClient.post("/auth/import-excel", formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+  },
+  updateAccount(role: Role, id: number, data: any) {
+    return axiosClient.put(`/account/${roleToApi(role)}/${id}`, data);
+  },
+
+  deleteAccount(role: Role, id: number) {
+    return axiosClient.delete(`/account/${role}/${id}`);
+  },
+
+  changePassword(role: Role, id: number, newPassword: string) {
+    return axiosClient.put(
+      `/account/${role}/${id}/change-password`,
+      { newPassword }
+    );
+  },
 
   /* ================= USER INFO ================= */
   getUserInfo(role: Role, userId: string | number) {
@@ -21,44 +54,17 @@ const api = {
     return axiosClient.get("/user/all");
   },
 
-  updateUser(role: Role, id: number, data: any) {
+  getClasses() {
+    return axiosClient.get("/user/classes");
+  },
+
+  updateUser(role: Role, id: string | number, data: any) {
     return axiosClient.put(`/user/${role}/${id}`, data);
   },
 
-  deleteUser(role: Role, id: number) {
+  deleteUser(role: Role, id: string | number) {
     return axiosClient.delete(`/user/${role}/${id}`);
   },
-
-  /* ================================================= */
-  /* ============ 🔹 ADD ACCOUNT API 🔹 ============== */
-  /* ================================================= */
-
-  /** GET ALL account theo role (AccountController) */
-  getAccountsByRole(role: Role) {
-    return axiosClient.get(`/account/${role}`);
-  },
-
-  /** GET detail account */
-  getAccountDetail(role: Role, id: number) {
-    return axiosClient.get(`/account/${role}/${id}`);
-  },
-
-  /** UPDATE account (edit) */
-updateAccount(role: Role, id: number, data: any) {
-  return axiosClient.put(`/account/${roleToApi(role)}/${id}`, data);
-},
-
-  /** DELETE account */
-  deleteAccount(role: Role, id: number) {
-    return axiosClient.delete(`/account/${role}/${id}`);
-  },
-  
-changePassword(role: Role, id: number, newPassword: string) {
-  return axiosClient.put(
-    `/account/${role}/${id}/change-password`,
-    { newPassword }
-  );
-},
 
   /* ================= QUESTION ================= */
   getQuestions() {
@@ -97,6 +103,48 @@ changePassword(role: Role, id: number, newPassword: string) {
   deleteAnswer(id: number) {
     return axiosClient.delete(`/AnswerList/${id}`);
   },
+  /* ================= SEMESTERS ================= */
+  getSemesters() {
+    return axiosClient.get("/semesters");
+  },
+  createSemester(data: any) {
+    return axiosClient.post("/semesters", data);
+  },
+  updateSemester(id: number, data: any) {
+    return axiosClient.put(`/semesters/${id}`, data);
+  },
+  deleteSemester(id: number) {
+    return axiosClient.delete(`/semesters/${id}`);
+  },
+
+  /* ================= DEPARTMENTS ================= */
+  getDepartments() {
+    return axiosClient.get("/departments");
+  },
+  createDepartment(data: any) {
+    return axiosClient.post("/departments", data);
+  },
+  updateDepartment(id: number, data: any) {
+    return axiosClient.put(`/departments/${id}`, data);
+  },
+  deleteDepartment(id: number) {
+    return axiosClient.delete(`/departments/${id}`);
+  },
+
+  /* ================= CLASSES ================= */
+  getClassesList() { // Renamed slightly to avoid conflict if any
+    return axiosClient.get("/classes");
+  },
+  createClass(data: any) {
+    return axiosClient.post("/classes", data);
+  },
+  updateClass(id: number, data: any) {
+    return axiosClient.put(`/classes/${id}`, data);
+  },
+  deleteClass(id: number) {
+    return axiosClient.delete(`/classes/${id}`);
+  },
 };
+
 
 export default api;

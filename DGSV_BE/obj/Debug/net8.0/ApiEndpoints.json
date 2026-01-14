@@ -209,7 +209,7 @@
     "Parameters": [
       {
         "Name": "req",
-        "Type": "DGSV.Api.Controllers.RegisterRequest",
+        "Type": "DGSV.DTO.RegisterRequestDto",
         "IsRequired": true
       }
     ],
@@ -311,6 +311,16 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "DGSV.Api.Controllers.TestController",
+    "Method": "Get",
+    "RelativePath": "api/test",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "DGSV.Api.Controllers.UserController",
     "Method": "UpdateUser",
     "RelativePath": "api/user/{role}/{id}",
@@ -365,6 +375,27 @@
     "IsController": true,
     "Order": 0,
     "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "DGSV.Api.Controllers.UserController",
+    "Method": "GetUserDetail",
+    "RelativePath": "api/user/info/{role}/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "role",
+        "Type": "System.String",
+        "IsRequired": true
+      },
+      {
+        "Name": "id",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
     "ReturnTypes": []
   }
 ]

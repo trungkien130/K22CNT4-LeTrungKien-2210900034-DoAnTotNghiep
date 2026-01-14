@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import api from "../../API/api";
+import { Trash2, Edit, Plus } from "lucide-react";
 import type { Question } from "../../types";
 import QuestionFormModal, { type QuestionForm } from "./QuestionsFormModal";
 
@@ -153,18 +154,18 @@ export default function QuestionController() {
   // ================= UI =================
   return (
     <div className="p-6">
-      <div className="flex justify-between items-center mb-4">
-        <h2 className="text-xl font-bold">Quản lý câu hỏi</h2>
+      <div className="flex justify-between items-center mb-6">
+        <h2 className="text-xl font-bold">Quản lý Câu hỏi</h2>
         <button
           onClick={openAdd}
-          className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700"
+          className="bg-blue-600 text-white px-4 py-2 rounded flex items-center gap-2 hover:bg-blue-700"
         >
-          + Thêm câu hỏi
+          <Plus size={18} /> Thêm mới
         </button>
       </div>
 
       <input
-        className="border px-4 py-2 w-full mb-6 rounded"
+        className="border px-4 py-2 w-full mb-6 rounded shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
         placeholder="🔍 Tìm kiếm câu hỏi..."
         value={search}
         onChange={(e) => {
@@ -177,52 +178,51 @@ export default function QuestionController() {
         <p className="text-center py-10 text-gray-500">Đang tải dữ liệu...</p>
       ) : (
         <>
-          <div className="overflow-x-auto rounded shadow">
-            <table className="min-w-full bg-white border table-fixed">
+          <div className="bg-white rounded shadow overflow-hidden">
+            <table className="min-w-full">
               <thead className="bg-gray-100">
                 <tr>
-                  <th className="border px-4 py-2 w-16 text-center">ID</th>
-                  <th className="border px-4 py-2 w-[420px]">Nội dung</th>
-                  <th className="border px-4 py-2 w-40">Loại</th>
-                  <th className="border px-4 py-2 w-40">Nhóm</th>
-                  <th className="border px-4 py-2 w-40 text-center">
-                    Thao tác
-                  </th>
+                  <th className="px-6 py-3 text-left w-16">ID</th>
+                  <th className="px-6 py-3 text-left">Nội dung</th>
+                  <th className="px-6 py-3 text-left w-40">Loại</th>
+                  <th className="px-6 py-3 text-left w-40">Nhóm</th>
+                  <th className="px-6 py-3 text-right w-32">Thao tác</th>
                 </tr>
               </thead>
 
-              <tbody>
+              <tbody className="divide-y divide-gray-200">
                 {paginatedQuestions.map((q) => (
-                  <tr key={q.id} className="hover:bg-gray-50">
-                    <td className="border px-4 py-2 text-center">{q.id}</td>
+                  <tr key={q.id} className="hover:bg-gray-50 transition-colors">
+                    <td className="px-6 py-4 font-medium text-gray-900">{q.id}</td>
 
-                    {/* FIX CỨNG CHIỀU CAO -> KHÔNG NHẢY */}
-                    <td className="border px-4 py-2 align-top">
-                      <div className="h-18 overflow-hidden break-words">
+                    <td className="px-6 py-4">
+                      <div className="line-clamp-2 text-gray-700">
                         {q.contentQuestion}
                       </div>
                     </td>
 
-                    <td className="border px-4 py-2 truncate">
+                    <td className="px-6 py-4 text-gray-600 whitespace-nowrap">
                       {q.typeQuestionName || "—"}
                     </td>
 
-                    <td className="border px-4 py-2 truncate">
+                    <td className="px-6 py-4 text-gray-600 whitespace-nowrap">
                       {q.groupQuestionName || "—"}
                     </td>
 
-                    <td className="border px-4 py-2 text-center space-x-2">
+                    <td className="px-6 py-4 text-right space-x-2 whitespace-nowrap">
                       <button
                         onClick={() => openEdit(q)}
-                        className="bg-blue-600 text-white px-3 py-1 rounded text-sm"
+                        className="text-blue-600 hover:bg-blue-50 p-2 rounded transition-colors"
+                        title="Sửa"
                       >
-                        Sửa
+                        <Edit size={18} />
                       </button>
                       <button
                         onClick={() => handleDelete(q.id)}
-                        className="bg-red-600 text-white px-3 py-1 rounded text-sm"
+                        className="text-red-600 hover:bg-red-50 p-2 rounded transition-colors"
+                        title="Xóa"
                       >
-                        Xóa
+                        <Trash2 size={18} />
                       </button>
                     </td>
                   </tr>
@@ -239,13 +239,13 @@ export default function QuestionController() {
             </table>
           </div>
 
-          {/* PAGINATION – KHÔNG NHẢY */}
+          {/* PAGINATION */}
           {totalPages > 1 && (
-            <div className="min-h-[56px] flex justify-center items-center gap-2 mt-6">
+            <div className="flex justify-center items-center gap-2 mt-6">
               <button
                 disabled={currentPage === 1}
                 onClick={() => setCurrentPage((p) => p - 1)}
-                className="px-3 py-1 border rounded disabled:opacity-50"
+                className="px-3 py-1 border rounded hover:bg-gray-100 disabled:opacity-50 disabled:hover:bg-transparent"
               >
                 ← Trước
               </button>
@@ -255,7 +255,9 @@ export default function QuestionController() {
                   key={i}
                   onClick={() => setCurrentPage(i + 1)}
                   className={`px-3 py-1 border rounded ${
-                    currentPage === i + 1 ? "bg-purple-600 text-white" : ""
+                    currentPage === i + 1
+                      ? "bg-blue-600 text-white border-blue-600"
+                      : "hover:bg-gray-100"
                   }`}
                 >
                   {i + 1}
@@ -265,7 +267,7 @@ export default function QuestionController() {
               <button
                 disabled={currentPage === totalPages}
                 onClick={() => setCurrentPage((p) => p + 1)}
-                className="px-3 py-1 border rounded disabled:opacity-50"
+                className="px-3 py-1 border rounded hover:bg-gray-100 disabled:opacity-50 disabled:hover:bg-transparent"
               >
                 Sau →
               </button>

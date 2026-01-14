@@ -5,6 +5,9 @@ import {
   HelpCircle,
   Users,
   CheckSquare,
+  BookOpen,      // For Semesters
+  Building,      // For Departments
+  GraduationCap, // For Classes
 } from "lucide-react";
 
 export default function AdminSidebar() {
@@ -39,6 +42,18 @@ export default function AdminSidebar() {
         </NavLink>
         <NavLink to="/admin/acounts" className={linkClass}>
           <Users size={20} /> Tài khoản
+        </NavLink>
+
+        <div className="border-t my-2 border-gray-200"></div>
+
+        <NavLink to="/admin/semesters" className={linkClass}>
+          <BookOpen size={20} /> Học kỳ
+        </NavLink>
+        <NavLink to="/admin/departments" className={linkClass}>
+          <Building size={20} /> Khoa
+        </NavLink>
+        <NavLink to="/admin/classes" className={linkClass}>
+          <GraduationCap size={20} /> Lớp
         </NavLink>
       </nav>
     </aside>

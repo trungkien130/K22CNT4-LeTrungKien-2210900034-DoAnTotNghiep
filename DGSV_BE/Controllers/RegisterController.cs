@@ -1,5 +1,6 @@
 ﻿using DGSV.Api.Data;
 using DGSV.Api.Models;
+using DGSV.DTO;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using OfficeOpenXml;
@@ -53,6 +54,12 @@ namespace DGSV.Api.Controllers
                         string id = ws.Cells[r, 5].Text.Trim();
                         string email = ws.Cells[r, 7].Text.Trim();
                         string phone = ws.Cells[r, 8].Text.Trim();
+                        // ✅ Fix Phone Leading Zero
+                        if (!string.IsNullOrEmpty(phone) && !phone.StartsWith("0"))
+                        {
+                            phone = "0" + phone;
+                        }
+
                         string genderText = ws.Cells[r, 9].Text.Trim();
                         string positionText = ws.Cells[r, 10].Text.Trim();
 
@@ -219,7 +226,7 @@ namespace DGSV.Api.Controllers
         // 2️⃣ ADD ACCOUNT MANUALLY (JSON)
         // =========================================================
         [HttpPost("register")]
-        public IActionResult RegisterManual([FromBody] RegisterRequest req)
+        public IActionResult RegisterManual([FromBody] RegisterRequestDto req)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
@@ -310,23 +317,5 @@ namespace DGSV.Api.Controllers
                 return StatusCode(500, "Lỗi tạo tài khoản");
             }
         }
-    }
-
-    // =========================================================
-    // DTO REGISTER MANUAL
-    // =========================================================
-    public class RegisterRequest
-    {
-        public string FullName { get; set; }
-        public string UserName { get; set; }
-        public string Password { get; set; }
-        public string Role { get; set; } // ADMIN | LECTURER | STUDENT
-
-        public string Id { get; set; }
-        public DateTime Birthday { get; set; }
-        public string? Email { get; set; }
-        public string? Phone { get; set; }
-        public bool? Gender { get; set; }
-        public string? Position { get; set; }
     }
 }

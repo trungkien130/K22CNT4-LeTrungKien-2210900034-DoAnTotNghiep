@@ -5,6 +5,9 @@ import QuestionController from "../pages/AdminPage/QuestionsControll";
 import AnswerController from "../pages/AdminPage/AnswerController";
 import UserController from "../pages/AdminPage/UserController";
 import AccountController from "../pages/AdminPage/AcountController";
+import SemesterManager from "../pages/AdminPage/SemesterManager";
+import DepartmentManager from "../pages/AdminPage/DepartmentManager";
+import ClassManager from "../pages/AdminPage/ClassManager";
 
 export default function AdminRoutes({ onLogout }: { onLogout: () => void }) {
   return (
@@ -15,6 +18,9 @@ export default function AdminRoutes({ onLogout }: { onLogout: () => void }) {
         <Route path="answers" element={<AnswerController />} />
         <Route path="users" element={<UserController />} />
         <Route path="acounts" element={<AccountController />} />
+        <Route path="semesters" element={<SemesterManager />} />
+        <Route path="departments" element={<DepartmentManager />} />
+        <Route path="classes" element={<ClassManager />} />
       </Route>
 
       <Route path="*" element={<Navigate to="/admin" replace />} />

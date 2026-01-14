@@ -345,17 +345,17 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/RegisterRequest"
+                "$ref": "#/components/schemas/RegisterRequestDto"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/RegisterRequest"
+                "$ref": "#/components/schemas/RegisterRequestDto"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/RegisterRequest"
+                "$ref": "#/components/schemas/RegisterRequestDto"
               }
             }
           }
@@ -523,6 +523,18 @@
         }
       }
     },
+    "/api/test": {
+      "get": {
+        "tags": [
+          "Test"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/api/user/all": {
       "get": {
         "tags": [
@@ -584,6 +596,36 @@
         }
       },
       "delete": {
+        "tags": [
+          "User"
+        ],
+        "parameters": [
+          {
+            "name": "role",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/user/info/{role}/{id}": {
+      "get": {
         "tags": [
           "User"
         ],
@@ -740,7 +782,7 @@
         },
         "additionalProperties": false
       },
-      "RegisterRequest": {
+      "RegisterRequestDto": {
         "type": "object",
         "properties": {
           "fullName": {
@@ -756,6 +798,10 @@
             "nullable": true
           },
           "role": {
+            "type": "string",
+            "nullable": true
+          },
+          "className": {
             "type": "string",
             "nullable": true
           },

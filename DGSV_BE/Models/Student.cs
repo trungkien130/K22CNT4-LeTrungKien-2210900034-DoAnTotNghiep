@@ -17,6 +17,7 @@ namespace DGSV.Api.Models
         public bool? Gender { get; set; }
 
         public int ClassId { get; set; }
+            [ForeignKey("ClassId")]
         public Class Class { get; set; }
 
         [Column(TypeName = "char(3)")]

@@ -4,6 +4,7 @@ import UserDetail from "../pages/UserDetail";
 import Navbar from "../components/Navbar";
 import Sidebar from "../components/Siderbar";
 import type { User } from "../types";
+import SelfEvaluation from "../pages/SelfEvaluation";
 
 export default function UserRoutes({
   user,
@@ -23,6 +24,7 @@ export default function UserRoutes({
           <Routes>
             <Route path="/" element={<Dashboard />} />
             <Route path="/user-detail" element={<UserDetail user={user} />} />
+            <Route path="/selfEvaluation" element={<SelfEvaluation />} />
             <Route path="*" element={<Navigate to="/" />} />
           </Routes>
         </main>

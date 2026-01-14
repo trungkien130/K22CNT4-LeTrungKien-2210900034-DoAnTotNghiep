@@ -1,6 +1,5 @@
 ﻿using DGSV.Api.Data;
 using DGSV.Api.DTOs;
-using DGSV.Api.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -18,7 +17,7 @@ namespace DGSV.Api.Controllers
         }
 
         // =====================================================
-        // ==================== GET ALL ========================
+        // ==================== GET BY ROLE ====================
         // =====================================================
         [HttpGet("{role}")]
         public async Task<IActionResult> GetByRole(string role)
@@ -29,37 +28,55 @@ namespace DGSV.Api.Controllers
             {
                 "admin" => Ok(await _context.AccountAdmins
                     .Include(x => x.Role)
-                    .Select(x => new
+                    .Select(x => new AccountResponseDto
                     {
-                        x.Id,
-                        x.UserName,
-                        x.FullName,
-                        x.IsActive,
-                        Role = x.Role.RoleName
+                        Id = x.Id,
+                        UserName = x.UserName,
+                        FullName = x.FullName,
+                        IsActive = x.IsActive,
+                        Role = x.Role.RoleName,
+                        // Admin doesn't have extra fields usually, but we set nulls explicitly or leave defaults
                     }).ToListAsync()),
 
                 "lecturer" => Ok(await _context.AccountLecturers
                     .Include(x => x.Role)
                     .Include(x => x.Lecturer)
-                    .Select(x => new
+                        .ThenInclude(l => l.Department)
+                    .Select(x => new AccountResponseDto
                     {
-                        x.Id,
-                        x.UserName,
+                        Id = x.Id,
+                        UserName = x.UserName,
                         FullName = x.Lecturer.FullName,
-                        x.IsActive,
-                        Role = x.Role.RoleName
+                        IsActive = x.IsActive,
+                        Role = x.Role.RoleName,
+
+                        // ✅ Extra Info
+                        Email = x.Lecturer.Email,
+                        Phone = x.Lecturer.Phone,
+                        Birthday = x.Lecturer.Birthday,
+                        DepartmentName = x.Lecturer.Department.Name,
+                        Position = x.Lecturer.PositionId // or Name if you join Position
                     }).ToListAsync()),
 
                 "student" => Ok(await _context.AccountStudents
                     .Include(x => x.Role)
                     .Include(x => x.Student)
-                    .Select(x => new
+                        .ThenInclude(s => s.Class)
+                    .Select(x => new AccountResponseDto
                     {
-                        x.Id,
-                        x.UserName,
+                        Id = x.Id,
+                        UserName = x.UserName,
                         FullName = x.Student.FullName,
-                        x.IsActive,
-                        Role = x.Role.RoleName
+                        IsActive = x.IsActive,
+                        Role = x.Role.RoleName,
+
+                        // ✅ Extra Info
+                        Email = x.Student.Email,
+                        Phone = x.Student.Phone,
+                        Birthday = x.Student.Birthday,
+                        Gender = x.Student.Gender,
+                        ClassName = x.Student.Class.Name,
+                        Position = x.Student.PositionId
                     }).ToListAsync()),
 
                 _ => BadRequest("Role không hợp lệ")
@@ -71,12 +88,31 @@ namespace DGSV.Api.Controllers
         // =====================================================
         [HttpPut("{role}/{id}")]
         public async Task<IActionResult> Update(
-    string role,
-    int id,
-    AccountUpdateDto dto)
+            string role,
+            int id,
+            AccountUpdateDto dto)
         {
             role = role.ToLower();
 
+            // ===== CHECK TRÙNG USERNAME =====
+            bool isDuplicate = role switch
+            {
+                "admin" => await _context.AccountAdmins
+                    .AnyAsync(x => x.UserName == dto.UserName && x.Id != id),
+
+                "lecturer" => await _context.AccountLecturers
+                    .AnyAsync(x => x.UserName == dto.UserName && x.Id != id),
+
+                "student" => await _context.AccountStudents
+                    .AnyAsync(x => x.UserName == dto.UserName && x.Id != id),
+
+                _ => false
+            };
+
+            if (isDuplicate)
+                return BadRequest("Username đã tồn tại");
+
+            // ===== UPDATE =====
             if (role == "admin")
             {
                 var acc = await _context.AccountAdmins.FindAsync(id);
@@ -111,7 +147,6 @@ namespace DGSV.Api.Controllers
             return Ok("Cập nhật tài khoản thành công");
         }
 
-
         // =====================================================
         // ================= CHANGE PASSWORD ===================
         // =====================================================
@@ -125,25 +160,25 @@ namespace DGSV.Api.Controllers
                 return BadRequest("Mật khẩu không hợp lệ");
 
             role = role.ToLower();
-            var passwordHash = BCrypt.Net.BCrypt.HashPassword(dto.NewPassword);
+            var hash = BCrypt.Net.BCrypt.HashPassword(dto.NewPassword);
 
             if (role == "admin")
             {
                 var acc = await _context.AccountAdmins.FindAsync(id);
                 if (acc == null) return NotFound();
-                acc.PasswordHash = passwordHash;
+                acc.PasswordHash = hash;
             }
             else if (role == "lecturer")
             {
                 var acc = await _context.AccountLecturers.FindAsync(id);
                 if (acc == null) return NotFound();
-                acc.PasswordHash = passwordHash;
+                acc.PasswordHash = hash;
             }
             else if (role == "student")
             {
                 var acc = await _context.AccountStudents.FindAsync(id);
                 if (acc == null) return NotFound();
-                acc.PasswordHash = passwordHash;
+                acc.PasswordHash = hash;
             }
             else
             {
@@ -163,13 +198,27 @@ namespace DGSV.Api.Controllers
             role = role.ToLower();
 
             if (role == "admin")
-                _context.AccountAdmins.Remove(await _context.AccountAdmins.FindAsync(id));
+            {
+                var acc = await _context.AccountAdmins.FindAsync(id);
+                if (acc == null) return NotFound();
+                _context.AccountAdmins.Remove(acc);
+            }
             else if (role == "lecturer")
-                _context.AccountLecturers.Remove(await _context.AccountLecturers.FindAsync(id));
+            {
+                var acc = await _context.AccountLecturers.FindAsync(id);
+                if (acc == null) return NotFound();
+                _context.AccountLecturers.Remove(acc);
+            }
             else if (role == "student")
-                _context.AccountStudents.Remove(await _context.AccountStudents.FindAsync(id));
+            {
+                var acc = await _context.AccountStudents.FindAsync(id);
+                if (acc == null) return NotFound();
+                _context.AccountStudents.Remove(acc);
+            }
             else
+            {
                 return BadRequest("Role không hợp lệ");
+            }
 
             await _context.SaveChangesAsync();
             return Ok("Xóa tài khoản thành công");

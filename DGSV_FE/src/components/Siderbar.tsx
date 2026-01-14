@@ -12,7 +12,7 @@ export default function Sidebar({ role }: { role: Role }) {
   const baseMenu: MenuItem[] = [
     { to: "/", label: "Tổng quan", icon: <Home className="w-5 h-5" /> },
     {
-      to: "/evaluate",
+      to: "/selfEvaluation",
       label: "Tự đánh giá",
       icon: <PenTool className="w-5 h-5" />,
     },
@@ -37,6 +37,9 @@ export default function Sidebar({ role }: { role: Role }) {
             label: "Quản trị",
             icon: <Settings className="w-5 h-5" />,
           },
+          { to: "/admin/semesters", label: "Học kỳ", icon: <History className="w-5 h-5" /> },
+          { to: "/admin/departments", label: "Khoa", icon: <Home className="w-5 h-5" /> },
+          { to: "/admin/classes", label: "Lớp", icon: <PenTool className="w-5 h-5" /> },
         ]
       : baseMenu;
 

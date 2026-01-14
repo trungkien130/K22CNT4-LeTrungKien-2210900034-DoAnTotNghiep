@@ -1,19 +1,21 @@
 import { useEffect, useState } from "react";
 import api from "../../API/api";
-import type { UserAdmin } from "../../types";
+import type { UserAdmin, Role } from "../../types";
+import { Trash2, Edit, Filter } from "lucide-react";
 import UserFormModal from "./UserFormModal";
 import type { UserForm } from "../../types";
+import CustomDropdown from "../../components/AdminComponent/CustomDropdown";
 
 const ITEMS_PER_PAGE = 10;
 
 export default function UserController() {
+  const [role, setRole] = useState<Role>("STUDENT"); // ✅ State role filter
   const [users, setUsers] = useState<UserAdmin[]>([]);
   const [loading, setLoading] = useState(false);
   const [search, setSearch] = useState("");
   const [openModal, setOpenModal] = useState(false);
   const [editing, setEditing] = useState<UserAdmin | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
-
   const [form, setForm] = useState<UserForm>({
     fullName: "",
     email: "",
@@ -45,6 +47,9 @@ export default function UserController() {
       email: u.email || "",
       phone: u.phone || "",
       isActive: u.isActive,
+      classId: u.classId, // ✅ Pass classId to form
+      birthday: u.birthday,
+      gender: u.gender,
     });
     setOpenModal(true);
   };
@@ -64,10 +69,12 @@ export default function UserController() {
     fetchUsers();
   };
 
-  // ================= SEARCH + PAGINATION =================
-  const filteredUsers = users.filter((u) =>
-    u.fullName.toLowerCase().includes(search.toLowerCase())
-  );
+  // ================= SEARCH + FILTER =================
+  const filteredUsers = users
+    .filter((u) => u.role === role) // ✅ Filter by Role
+    .filter((u) =>
+      u.fullName.toLowerCase().includes(search.toLowerCase())
+    );
 
   const totalPages = Math.ceil(filteredUsers.length / ITEMS_PER_PAGE);
 
@@ -79,12 +86,29 @@ export default function UserController() {
   // ================= UI =================
   return (
     <div className="p-6">
-      <div className="flex justify-between items-center mb-4">
-        <h2 className="text-xl font-bold">Quản lý người dùng</h2>
+      <div className="flex justify-between items-center mb-6">
+        <h2 className="text-xl font-bold">Quản lý Người dùng</h2>
+        
+        {/* ✅ Role Selector */}
+        <div className="flex items-center gap-4">
+          <CustomDropdown
+            icon={<Filter size={18} />}
+            value={role}
+            onChange={(val) => {
+              setRole(val as Role);
+              setCurrentPage(1);
+            }}
+            options={[
+              { label: "Sinh viên", value: "STUDENT" },
+              { label: "Giảng viên", value: "LECTURER" },
+              { label: "Admin", value: "ADMIN" },
+            ]}
+          />
+        </div>
       </div>
 
       <input
-        className="border px-4 py-2 w-full mb-6 rounded"
+        className="border px-4 py-2 w-full mb-6 rounded shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
         placeholder="🔍 Tìm kiếm người dùng..."
         value={search}
         onChange={(e) => {
@@ -97,65 +121,105 @@ export default function UserController() {
         <p className="text-center py-10 text-gray-500">Đang tải dữ liệu...</p>
       ) : (
         <>
-          <div className="overflow-x-auto rounded shadow">
-            <table className="min-w-full bg-white border table-fixed">
+          <div className="bg-white rounded shadow overflow-hidden">
+            <table className="min-w-full">
               <thead className="bg-gray-100">
                 <tr>
-                  <th className="border px-4 py-2 w-16 text-center">ID</th>
-                  <th className="border px-4 py-2 w-[260px]">Họ tên</th>
-                  <th className="border px-4 py-2 w-28">Role</th>
-                  <th className="border px-4 py-2 w-[260px]">Email</th>
-                  <th className="border px-4 py-2 w-36 text-center">
+                  <th className="px-6 py-3 text-left w-16">ID</th>
+                  <th className="px-6 py-3 text-left w-[260px]">Họ tên</th>
+                  
+                  {/* ✅ Chỉ hiện cột Lớp nếu là STUDENT */}
+                  {role === "STUDENT" && (
+                    <th className="px-6 py-3 text-left w-20">Lớp</th>
+                  )}
+                  {role === "LECTURER" && (
+                    <th className="px-6 py-3 text-left w-32">Khoa</th>
+                  )}
+                  
+                  <th className="px-6 py-3 text-left w-28">Chức vụ</th>
+                  <th className="px-6 py-3 text-left w-[200px]">Email</th>
+                  <th className="px-6 py-3 text-left w-32">SĐT</th>
+                  <th className="px-6 py-3 text-left w-32">Ngày sinh</th>
+                  
+                  {role === "STUDENT" && <th className="px-6 py-3 text-center w-20">Giới tính</th>}
+
+                  <th className="px-6 py-3 text-center w-36">
                     Trạng thái
                   </th>
-                  <th className="border px-4 py-2 w-40 text-center">
+                  <th className="px-6 py-3 text-right w-40">
                     Thao tác
                   </th>
                 </tr>
               </thead>
-
-              <tbody>
+              <tbody className="divide-y divide-gray-200">
                 {paginatedUsers.map((u) => (
-                  <tr key={`${u.role}-${u.id}`} className="hover:bg-gray-50">
-                    <td className="border px-4 py-2 text-center">{u.id}</td>
+                  <tr key={`${u.role}-${u.id}`} className="hover:bg-gray-50 transition-colors">
+                    <td className="px-6 py-4 font-medium text-gray-900">{u.id}</td>
 
-                    {/* FIX CHIỀU CAO */}
-                    <td className="border px-4 py-2 align-top">
-                      <div className="h-12 overflow-hidden break-words">
+                    <td className="px-6 py-4">
+                      <div className="text-gray-700 font-medium">
                         {u.fullName}
                       </div>
                     </td>
 
-                    <td className="border px-4 py-2 truncate">{u.role}</td>
+                    {/* ✅ Chỉ hiện cell Lớp nếu là STUDENT */}
+                    {role === "STUDENT" && (
+                      <td className="px-6 py-4 text-gray-600 truncate">
+                        {u.className || "—"}
+                      </td>
+                    )}
+                    {role === "LECTURER" && (
+                      <td className="px-6 py-4 text-gray-600 truncate">
+                        {u.departmentName || "—"}
+                      </td>
+                    )}
 
-                    <td className="border px-4 py-2 truncate">
+                    <td className="px-6 py-4 text-gray-500 text-sm">{u.position || u.role}</td>
+
+                    <td className="px-6 py-4 text-gray-600 truncate">
                       {u.email || "—"}
                     </td>
 
-                    <td className="border px-4 py-2 text-center">
+                    <td className="px-6 py-4 text-gray-600 truncate">
+                      {u.phone || "—"}
+                    </td>
+
+                    <td className="px-6 py-4 text-gray-600 truncate">
+                       {u.birthday ? new Date(u.birthday).toLocaleDateString("vi-VN") : "—"}
+                    </td>
+
+                    {role === "STUDENT" && (
+                      <td className="px-6 py-4 text-center text-gray-600">
+                        {u.gender === true ? "Nam" : u.gender === false ? "Nữ" : "—"}
+                      </td>
+                    )}
+
+                    <td className="px-6 py-4 text-center">
                       <span
-                        className={`px-2 py-1 rounded text-sm ${
+                        className={`px-2 py-1 rounded-full text-xs font-semibold ${
                           u.isActive
                             ? "bg-green-100 text-green-700"
                             : "bg-red-100 text-red-700"
                         }`}
                       >
-                        {u.isActive ? "Hoạt động" : "Ngưng hoạt động"}
+                        {u.isActive ? "Hoạt động" : "Ngưng"}
                       </span>
                     </td>
 
-                    <td className="border px-4 py-2 text-center space-x-2">
+                    <td className="px-6 py-4 text-right space-x-2 whitespace-nowrap">
                       <button
                         onClick={() => openEdit(u)}
-                        className="bg-blue-600 text-white px-3 py-1 rounded text-sm"
+                        className="text-blue-600 hover:bg-blue-50 p-2 rounded transition-colors"
+                        title="Sửa"
                       >
-                        Sửa
+                        <Edit size={18} />
                       </button>
                       <button
                         onClick={() => handleDelete(u)}
-                        className="bg-red-600 text-white px-3 py-1 rounded text-sm"
+                        className="text-red-600 hover:bg-red-50 p-2 rounded transition-colors"
+                        title="Xóa"
                       >
-                        Xóa
+                        <Trash2 size={18} />
                       </button>
                     </td>
                   </tr>
@@ -163,7 +227,10 @@ export default function UserController() {
 
                 {paginatedUsers.length === 0 && (
                   <tr>
-                    <td colSpan={6} className="text-center py-8 text-gray-500">
+                    <td 
+                      colSpan={role === "STUDENT" ? 10 : role === "LECTURER" ? 9 : 8} 
+                      className="text-center py-8 text-gray-500"
+                    >
                       Không có dữ liệu
                     </td>
                   </tr>
@@ -172,13 +239,13 @@ export default function UserController() {
             </table>
           </div>
 
-          {/* PAGINATION – KHÔNG NHẢY */}
+          {/* PAGINATION */}
           {totalPages > 1 && (
-            <div className="min-h-[56px] flex justify-center items-center gap-2 mt-6">
+            <div className="flex justify-center items-center gap-2 mt-6">
               <button
                 disabled={currentPage === 1}
                 onClick={() => setCurrentPage((p) => p - 1)}
-                className="px-3 py-1 border rounded disabled:opacity-50"
+                className="px-3 py-1 border rounded hover:bg-gray-100 disabled:opacity-50 disabled:hover:bg-transparent"
               >
                 ← Trước
               </button>
@@ -188,7 +255,9 @@ export default function UserController() {
                   key={i}
                   onClick={() => setCurrentPage(i + 1)}
                   className={`px-3 py-1 border rounded ${
-                    currentPage === i + 1 ? "bg-purple-600 text-white" : ""
+                    currentPage === i + 1
+                      ? "bg-blue-600 text-white border-blue-600"
+                      : "hover:bg-gray-100"
                   }`}
                 >
                   {i + 1}
@@ -198,7 +267,7 @@ export default function UserController() {
               <button
                 disabled={currentPage === totalPages}
                 onClick={() => setCurrentPage((p) => p + 1)}
-                className="px-3 py-1 border rounded disabled:opacity-50"
+                className="px-3 py-1 border rounded hover:bg-gray-100 disabled:opacity-50 disabled:hover:bg-transparent"
               >
                 Sau →
               </button>
