@@ -1,7 +1,7 @@
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState } from "react";
 import api from "../../API/api";
 import type { Role, Account, RegisterForm } from "../../types";
-import { Trash2, Edit, Plus, Upload, Filter } from "lucide-react";
+import { Trash2, Edit, Filter } from "lucide-react";
 import AccountFormModal from "./AcountFormModal";
 import CustomDropdown from "../../components/AdminComponent/CustomDropdown";
 
@@ -16,7 +16,7 @@ export default function AccountController() {
   const [openModal, setOpenModal] = useState(false);
 
   const [currentPage, setCurrentPage] = useState(1);
-  const fileInputRef = useRef<HTMLInputElement>(null);
+
 
   const [form, setForm] = useState<RegisterForm & { isActive?: boolean }>({
     userName: "",
@@ -47,91 +47,7 @@ export default function AccountController() {
     fetchAccounts();
   }, [role]);
 
-  /* ================= ADD ================= */
-
-  const openAdd = () => {
-    setEditing(null);
-    setForm({
-      userName: "",
-      password: "",
-      role,
-      fullName: "",
-      email: "",
-      phone: "",
-      birthday: "",
-      gender: true,
-      isActive: true,
-    });
-    setOpenModal(true);
-  };
-
-  /* ================= EDIT ================= */
-
-  const openEdit = (acc: Account) => {
-    setEditing(acc);
-    setForm({
-      userName: acc.userName,
-      password: "",
-      role,
-      fullName: acc.fullName ?? "",
-      email: "",
-      phone: "",
-      birthday: "",
-      gender: true,
-      isActive: acc.isActive,
-    });
-    setOpenModal(true);
-  };
-
-  /* ================= SAVE ================= */
-
-  const handleSave = async () => {
-    try {
-      if (!editing) {
-        // ===== ADD =====
-        await api.register({
-          ...form,
-          role,
-          birthday: form.birthday
-            ? new Date(form.birthday).toISOString()
-            : undefined,
-        });
-      } else {
-        // ===== UPDATE ACCOUNT =====
-        await api.updateAccount(role, editing.id, {
-          userName: form.userName,
-          isActive: form.isActive,
-        });
-
-        // ===== CHANGE PASSWORD =====
-        if (form.password?.trim()) {
-          await api.changePassword(role, editing.id, form.password);
-        }
-      }
-
-      setOpenModal(false);
-      fetchAccounts();
-    } catch {
-      alert("Thao tác thất bại");
-    }
-  };
-
-  /* ================= IMPORT EXCEL ================= */
-
-  const handleImportExcel = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
-
-    try {
-      await api.importExcel(file);
-      alert("Import Excel thành công");
-      fetchAccounts();
-    } catch {
-      alert("Import Excel thất bại");
-    } finally {
-      e.target.value = "";
-    }
-  };
+  /* ================= DELETE ================= */
 
   /* ================= DELETE ================= */
 
@@ -147,6 +63,50 @@ export default function AccountController() {
     (currentPage - 1) * ITEMS_PER_PAGE,
     currentPage * ITEMS_PER_PAGE
   );
+
+  /* ================= HANDLERS ================= */
+
+  const openEdit = (acc: Account) => {
+    setEditing(acc);
+    setForm({
+      userName: acc.userName,
+      password: "",
+      role: role,
+      fullName: acc.fullName || "",
+      email: acc.email,
+      phone: acc.phone,
+      birthday: acc.birthday,
+      gender: acc.gender,
+      isActive: acc.isActive,
+    });
+    setOpenModal(true);
+  };
+
+  const handleSave = async () => {
+    try {
+      if (editing) {
+        // Update basic info
+        await api.updateAccount(role, editing.id, {
+          userName: form.userName,
+          isActive: form.isActive,
+        });
+
+        // Update password if provided
+        if (form.password) {
+          await api.changePassword(role, editing.id, form.password);
+        }
+        
+        alert("Cập nhật thành công!");
+      }
+      
+      setOpenModal(false);
+      setEditing(null);
+      fetchAccounts();
+    } catch (error) {
+      console.error(error);
+      alert("Có lỗi xảy ra khi lưu!");
+    }
+  };
 
   /* ================= UI ================= */
 
@@ -167,30 +127,6 @@ export default function AccountController() {
               { label: "Admin", value: "ADMIN" },
             ]}
           />
-
-          <div className="flex gap-2">
-            <button
-              onClick={openAdd}
-              className="bg-blue-600 text-white px-4 py-2 rounded flex items-center gap-2 hover:bg-blue-700"
-            >
-              <Plus size={18} /> Thêm mới
-            </button>
-
-            <button
-              onClick={() => fileInputRef.current?.click()}
-              className="bg-green-600 text-white px-4 py-2 rounded flex items-center gap-2 hover:bg-green-700"
-            >
-              <Upload size={18} /> Import Excel
-            </button>
-
-            <input
-              ref={fileInputRef}
-              type="file"
-              accept=".xlsx,.xls"
-              className="hidden"
-              onChange={handleImportExcel}
-            />
-          </div>
         </div>
       </div>
 

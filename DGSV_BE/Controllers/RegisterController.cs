@@ -231,6 +231,13 @@ namespace DGSV.Api.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
+            // ✅ Manual Validation for ID
+            var roleUpper = req.Role.ToUpper();
+            if ((roleUpper == "STUDENT" || roleUpper == "LECTURER") && string.IsNullOrWhiteSpace(req.Id))
+            {
+                return BadRequest("Mã số (ID) là bắt buộc cho Sinh viên và Giảng viên");
+            }
+
             bool usernameExists =
                 _context.AccountAdmins.Any(x => x.UserName == req.UserName) ||
                 _context.AccountLecturers.Any(x => x.UserName == req.UserName) ||
@@ -289,7 +296,7 @@ namespace DGSV.Api.Controllers
                         Phone = req.Phone,
                         Gender = req.Gender,
                         PositionId = req.Position == "Lớp Trưởng" ? "LT" : "SV",
-                        ClassId = 1,
+                        ClassId = req.ClassId ?? 1, // ✅ Use provided ClassId or default to 1
                         IsActive = true
                     });
 

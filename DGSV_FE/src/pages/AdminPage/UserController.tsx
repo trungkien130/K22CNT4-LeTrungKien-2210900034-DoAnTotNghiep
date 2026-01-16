@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import api from "../../API/api";
 import type { UserAdmin, Role } from "../../types";
-import { Trash2, Edit, Filter } from "lucide-react";
+import { Trash2, Edit, Filter, Plus, Upload } from "lucide-react";
 import UserFormModal from "./UserFormModal";
 import type { UserForm } from "../../types";
 import CustomDropdown from "../../components/AdminComponent/CustomDropdown";
@@ -56,10 +56,55 @@ export default function UserController() {
 
   // ================= SAVE =================
   const handleSave = async () => {
-    if (!editing) return;
-    await api.updateUser(editing.role, editing.id, form);
-    setOpenModal(false);
-    fetchUsers();
+    try {
+      if (!editing) {
+        // ===== CLIENT VALIDATION =====
+        if (role !== "ADMIN" && !form.entityId?.trim()) {
+           alert(`Vui lòng nhập ${role === "STUDENT" ? "Mã sinh viên" : "Mã giảng viên"}!`);
+           return;
+        }
+        if (!form.userName?.trim()) {
+           alert("Vui lòng nhập Username!");
+           return;
+        }
+        if (!form.password?.trim()) {
+           alert("Vui lòng nhập Mật khẩu!");
+           return;
+        }
+
+        // ===== CREATE NEW =====
+        const payload = {
+          role: role,
+          userName: form.userName || "",
+          password: form.password || "",
+          fullName: form.fullName,
+          id: form.entityId || "", // ✅ Send Entity ID
+          email: form.email,
+          phone: form.phone,
+          birthday: form.birthday ? new Date(form.birthday).toISOString() : undefined,
+          gender: form.gender,
+          classId: form.classId,
+        };
+        console.log("Register Payload:", payload);
+        await api.register(payload);
+        alert("Thêm mới thành công!");
+      } else {
+        // ===== UPDATE =====
+        await api.updateUser(editing.role, editing.id, form);
+        alert("Cập nhật thành công!");
+      }
+      setOpenModal(false);
+      fetchUsers();
+    } catch (err: any) {
+      console.error("Register Error:", err);
+      if (err.response && err.response.data && err.response.data.errors) {
+        const errorDetails = JSON.stringify(err.response.data.errors, null, 2);
+        alert(`Lỗi chi tiết:\n${errorDetails}`);
+      } else {
+        const msg = err.response?.data ? JSON.stringify(err.response.data) : "Có lỗi xảy ra!";
+        alert(`Thêm mới thất bại: ${msg}`);
+      }
+    }
   };
 
   // ================= DELETE =================
@@ -89,7 +134,7 @@ export default function UserController() {
       <div className="flex justify-between items-center mb-6">
         <h2 className="text-xl font-bold">Quản lý Người dùng</h2>
         
-        {/* ✅ Role Selector */}
+        {/* Actions Group: Filter + Buttons */}
         <div className="flex items-center gap-4">
           <CustomDropdown
             icon={<Filter size={18} />}
@@ -104,6 +149,60 @@ export default function UserController() {
               { label: "Admin", value: "ADMIN" },
             ]}
           />
+
+          {/* Buttons Group */}
+          <div className="flex items-center gap-2">
+            {/* ✅ Add New Button */}
+            <button
+              onClick={() => {
+                setEditing(null);
+                setForm({
+                  fullName: "",
+                  email: "",
+                  phone: "",
+                  isActive: true,
+                  entityId: "",
+                  userName: "",
+                  password: "",
+                  birthday: "",
+                  gender: true,
+                  classId: undefined,
+                });
+                setOpenModal(true);
+              }}
+              className="bg-blue-600 text-white px-4 py-2 rounded flex items-center gap-2 hover:bg-blue-700"
+            >
+              <Plus size={18} /> Thêm mới
+            </button>
+
+            {/* ✅ Import Excel Button */}
+             <div className="relative">
+               <input
+                  type="file"
+                  accept=".xlsx,.xls"
+                  className="hidden"
+                  id="import-excel-user"
+                  onChange={async (e) => {
+                    const file = e.target.files?.[0];
+                    if (!file) return;
+                    try {
+                      await api.importExcel(file);
+                      alert("Import thành công!");
+                      fetchUsers();
+                    } catch {
+                      alert("Import thất bại!");
+                    }
+                    e.target.value = "";
+                  }}
+                />
+                <label 
+                  htmlFor="import-excel-user"
+                  className="bg-green-600 text-white px-4 py-2 rounded flex items-center gap-2 hover:bg-green-700 cursor-pointer"
+                >
+                  <Upload size={18} /> Import Excel
+                </label>
+             </div>
+          </div>
         </div>
       </div>
 
@@ -283,6 +382,7 @@ export default function UserController() {
         setForm={setForm}
         onSave={handleSave}
         onClose={() => setOpenModal(false)}
+        role={role} // ✅ Pass role
       />
     </div>
   );

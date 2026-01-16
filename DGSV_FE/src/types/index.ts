@@ -2,6 +2,17 @@ import type { ReactNode } from "react";
 
 export type Role = "STUDENT" | "LECTURER" | "ADMIN";
 
+export interface Semester {
+  id: number;
+  name: string;
+  schoolYear: string;
+  dateOpenStudent?: string | null;
+  dateEndStudent?: string | null;
+  dateEndClass?: string | null;
+  dateEndLecturer?: string | null;
+  isActive: boolean;
+}
+
 export interface User {
   name: string;
   mssv: string | null;
@@ -97,6 +108,12 @@ export interface UserForm {
   phone?: string;
   classId?: number; // ✅ Thêm classId cho form update
   isActive: boolean;
+  birthday?: string;
+  gender?: boolean;
+  // ✅ For Creation
+  entityId?: string; // MSSV or MSGV
+  userName?: string;
+  password?: string;
 }
 export interface Account {
   id: number;
@@ -128,7 +145,7 @@ export interface UserInfo {
   birthday?: string | null;
   email?: string | null;
   phone?: string | null;
-  gender?: string | null;
+  gender?: string | boolean | null;
   department?: string;
   position?: string;
   className?: string;
@@ -146,5 +163,6 @@ export interface RegisterForm {
   birthday?: string;
   gender?: boolean;
   position?: string;
+  classId?: number; // ✅ Add classId
 }
 

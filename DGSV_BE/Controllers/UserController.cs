@@ -182,7 +182,7 @@ public async Task<IActionResult> GetClasses()
                                 ClassId = s.ClassId,
                                 ClassName = s.Class != null ? s.Class.Name : "", // ✅ Lấy tên lớp
                                 Gender = s.Gender == null? null: (s.Gender == true ? "Nam" : "Nữ"),
-
+                                Position = s.PositionId // ✅ Thêm chức vụ
                             })
                             .FirstOrDefaultAsync();
 
@@ -202,7 +202,8 @@ public async Task<IActionResult> GetClasses()
                                 Email = l.Email,
                                 Phone = l.Phone,
                                 IsActive = l.IsActive,
-                                Role = "LECTURER"
+                                Role = "LECTURER",
+                                Position = l.PositionId // ✅ Thêm chức vụ
                             })
                             .FirstOrDefaultAsync();
 

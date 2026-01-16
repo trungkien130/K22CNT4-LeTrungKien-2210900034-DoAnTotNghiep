@@ -8,6 +8,7 @@ import AccountController from "../pages/AdminPage/AcountController";
 import SemesterManager from "../pages/AdminPage/SemesterManager";
 import DepartmentManager from "../pages/AdminPage/DepartmentManager";
 import ClassManager from "../pages/AdminPage/ClassManager";
+import EvaluationController from "../pages/AdminPage/EvaluationController";
 
 export default function AdminRoutes({ onLogout }: { onLogout: () => void }) {
   return (
@@ -16,6 +17,7 @@ export default function AdminRoutes({ onLogout }: { onLogout: () => void }) {
         <Route index element={<Dashboard />} />
         <Route path="questions" element={<QuestionController />} />
         <Route path="answers" element={<AnswerController />} />
+        <Route path="evaluations" element={<EvaluationController />} />
         <Route path="users" element={<UserController />} />
         <Route path="acounts" element={<AccountController />} />
         <Route path="semesters" element={<SemesterManager />} />

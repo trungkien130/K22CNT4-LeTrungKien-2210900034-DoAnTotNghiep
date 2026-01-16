@@ -76,7 +76,8 @@ namespace DGSV.Api.Controllers
                         Birthday = x.Student.Birthday,
                         Gender = x.Student.Gender,
                         ClassName = x.Student.Class.Name,
-                        Position = x.Student.PositionId
+                        Position = x.Student.PositionId,
+                        StudentId = x.StudentId // ✅ Map MSSV
                     }).ToListAsync()),
 
                 _ => BadRequest("Role không hợp lệ")
@@ -153,8 +154,8 @@ namespace DGSV.Api.Controllers
         [HttpPut("{role}/{id}/change-password")]
         public async Task<IActionResult> ChangePassword(
             string role,
-            int id,
-            ChangePasswordDto dto)
+            string id,
+            [FromBody] ChangePasswordDto dto)
         {
             if (string.IsNullOrWhiteSpace(dto.NewPassword))
                 return BadRequest("Mật khẩu không hợp lệ");
@@ -164,20 +165,21 @@ namespace DGSV.Api.Controllers
 
             if (role == "admin")
             {
-                var acc = await _context.AccountAdmins.FindAsync(id);
+                if (!int.TryParse(id, out int adminId)) return BadRequest("ID Admin phải là số");
+                var acc = await _context.AccountAdmins.FindAsync(adminId);
                 if (acc == null) return NotFound();
                 acc.PasswordHash = hash;
             }
             else if (role == "lecturer")
             {
-                var acc = await _context.AccountLecturers.FindAsync(id);
-                if (acc == null) return NotFound();
+                var acc = await _context.AccountLecturers.FirstOrDefaultAsync(x => x.LecturerId == id);
+                if (acc == null) return NotFound("Tài khoản giảng viên không tồn tại");
                 acc.PasswordHash = hash;
             }
             else if (role == "student")
             {
-                var acc = await _context.AccountStudents.FindAsync(id);
-                if (acc == null) return NotFound();
+                var acc = await _context.AccountStudents.FirstOrDefaultAsync(x => x.StudentId == id);
+                if (acc == null) return NotFound("Tài khoản sinh viên không tồn tại");
                 acc.PasswordHash = hash;
             }
             else

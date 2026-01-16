@@ -37,7 +37,7 @@ const api = {
     return axiosClient.delete(`/account/${role}/${id}`);
   },
 
-  changePassword(role: Role, id: number, newPassword: string) {
+  changePassword(role: Role, id: string | number, newPassword: string) {
     return axiosClient.put(
       `/account/${role}/${id}/change-password`,
       { newPassword }
@@ -143,6 +143,17 @@ const api = {
   },
   deleteClass(id: number) {
     return axiosClient.delete(`/classes/${id}`);
+  },
+
+  /* ================= EVALUATION ================= */
+  createEvaluation(data: any) {
+    return axiosClient.post("/evaluations", data);
+  },
+  getEvaluation(studentId: string | number, semesterId: number) {
+    return axiosClient.get(`/evaluations/student/${studentId}/semester/${semesterId}`);
+  },
+  getEvaluationHistory(studentId: string | number) {
+    return axiosClient.get(`/evaluations/history/${studentId}`);
   },
 };
 

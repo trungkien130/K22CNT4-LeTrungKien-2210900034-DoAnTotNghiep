@@ -129,34 +129,39 @@ export default function ClassManager() {
       </div>
 
       {modalOpen && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-          <div className="bg-white p-6 rounded-lg w-96">
-            <h3 className="text-lg font-bold mb-4">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-sm">
+          <div className="bg-white rounded-2xl w-full max-w-md p-8 shadow-2xl relative">
+            <h3 className="text-2xl font-bold text-gray-800 text-center mb-8">
               {editing ? "Sửa Lớp" : "Thêm Lớp"}
             </h3>
-            <div className="space-y-4">
+            
+            <div className="space-y-6">
               <div>
-                <label className="block text-sm font-medium mb-1">Tên Lớp</label>
+                <label className="block text-gray-600 font-medium mb-2">Tên Lớp</label>
                 <input
                   value={form.name}
                   onChange={(e) => setForm({ ...form, name: e.target.value })}
-                  className="w-full border p-2 rounded"
+                  className="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-colors"
+                  placeholder="Nhập tên lớp..."
                 />
               </div>
+              
               <div>
-                <label className="block text-sm font-medium mb-1">Khóa (vd: K22)</label>
+                <label className="block text-gray-600 font-medium mb-2">Khóa (vd: K22)</label>
                 <input
                   value={form.courseId}
                   onChange={(e) => setForm({ ...form, courseId: e.target.value })}
-                  className="w-full border p-2 rounded"
+                  className="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-colors"
+                  placeholder="Nhập khóa..."
                 />
               </div>
+              
               <div>
-                <label className="block text-sm font-medium mb-1">Khoa</label>
+                <label className="block text-gray-600 font-medium mb-2">Khoa</label>
                 <select
                   value={form.departmentId}
                   onChange={(e) => setForm({ ...form, departmentId: Number(e.target.value) })}
-                  className="w-full border p-2 rounded"
+                  className="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-colors bg-white"
                 >
                     <option value={0}>-- Chọn Khoa --</option>
                     {departments.map((dept) => (
@@ -164,29 +169,33 @@ export default function ClassManager() {
                     ))}
                 </select>
               </div>
-              <div className="flex items-center gap-2">
-                <input 
-                    type="checkbox" 
-                    id="isActive"
-                    checked={form.isActive}
-                    onChange={(e) => setForm({...form, isActive: e.target.checked})}
-                />
-                <label htmlFor="isActive" className="text-sm font-medium">Hoạt động</label>
-              </div>
             </div>
-            <div className="flex justify-end gap-2 mt-6">
-              <button
-                onClick={() => setModalOpen(false)}
-                className="px-4 py-2 border rounded"
-              >
-                Hủy
-              </button>
-              <button
-                onClick={handleSubmit}
-                className="px-4 py-2 bg-blue-600 text-white rounded"
-              >
-                Lưu
-              </button>
+
+            <div className="flex items-center justify-between mt-8 pt-2">
+                <label className="flex items-center gap-2 cursor-pointer select-none text-gray-700 font-medium">
+                    <input 
+                        type="checkbox" 
+                        className="w-5 h-5 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                        checked={form.isActive}
+                        onChange={(e) => setForm({...form, isActive: e.target.checked})}
+                    />
+                    Hoạt động
+                </label>
+
+                <div className="flex gap-3">
+                  <button
+                    onClick={() => setModalOpen(false)}
+                    className="px-6 py-2 rounded-lg border border-gray-300 text-gray-600 hover:bg-gray-50 transition-colors font-medium"
+                  >
+                    Hủy
+                  </button>
+                  <button
+                    onClick={handleSubmit}
+                    className="px-8 py-2 rounded-lg bg-blue-600 text-white hover:bg-blue-700 transition-colors font-medium shadow-sm hover:shadow"
+                  >
+                    Lưu
+                  </button>
+                </div>
             </div>
           </div>
         </div>

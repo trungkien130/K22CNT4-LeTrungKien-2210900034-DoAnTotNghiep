@@ -186,6 +186,7 @@ export default function QuestionController() {
                   <th className="px-6 py-3 text-left">Nội dung</th>
                   <th className="px-6 py-3 text-left w-40">Loại</th>
                   <th className="px-6 py-3 text-left w-40">Nhóm</th>
+                  <th className="px-6 py-3 text-left w-32">Người tạo</th>
                   <th className="px-6 py-3 text-right w-32">Thao tác</th>
                 </tr>
               </thead>
@@ -207,6 +208,10 @@ export default function QuestionController() {
 
                     <td className="px-6 py-4 text-gray-600 whitespace-nowrap">
                       {q.groupQuestionName || "—"}
+                    </td>
+
+                    <td className="px-6 py-4 text-gray-600 whitespace-nowrap">
+                      {q.createBy || q.updateBy || "—"}
                     </td>
 
                     <td className="px-6 py-4 text-right space-x-2 whitespace-nowrap">
