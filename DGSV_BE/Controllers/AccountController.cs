@@ -2,6 +2,7 @@
 using DGSV.Api.DTOs;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using DGSV.Api.Filters;
 
 namespace DGSV.Api.Controllers
 {
@@ -20,6 +21,7 @@ namespace DGSV.Api.Controllers
         // ==================== GET BY ROLE ====================
         // =====================================================
         [HttpGet("{role}")]
+        [Permission("USER_VIEW")]
         public async Task<IActionResult> GetByRole(string role)
         {
             role = role.ToLower();
@@ -88,6 +90,7 @@ namespace DGSV.Api.Controllers
         // ==================== UPDATE =========================
         // =====================================================
         [HttpPut("{role}/{id}")]
+        [Permission("USER_MANAGE")]
         public async Task<IActionResult> Update(
             string role,
             int id,
@@ -152,6 +155,7 @@ namespace DGSV.Api.Controllers
         // ================= CHANGE PASSWORD ===================
         // =====================================================
         [HttpPut("{role}/{id}/change-password")]
+        [Permission("USER_MANAGE")] // Only Admins should change other people's passwords here
         public async Task<IActionResult> ChangePassword(
             string role,
             string id,
@@ -195,6 +199,7 @@ namespace DGSV.Api.Controllers
         // ==================== DELETE =========================
         // =====================================================
         [HttpDelete("{role}/{id}")]
+        [Permission("USER_MANAGE")]
         public async Task<IActionResult> Delete(string role, int id)
         {
             role = role.ToLower();

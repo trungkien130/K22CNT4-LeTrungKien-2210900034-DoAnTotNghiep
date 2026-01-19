@@ -1,7 +1,20 @@
 import { useAuth } from "./hook/useAuth";
 import PublicRoutes from "./Routes/PublicRoutes";
-import AdminRoutes from "./Routes/AdminRoutes";
+
 import UserRoutes from "./Routes/UserRoutes";
+import { hasAdminAccess } from "./utils/permissionUtils";
+import { Routes, Route } from "react-router-dom";
+import AdminLayout from "./pages/AdminPage/AdminLayOut";
+import Dashboard from "./pages/AdminPage/AdminDashBoard";
+import QuestionController from "./pages/AdminPage/QuestionsControll";
+import AnswerController from "./pages/AdminPage/AnswerController";
+import UserController from "./pages/AdminPage/UserController";
+import AccountController from "./pages/AdminPage/AcountController";
+import SemesterManager from "./pages/AdminPage/SemesterManager";
+import DepartmentManager from "./pages/AdminPage/DepartmentManager";
+import ClassManager from "./pages/AdminPage/ClassManager";
+import EvaluationController from "./pages/AdminPage/EvaluationController";
+import PermissionManager from "./pages/PermissionManager";
 
 export default function App() {
   const { user, login, logout } = useAuth();
@@ -10,9 +23,29 @@ export default function App() {
     return <PublicRoutes onLogin={login} />;
   }
 
-  return user.role === "ADMIN" ? (
-    <AdminRoutes onLogout={logout} />
-  ) : (
-    <UserRoutes user={user} onLogout={logout} />
+
+
+  // ✅ HYBRID USER (Student/Lecturer + Permissions):
+  return (
+    <Routes>
+      {/* 1. Admin Section - Only if accessible */}
+      {hasAdminAccess(user) && (
+         <Route path="/admin" element={<AdminLayout onLogout={logout} />}>
+            <Route index element={<Dashboard />} />
+            <Route path="questions" element={<QuestionController />} />
+            <Route path="answers" element={<AnswerController />} />
+            <Route path="evaluations" element={<EvaluationController />} />
+            <Route path="users" element={<UserController />} />
+            <Route path="acounts" element={<AccountController />} />
+            <Route path="semesters" element={<SemesterManager />} />
+            <Route path="departments" element={<DepartmentManager />} />
+            <Route path="classes" element={<ClassManager />} />
+            <Route path="permissions" element={<PermissionManager />} />
+         </Route>
+      )}
+
+      {/* 2. User Section - Everything else falls through to UserRoutes */}
+      <Route path="/*" element={<UserRoutes user={user} onLogout={logout} />} />
+    </Routes>
   );
 }

@@ -27,6 +27,15 @@ namespace DGSV.Api.Data
         public DbSet<SelfAnswer> SelfAnswers { get; set; }
         public DbSet<ClassAnswer> ClassAnswers { get; set; }
         public DbSet<SumaryOfPoint> SumaryOfPoints { get; set; }
+        public DbSet<Permission> Permissions { get; set; }
+        public DbSet<RolePermission> RolePermissions { get; set; }
 
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<RolePermission>()
+                .HasKey(rp => new { rp.RoleId, rp.PermissionId });
+        }
     }
 }

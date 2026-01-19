@@ -25,14 +25,30 @@ export default function Dashboard() {
     fetchSemesters();
   }, []);
 
-  const activeSemesters = semesters.filter(s => s.isActive);
-  const otherSemesters = semesters.filter(s => !s.isActive).slice(0, 3); // Show max 3 recent closed
+  const activeSemesters = semesters.filter(s => {
+    if (!s.isActive) return false;
+    const now = new Date();
+    // Reset time to handle day boundaries correctly if needed, or just compare direct
+    // Assuming DateEndStudent is end of day? 
+    // Usually "End Date" implies inclusive (until 23:59:59).
+    const start = s.dateOpenStudent ? new Date(s.dateOpenStudent) : null;
+    const end = s.dateEndStudent ? new Date(s.dateEndStudent) : null;
+    
+    // Set end date to end of that day
+    if (end) end.setHours(23, 59, 59, 999);
+
+    if (start && now < start) return false;
+    if (end && now > end) return false;
+
+    return true;
+  });
+
+  const otherSemesters = semesters.filter(s => !activeSemesters.includes(s)).slice(0, 3);
 
   if (loading) return <div className="p-8 text-center text-gray-500">Đang tải dữ liệu...</div>;
 
   return (
     <div className="p-6 max-w-7xl mx-auto animate-in fade-in zoom-in-95 duration-300">
-      <h2 className="text-3xl font-bold mb-8 text-gray-800">Tổng quan hệ thống</h2>
 
       {/* Active Semesters Section */}
       <div className="mb-10">

@@ -1,4 +1,7 @@
-﻿using DGSV.Api.Data;
+﻿using System.Text;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using DGSV.Api.Data;
 using Microsoft.EntityFrameworkCore;
 using OfficeOpenXml;
 
@@ -16,6 +19,22 @@ builder.Services.AddDbContext<AppDbContext>(options =>
         )
     );
 });
+
+// 🔹 JWT AUTH
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
+    {
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = true,
+            ValidateAudience = true,
+            ValidateLifetime = true,
+            ValidateIssuerSigningKey = true,
+            ValidIssuer = builder.Configuration["Jwt:Issuer"],
+            ValidAudience = builder.Configuration["Jwt:Audience"],
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
+        };
+    });
 
 // 🔹 CORS
 builder.Services.AddCors(options =>
@@ -42,6 +61,24 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseCors("AllowReact");
+
+app.UseAuthentication(); // <-- Added Authentication Middleware
 app.UseAuthorization();
 app.MapControllers();
+
+// 🔹 SEED DATA
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+    try
+    {
+        var context = services.GetRequiredService<AppDbContext>();
+        DGSV.Api.Data.DbSeeder.Seed(context);
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine("Lỗi khi seed data: " + ex.Message);
+    }
+}
+
 app.Run();

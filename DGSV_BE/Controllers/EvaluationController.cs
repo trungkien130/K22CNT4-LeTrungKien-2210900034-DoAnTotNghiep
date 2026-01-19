@@ -3,6 +3,7 @@ using DGSV.Api.DTO;
 using DGSV.Api.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using DGSV.Api.Filters;
 
 namespace DGSV.Controllers
 {
@@ -19,79 +20,72 @@ namespace DGSV.Controllers
 
         // POST: api/Evaluations
         [HttpPost]
+        [Permission("EVAL_SELF")]
         public async Task<IActionResult> Create([FromBody] EvaluationCreateDto dto)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            // dto.StudentId is now MSSV (string)
-            // Verify student exists? Optional but good.
-            // var student = await _context.Students.FindAsync(dto.StudentId);
-            // if (student == null) return NotFound("Sinh viên không tồn tại");
-
-            var mssv = dto.StudentId;
-
-            // 2. Remove existing evaluations for this Student + Semester
-            var existing = await _context.SelfAnswers
-                .Where(x => x.StudentId == mssv && x.SemesterId == dto.SemesterId)
-                .ToListAsync();
-            
-            if (existing.Any())
+            using var transaction = _context.Database.BeginTransaction();
+            try
             {
-                _context.SelfAnswers.RemoveRange(existing);
-            }
-
-            // 3. Add new evaluations
-            var newAnswers = new List<SelfAnswer>();
-            foreach (var detail in dto.Details)
-            {
-                // Multiply by Count
-                for (int i = 0; i < detail.Count; i++)
+                // 1. Clear old evaluation for this semester (Replace strategy)
+                var oldAnswers = await _context.SelfAnswers
+                    .Where(x => x.StudentId == dto.StudentId && x.SemesterId == dto.SemesterId)
+                    .ToListAsync();
+                
+                if (oldAnswers.Any())
                 {
-                    newAnswers.Add(new SelfAnswer
-                    {
-                        StudentId = mssv,
-                        AnswerId = detail.AnswerId,
-                        SemesterId = dto.SemesterId
-                    });
+                    _context.SelfAnswers.RemoveRange(oldAnswers);
                 }
+
+                // 2. Add new
+                var newAnswers = new List<SelfAnswer>();
+                if (dto.Details != null)
+                {
+                    foreach (var d in dto.Details)
+                    {
+                        // Duplicate rows for Count
+                        for (int i = 0; i < d.Count; i++)
+                        {
+                            newAnswers.Add(new SelfAnswer
+                            {
+                                StudentId = dto.StudentId,
+                                SemesterId = dto.SemesterId,
+                                AnswerId = d.AnswerId
+                            });
+                        }
+                    }
+                }
+
+                await _context.SelfAnswers.AddRangeAsync(newAnswers);
+                await _context.SaveChangesAsync();
+                
+                await transaction.CommitAsync();
+
+                return Ok(new { Message = "Lưu đánh giá thành công" });
             }
-
-            await _context.SelfAnswers.AddRangeAsync(newAnswers);
-            await _context.SaveChangesAsync();
-
-            return Ok(new { message = "Lưu đánh giá thành công" });
+            catch (Exception ex)
+            {
+                await transaction.RollbackAsync();
+                return StatusCode(500, "Lỗi server: " + ex.Message);
+            }
         }
-
+        
         // GET: api/Evaluations/student/{studentId}/semester/{semesterId}
         [HttpGet("student/{studentId}/semester/{semesterId}")]
+        [Permission("EVAL_HISTORY_VIEW")]
         public async Task<IActionResult> GetEvaluation(string studentId, int semesterId)
         {
-            // studentId can be MSSV (string) directly if we change route or client usage
-            // The previous version assumed AccountId. 
-            // Let's support MSSV directly for simplicity in Frontend.
-            
-            var mssv = studentId;
-
-            // 2. Get SelfAnswers
-            var answers = await _context.SelfAnswers
-                .Where(x => x.StudentId == mssv && x.SemesterId == semesterId)
+             var answers = await _context.SelfAnswers
+                .Where(x => x.StudentId == studentId && x.SemesterId == semesterId)
                 .ToListAsync();
-
-            // Group by AnswerId to count
-            var result = answers
-                .GroupBy(x => x.AnswerId)
-                .Select(g => new EvaluationDetailDto
-                {
-                    AnswerId = g.Key,
-                    Count = g.Count()
-                })
-                .ToList();
-
-            return Ok(result);
+             return Ok(answers);
         }
+
         // GET: api/Evaluations/history/{studentId}
         [HttpGet("history/{studentId}")]
+        [Permission("EVAL_HISTORY_VIEW")]
         public async Task<IActionResult> GetHistory(string studentId)
         {
             var mssv = studentId;

@@ -2,6 +2,7 @@ using DGSV.Api.Data;
 using DGSV.Api.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using DGSV.Api.Filters;
 
 namespace DGSV.Api.Controllers
 {
@@ -23,6 +24,7 @@ namespace DGSV.Api.Controllers
         }
 
         [HttpPost]
+        [Permission("SEM_MANAGE")]
         public async Task<IActionResult> Create([FromBody] Semester semester)
         {
             if (string.IsNullOrWhiteSpace(semester.Name))
@@ -38,6 +40,7 @@ namespace DGSV.Api.Controllers
         }
 
         [HttpPut("{id}")]
+        [Permission("SEM_MANAGE")]
         public async Task<IActionResult> Update(int id, [FromBody] Semester semester)
         {
             var existing = await _context.Semesters.FindAsync(id);
@@ -56,6 +59,7 @@ namespace DGSV.Api.Controllers
         }
 
         [HttpDelete("{id}")]
+        [Permission("SEM_MANAGE")]
         public async Task<IActionResult> Delete(int id)
         {
             var existing = await _context.Semesters.FindAsync(id);

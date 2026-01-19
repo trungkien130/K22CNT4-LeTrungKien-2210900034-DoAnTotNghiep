@@ -135,6 +135,9 @@ const api = {
   getClassesList() { // Renamed slightly to avoid conflict if any
     return axiosClient.get("/classes");
   },
+  getStudentsByClass(className: string) {
+    return axiosClient.get(`/classes/${className}/students`);
+  },
   createClass(data: any) {
     return axiosClient.post("/classes", data);
   },
@@ -154,6 +157,23 @@ const api = {
   },
   getEvaluationHistory(studentId: string | number) {
     return axiosClient.get(`/evaluations/history/${studentId}`);
+  },
+
+  /* ================= PERMISSIONS ================= */
+  getRoles() {
+    return axiosClient.get("/permission/roles");
+  },
+  getAllPermissions() {
+    return axiosClient.get("/permission");
+  },
+  getRolePermissions(roleId: number) {
+    return axiosClient.get(`/permission/role/${roleId}`);
+  },
+  assignPermissions(roleId: number, permissionIds: number[]) {
+    return axiosClient.post(`/permission/role/${roleId}`, permissionIds);
+  },
+  createRole(roleName: string) {
+    return axiosClient.post("/permission/create-role", { roleName });
   },
 };
 

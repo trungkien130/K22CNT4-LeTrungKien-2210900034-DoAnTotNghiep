@@ -2,6 +2,7 @@ using DGSV.Api.Data;
 using DGSV.Api.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using DGSV.Api.Filters;
 
 namespace DGSV.Api.Controllers
 {
@@ -23,6 +24,7 @@ namespace DGSV.Api.Controllers
         }
 
         [HttpPost]
+        [Permission("DEPT_MANAGE")]
         public async Task<IActionResult> Create([FromBody] Department department)
         {
             _context.Departments.Add(department);
@@ -31,6 +33,7 @@ namespace DGSV.Api.Controllers
         }
 
         [HttpPut("{id}")]
+        [Permission("DEPT_MANAGE")]
         public async Task<IActionResult> Update(int id, [FromBody] Department department)
         {
             var existing = await _context.Departments.FindAsync(id);
@@ -43,6 +46,7 @@ namespace DGSV.Api.Controllers
         }
 
         [HttpDelete("{id}")]
+        [Permission("DEPT_MANAGE")]
         public async Task<IActionResult> Delete(int id)
         {
             var existing = await _context.Departments.FindAsync(id);

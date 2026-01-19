@@ -310,6 +310,7 @@ C:\Users\ACER\Desktop\DoAnTotNghiep\K22CNT4-LeTrungKien-2210900034-DoAnTotNghiep
 C:\Users\ACER\Desktop\DoAnTotNghiep\K22CNT4-LeTrungKien-2210900034-DoAnTotNghiep\DGSV_BE\bin\Debug\net8.0\EPPlus.Interfaces.dll
 C:\Users\ACER\Desktop\DoAnTotNghiep\K22CNT4-LeTrungKien-2210900034-DoAnTotNghiep\DGSV_BE\bin\Debug\net8.0\EPPlus.System.Drawing.dll
 C:\Users\ACER\Desktop\DoAnTotNghiep\K22CNT4-LeTrungKien-2210900034-DoAnTotNghiep\DGSV_BE\bin\Debug\net8.0\Humanizer.dll
+C:\Users\ACER\Desktop\DoAnTotNghiep\K22CNT4-LeTrungKien-2210900034-DoAnTotNghiep\DGSV_BE\bin\Debug\net8.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
 C:\Users\ACER\Desktop\DoAnTotNghiep\K22CNT4-LeTrungKien-2210900034-DoAnTotNghiep\DGSV_BE\bin\Debug\net8.0\Microsoft.Bcl.AsyncInterfaces.dll
 C:\Users\ACER\Desktop\DoAnTotNghiep\K22CNT4-LeTrungKien-2210900034-DoAnTotNghiep\DGSV_BE\bin\Debug\net8.0\Microsoft.CodeAnalysis.dll
 C:\Users\ACER\Desktop\DoAnTotNghiep\K22CNT4-LeTrungKien-2210900034-DoAnTotNghiep\DGSV_BE\bin\Debug\net8.0\Microsoft.CodeAnalysis.CSharp.dll

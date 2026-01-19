@@ -2,6 +2,9 @@ import { useEffect, useState } from "react";
 import api from "../API/api";
 import type { UserAdmin } from "../types";
 import { formatDate } from "../utils/dateUtils";
+import { Eye } from "lucide-react";
+import EvaluationDetailModal from "./EvaluationDetailModal";
+import { hasPermission } from "../utils/permissionUtils";
 
 interface StudentListProps {
   className: string;
@@ -10,19 +13,21 @@ interface StudentListProps {
 export default function StudentList({ className }: StudentListProps) {
   const [students, setStudents] = useState<UserAdmin[]>([]);
   const [loading, setLoading] = useState(true);
+  
+  // Modal State
+  const [selectedStudent, setSelectedStudent] = useState<UserAdmin | null>(null);
+
+  // User Permissions
+  const currentUser = JSON.parse(localStorage.getItem("user") || "null");
+  const canViewDetail = currentUser?.role === "LECTURER" || hasPermission(currentUser, "CLASS_MONITOR");
 
   useEffect(() => {
     const fetchStudents = async () => {
       try {
-        const res = await api.getAllUsers();
-        const allUsers: UserAdmin[] = res.data || [];
-        // Filter by class name and role STUDENT
-        const classStudents = allUsers.filter(
-          (u) =>
-            u.role === "STUDENT" &&
-            u.className?.toLowerCase() === className.toLowerCase()
-        );
-        setStudents(classStudents);
+        // Use the new endpoint optimized for fetching students by class
+        // This avoids 403 Forbidden errors since it doesn't require Admin permissions
+        const res = await api.getStudentsByClass(className);
+        setStudents(res.data || []);
       } catch (error) {
         console.error("Failed to fetch students", error);
       } finally {
@@ -54,14 +59,15 @@ export default function StudentList({ className }: StudentListProps) {
               <th className="px-6 py-3 font-semibold">Ngày sinh</th>
               <th className="px-6 py-3 font-semibold">Giới tính</th>
               <th className="px-6 py-3 font-semibold">Trạng thái</th>
+              {canViewDetail && <th className="px-6 py-3 font-semibold text-center">Thao tác</th>}
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-100">
             {students.length > 0 ? (
               students.map((student, index) => (
-                <tr key={student.id} className="hover:bg-gray-50 transition-colors">
+                <tr key={student.id} className="hover:bg-gray-50 transition-colors group">
                   <td className="px-6 py-3 text-gray-500">{index + 1}</td>
-                  <td className="px-6 py-3 font-medium text-gray-700">{student.id}</td> {/* Assuming ID is MSSV or similar */}
+                  <td className="px-6 py-3 font-medium text-gray-700">{student.id}</td>
                   <td className="px-6 py-3 font-medium text-blue-600">{student.fullName}</td>
                   <td className="px-6 py-3 text-gray-600">{formatDate(student.birthday)}</td>
                   <td className="px-6 py-3 text-gray-600">
@@ -78,11 +84,22 @@ export default function StudentList({ className }: StudentListProps) {
                       {student.isActive ? "Hoạt động" : "Bị khóa"}
                     </span>
                   </td>
+                  {canViewDetail && (
+                      <td className="px-6 py-3 text-center">
+                          <button 
+                            onClick={() => setSelectedStudent(student)}
+                            className="p-2 bg-blue-50 text-blue-600 rounded-lg hover:bg-blue-100 transition-colors shadow-sm"
+                            title="Xem chi tiết đánh giá"
+                          >
+                              <Eye size={18} />
+                          </button>
+                      </td>
+                  )}
                 </tr>
               ))
             ) : (
               <tr>
-                <td colSpan={6} className="px-6 py-8 text-center text-gray-500 italic">
+                <td colSpan={canViewDetail ? 7 : 6} className="px-6 py-8 text-center text-gray-500 italic">
                   Chưa có sinh viên nào trong danh sách.
                 </td>
               </tr>
@@ -90,6 +107,15 @@ export default function StudentList({ className }: StudentListProps) {
           </tbody>
         </table>
       </div>
+
+      {/* Detail Modal */}
+      {selectedStudent && (
+          <EvaluationDetailModal 
+            studentMssv={(selectedStudent as any).userName || String(selectedStudent.id)}
+            studentName={selectedStudent.fullName}
+            onClose={() => setSelectedStudent(null)}
+          />
+      )}
     </div>
   );
 }

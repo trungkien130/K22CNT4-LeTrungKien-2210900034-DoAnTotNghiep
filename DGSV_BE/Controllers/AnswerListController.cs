@@ -3,6 +3,7 @@ using DGSV.Api.DTO;
 using DGSV.Api.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using DGSV.Api.Filters;
 
 namespace DGSV.Controllers
 {
@@ -60,6 +61,7 @@ namespace DGSV.Controllers
         // POST: api/AnswerList
         // ==================================================
         [HttpPost]
+        [Permission("ANSWER_MANAGE")]
         public async Task<IActionResult> Create([FromBody] AnswerCreateDto dto)
         {
             if (!ModelState.IsValid)
@@ -91,6 +93,7 @@ namespace DGSV.Controllers
         // PUT: api/AnswerList/{id}
         // ==================================================
         [HttpPut("{id}")]
+        [Permission("ANSWER_MANAGE")]
         public async Task<IActionResult> Update(int id, [FromBody] AnswerUpdateDto dto)
         {
             var answer = await _context.AnswerLists.FindAsync(id);
@@ -114,6 +117,7 @@ namespace DGSV.Controllers
         // DELETE (SOFT): api/AnswerList/{id}
         // ==================================================
         [HttpDelete("{id}")]
+        [Permission("ANSWER_MANAGE")]
         public async Task<IActionResult> Delete(int id)
         {
             var answer = await _context.AnswerLists.FindAsync(id);

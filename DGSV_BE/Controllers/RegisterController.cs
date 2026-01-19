@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using OfficeOpenXml;
 using System.Globalization;
+using DGSV.Api.Filters;
 
 namespace DGSV.Api.Controllers
 {
@@ -23,7 +24,8 @@ namespace DGSV.Api.Controllers
         // 1️⃣ IMPORT ACCOUNT FROM EXCEL
         // =========================================================
         [HttpPost("import-excel")]
-        public IActionResult ImportFromExcel(IFormFile file)
+        [Permission("USER_MANAGE")]
+        public async Task<IActionResult> ImportFromExcel(IFormFile file)
         {
             if (file == null || file.Length == 0)
                 return BadRequest("File không hợp lệ");
@@ -31,201 +33,103 @@ namespace DGSV.Api.Controllers
             ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
 
             using var stream = new MemoryStream();
-            file.CopyTo(stream);
+            await file.CopyToAsync(stream);
 
             using var package = new ExcelPackage(stream);
-            var ws = package.Workbook.Worksheets[0];
-            int rows = ws.Dimension.Rows;
+            var worksheet = package.Workbook.Worksheets[0];
+            var rowCount = worksheet.Dimension.Rows;
 
-            int success = 0;
-            int fail = 0;
+            int successCount = 0;
+            var errors = new List<string>();
 
-            using var transaction = _context.Database.BeginTransaction();
-            try
+            // Default hardcoded password for imported users
+            string defaultPasswordHash = BCrypt.Net.BCrypt.HashPassword("123456");
+
+            for (int row = 2; row <= rowCount; row++)
             {
-                for (int r = 2; r <= rows; r++)
+                try
                 {
-                    try
+                    // Assume columns: A=MSSV, B=HoTen, C=NgaySinh, D=Lop, E=SDT, F=Email
+                    var mssv = worksheet.Cells[row, 1].Value?.ToString()?.Trim();
+                    var fullName = worksheet.Cells[row, 2].Value?.ToString()?.Trim();
+                    var birthdayStr = worksheet.Cells[row, 3].Value?.ToString()?.Trim();
+                    var className = worksheet.Cells[row, 4].Value?.ToString()?.Trim();
+                    
+                    if (string.IsNullOrEmpty(mssv) || string.IsNullOrEmpty(fullName)) continue;
+
+                    if (await _context.Students.AnyAsync(s => s.Id == mssv))
                     {
-                        string fullName = ws.Cells[r, 1].Text.Trim();
-                        string userName = ws.Cells[r, 2].Text.Trim();
-                        string password = ws.Cells[r, 3].Text.Trim();
-                        string role = ws.Cells[r, 4].Text.Trim().ToUpper();
-                        string id = ws.Cells[r, 5].Text.Trim();
-                        string email = ws.Cells[r, 7].Text.Trim();
-                        string phone = ws.Cells[r, 8].Text.Trim();
-                        // ✅ Fix Phone Leading Zero
-                        if (!string.IsNullOrEmpty(phone) && !phone.StartsWith("0"))
-                        {
-                            phone = "0" + phone;
-                        }
-
-                        string genderText = ws.Cells[r, 9].Text.Trim();
-                        string positionText = ws.Cells[r, 10].Text.Trim();
-
-                        if (string.IsNullOrWhiteSpace(userName) ||
-                            string.IsNullOrWhiteSpace(password) ||
-                            string.IsNullOrWhiteSpace(id))
-                        {
-                            fail++;
-                            continue;
-                        }
-
-                        // ===== PARSE DATE (CHUẨN EXCEL) =====
-                        DateTime birthday;
-                        if (ws.Cells[r, 6].Value is DateTime dt)
-                        {
-                            birthday = dt;
-                        }
-                        else
-                        {
-                            var birthdayText = ws.Cells[r, 6].Text.Trim();
-                            string[] formats = { "d/M/yyyy", "dd/MM/yyyy", "M/d/yyyy", "MM/dd/yyyy" };
-
-                            if (!DateTime.TryParseExact(
-                                birthdayText,
-                                formats,
-                                CultureInfo.InvariantCulture,
-                                DateTimeStyles.None,
-                                out birthday))
-                            {
-                                fail++;
-                                continue;
-                            }
-                        }
-
-                        // ===== PARSE GENDER =====
-                        bool? gender = null;
-                        if (!string.IsNullOrWhiteSpace(genderText))
-                        {
-                            var g = genderText.ToLower();
-                            if (g == "nam" || g == "male" || g == "m") gender = true;
-                            else if (g == "nữ" || g == "nu" || g == "female" || g == "f") gender = false;
-                        }
-
-                        // ===== CHECK USERNAME CHUNG =====
-                        bool usernameExists =
-                            _context.AccountAdmins.Any(x => x.UserName == userName) ||
-                            _context.AccountLecturers.Any(x => x.UserName == userName) ||
-                            _context.AccountStudents.Any(x => x.UserName == userName);
-
-                        if (usernameExists)
-                        {
-                            fail++;
-                            continue;
-                        }
-
-                        string passwordHash = BCrypt.Net.BCrypt.HashPassword(password);
-
-                        // ================= ADMIN =================
-                        if (role == "ADMIN")
-                        {
-                            _context.AccountAdmins.Add(new AccountAdmin
-                            {
-                                FullName = fullName,
-                                UserName = userName,
-                                PasswordHash = passwordHash,
-                                RoleId = 1,
-                                IsActive = true
-                            });
-                        }
-
-                        // ================= LECTURER =================
-                        else if (role == "LECTURER")
-                        {
-                            if (_context.Lecturers.Any(x => x.Id == id))
-                            {
-                                fail++;
-                                continue;
-                            }
-
-                            _context.Lecturers.Add(new Lecturer
-                            {
-                                Id = id,
-                                FullName = fullName,
-                                Birthday = birthday,
-                                Email = email,
-                                Phone = phone,
-                                PositionId = "GV",
-                                DepartmentId = 1,
-                                IsActive = true
-                            });
-
-                            _context.AccountLecturers.Add(new AccountLecturer
-                            {
-                                UserName = userName,
-                                PasswordHash = passwordHash,
-                                LecturerId = id,
-                                RoleId = 2,
-                                IsActive = true
-                            });
-                        }
-
-                        // ================= STUDENT =================
-                        else if (role == "STUDENT")
-                        {
-                            if (_context.Students.Any(x => x.Id == id))
-                            {
-                                fail++;
-                                continue;
-                            }
-
-                            _context.Students.Add(new Student
-                            {
-                                Id = id,
-                                FullName = fullName,
-                                Birthday = birthday,
-                                Email = email,
-                                Phone = phone,
-                                Gender = gender,
-                                PositionId = positionText == "Lớp Trưởng" ? "LT" : "SV",
-                                ClassId = 1,
-                                IsActive = true
-                            });
-
-                            _context.AccountStudents.Add(new AccountStudent
-                            {
-                                UserName = userName,
-                                PasswordHash = passwordHash,
-                                StudentId = id,
-                                RoleId = 3,
-                                IsActive = true
-                            });
-                        }
-                        else
-                        {
-                            fail++;
-                            continue;
-                        }
-
-                        _context.SaveChanges();
-                        success++;
+                        errors.Add($"Dòng {row}: MSSV {mssv} đã tồn tại");
+                        continue;
                     }
-                    catch
+
+                    // Parse Birthday
+                    DateTime birthday = DateTime.Now;
+                    if (DateTime.TryParse(birthdayStr, out var d)) birthday = d;
+                    else if (DateTime.TryParseExact(birthdayStr, "dd/MM/yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out var d2)) birthday = d2;
+
+                    // Find or Create Class
+                    int classId = 1; // Default
+                    if (!string.IsNullOrEmpty(className))
                     {
-                        fail++;
+                        var cls = await _context.Classes.FirstOrDefaultAsync(c => c.Name == className);
+                        if (cls == null)
+                        {
+                            cls = new Class { Name = className, DepartmentId = 1 }; // Default Dept
+                            _context.Classes.Add(cls);
+                            await _context.SaveChangesAsync();
+                        }
+                        classId = cls.Id;
                     }
+
+                    // Create Student
+                    var student = new Student
+                    {
+                        Id = mssv,
+                        FullName = fullName,
+                        Birthday = birthday,
+                        ClassId = classId,
+                        Gender = null, // Fixed: bool? cannot take string "Khác"
+                        PositionId = "SV",
+                        IsActive = true
+                    };
+                    _context.Students.Add(student);
+
+                    // Create Account
+                    var account = new AccountStudent
+                    {
+                        UserName = mssv, // Username = MSSV
+                        PasswordHash = defaultPasswordHash,
+                        StudentId = mssv,
+                        RoleId = 3, // STUDENT
+                        IsActive = true
+                    };
+                    _context.AccountStudents.Add(account);
+                    
+                    successCount++;
                 }
+                catch (Exception ex)
+                {
+                    errors.Add($"Dòng {row}: Lỗi - {ex.Message}");
+                }
+            }
 
-                transaction.Commit();
-            }
-            catch
-            {
-                transaction.Rollback();
-                return StatusCode(500, "Lỗi import Excel");
-            }
+            await _context.SaveChangesAsync();
 
             return Ok(new
             {
-                Inserted = success,
-                Failed = fail
+                Message = $"Import hoàn tất. Thành công: {successCount}, Lỗi: {errors.Count}",
+                Errors = errors
             });
         }
+        
+        // ...
 
         // =========================================================
         // 2️⃣ ADD ACCOUNT MANUALLY (JSON)
         // =========================================================
         [HttpPost("register")]
+        [Permission("USER_MANAGE")]
         public IActionResult RegisterManual([FromBody] RegisterRequestDto req)
         {
             if (!ModelState.IsValid)
@@ -245,6 +149,36 @@ namespace DGSV.Api.Controllers
 
             if (usernameExists)
                 return BadRequest("Username đã tồn tại");
+
+            // ✅ CHECK DUPLICATE ID (MSSV / MSGV)
+            if (roleUpper == "STUDENT")
+            {
+                if (_context.Students.Any(s => s.Id == req.Id))
+                    return BadRequest($"Mã sinh viên {req.Id} đã tồn tại");
+            }
+            else if (roleUpper == "LECTURER")
+            {
+                if (_context.Lecturers.Any(l => l.Id == req.Id))
+                    return BadRequest($"Mã giảng viên {req.Id} đã tồn tại");
+            }
+
+            // ✅ CHECK DUPLICATE EMAIL / PHONE
+            // Check in Students
+            if (_context.Students.Any(s => s.Email == req.Email) || 
+                _context.Lecturers.Any(l => l.Email == req.Email))
+            {
+                return BadRequest($"Email {req.Email} đã được sử dụng bởi người dùng khác");
+            }
+
+            if (!string.IsNullOrEmpty(req.Phone) && 
+               (_context.Students.Any(s => s.Phone == req.Phone) || 
+                _context.Lecturers.Any(l => l.Phone == req.Phone)))
+            {
+                // return BadRequest($"Số điện thoại {req.Phone} đã được sử dụng");
+                // Optional: strictly enforce phone uniqueness? Maybe warn? 
+                // User asked to "avoid duplicates", usually implies strict check.
+                return BadRequest($"Số điện thoại {req.Phone} đã được sử dụng");
+            }
 
             string passwordHash = BCrypt.Net.BCrypt.HashPassword(req.Password);
 

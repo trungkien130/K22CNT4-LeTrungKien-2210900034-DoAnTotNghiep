@@ -9,6 +9,7 @@ import SemesterManager from "../pages/AdminPage/SemesterManager";
 import DepartmentManager from "../pages/AdminPage/DepartmentManager";
 import ClassManager from "../pages/AdminPage/ClassManager";
 import EvaluationController from "../pages/AdminPage/EvaluationController";
+import PermissionManager from "../pages/PermissionManager";
 
 export default function AdminRoutes({ onLogout }: { onLogout: () => void }) {
   return (
@@ -23,6 +24,7 @@ export default function AdminRoutes({ onLogout }: { onLogout: () => void }) {
         <Route path="semesters" element={<SemesterManager />} />
         <Route path="departments" element={<DepartmentManager />} />
         <Route path="classes" element={<ClassManager />} />
+        <Route path="permissions" element={<PermissionManager />} />
       </Route>
 
       <Route path="*" element={<Navigate to="/admin" replace />} />

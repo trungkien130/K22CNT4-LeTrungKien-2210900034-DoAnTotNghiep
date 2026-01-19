@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Mail, Lock, LogIn } from "lucide-react";
 import { loginApi } from "../API/authApi";
 import type { User } from "../types";
@@ -30,13 +30,15 @@ export default function Login({ onLogin }: LoginProps) {
       // ✅ AXIOS: nếu sai → nhảy thẳng vào catch
       const res = await loginApi(username, Password);
 
-      const { role, userId, fullName } = res.data;
+      const { role, userId, fullName, token, permissions } = res.data;
 
       const userData: User = {
         name: fullName || username,
         mssv: role === "STUDENT" ? userId : null,
         userId,
         role,
+        token,
+        permissions // ✅ Save permissions
       };
 
       localStorage.setItem("user", JSON.stringify(userData));

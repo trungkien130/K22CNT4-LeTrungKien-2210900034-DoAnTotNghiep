@@ -12,10 +12,10 @@ namespace DGSV.Api.Models
         public string Name { get; set; }
 
         [Column(TypeName = "char(4)")]
-        public string CourseId { get; set; }
+        public string? CourseId { get; set; }
 
         [ForeignKey("CourseId")]
-        public Course Course { get; set; }
+        public Course? Course { get; set; }
 
         public int DepartmentId { get; set; }
 

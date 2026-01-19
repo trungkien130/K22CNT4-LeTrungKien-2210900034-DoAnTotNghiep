@@ -130,14 +130,14 @@ export default function UserController() {
 
   // ================= UI =================
   return (
-    <div className="p-6">
-      <div className="flex justify-between items-center mb-6">
-        <h2 className="text-xl font-bold">Quản lý Người dùng</h2>
+    <div className="p-4 text-sm">
+      <div className="flex justify-between items-center mb-4">
+        <h2 className="text-lg font-bold">Quản lý Người dùng</h2>
         
         {/* Actions Group: Filter + Buttons */}
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-3">
           <CustomDropdown
-            icon={<Filter size={18} />}
+            icon={<Filter size={16} />}
             value={role}
             onChange={(val) => {
               setRole(val as Role);
@@ -170,9 +170,9 @@ export default function UserController() {
                 });
                 setOpenModal(true);
               }}
-              className="bg-blue-600 text-white px-4 py-2 rounded flex items-center gap-2 hover:bg-blue-700"
+              className="bg-blue-600 text-white px-3 py-1.5 rounded flex items-center gap-1.5 hover:bg-blue-700 transition"
             >
-              <Plus size={18} /> Thêm mới
+              <Plus size={16} /> Thêm mới
             </button>
 
             {/* ✅ Import Excel Button */}
@@ -197,9 +197,9 @@ export default function UserController() {
                 />
                 <label 
                   htmlFor="import-excel-user"
-                  className="bg-green-600 text-white px-4 py-2 rounded flex items-center gap-2 hover:bg-green-700 cursor-pointer"
+                  className="bg-green-600 text-white px-3 py-1.5 rounded flex items-center gap-1.5 hover:bg-green-700 cursor-pointer transition"
                 >
-                  <Upload size={18} /> Import Excel
+                  <Upload size={16} /> Import Excel
                 </label>
              </div>
           </div>
@@ -207,7 +207,7 @@ export default function UserController() {
       </div>
 
       <input
-        className="border px-4 py-2 w-full mb-6 rounded shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+        className="border px-3 py-1.5 w-full mb-4 rounded shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
         placeholder="🔍 Tìm kiếm người dùng..."
         value={search}
         onChange={(e) => {
@@ -220,105 +220,105 @@ export default function UserController() {
         <p className="text-center py-10 text-gray-500">Đang tải dữ liệu...</p>
       ) : (
         <>
-          <div className="bg-white rounded shadow overflow-hidden">
-            <table className="min-w-full">
-              <thead className="bg-gray-100">
+          <div className="bg-white rounded shadow overflow-x-auto border border-gray-200">
+            <table className="min-w-full whitespace-nowrap">
+              <thead className="bg-gray-50 text-xs text-gray-700 uppercase">
                 <tr>
-                  <th className="px-6 py-3 text-left w-16">ID</th>
-                  <th className="px-6 py-3 text-left w-[260px]">Họ tên</th>
+                  <th className="px-3 py-2 text-left w-12 font-semibold">ID</th>
+                  <th className="px-3 py-2 text-left w-[180px] font-semibold">Họ tên</th>
                   
                   {/* ✅ Chỉ hiện cột Lớp nếu là STUDENT */}
                   {role === "STUDENT" && (
-                    <th className="px-6 py-3 text-left w-20">Lớp</th>
+                    <th className="px-3 py-2 text-left w-20 font-semibold">Lớp</th>
                   )}
                   {role === "LECTURER" && (
-                    <th className="px-6 py-3 text-left w-32">Khoa</th>
+                    <th className="px-3 py-2 text-left w-32 font-semibold">Khoa</th>
                   )}
                   
-                  <th className="px-6 py-3 text-left w-28">Chức vụ</th>
-                  <th className="px-6 py-3 text-left w-[200px]">Email</th>
-                  <th className="px-6 py-3 text-left w-32">SĐT</th>
-                  <th className="px-6 py-3 text-left w-32">Ngày sinh</th>
+                  <th className="px-3 py-2 text-left w-24 font-semibold">Chức vụ</th>
+                  <th className="px-3 py-2 text-left w-[160px] font-semibold">Email</th>
+                  <th className="px-3 py-2 text-left w-28 font-semibold">SĐT</th>
+                  <th className="px-3 py-2 text-left w-24 font-semibold">Ngày sinh</th>
                   
-                  {role === "STUDENT" && <th className="px-6 py-3 text-center w-20">Giới tính</th>}
+                  {role === "STUDENT" && <th className="px-3 py-2 text-center w-16 font-semibold">Giới tính</th>}
 
-                  <th className="px-6 py-3 text-center w-36">
+                  <th className="px-3 py-2 text-center w-24 font-semibold">
                     Trạng thái
                   </th>
-                  <th className="px-6 py-3 text-right w-40">
+                  <th className="px-3 py-2 text-right w-24 font-semibold">
                     Thao tác
                   </th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-gray-200">
+              <tbody className="divide-y divide-gray-200 text-sm/relaxed">
                 {paginatedUsers.map((u) => (
                   <tr key={`${u.role}-${u.id}`} className="hover:bg-gray-50 transition-colors">
-                    <td className="px-6 py-4 font-medium text-gray-900">{u.id}</td>
+                    <td className="px-3 py-2 font-medium text-gray-900">{u.id}</td>
 
-                    <td className="px-6 py-4">
-                      <div className="text-gray-700 font-medium">
+                    <td className="px-3 py-2">
+                      <div className="text-gray-700 font-medium truncate max-w-[180px]" title={u.fullName}>
                         {u.fullName}
                       </div>
                     </td>
 
                     {/* ✅ Chỉ hiện cell Lớp nếu là STUDENT */}
                     {role === "STUDENT" && (
-                      <td className="px-6 py-4 text-gray-600 truncate">
+                      <td className="px-3 py-2 text-gray-600 truncate text-xs">
                         {u.className || "—"}
                       </td>
                     )}
                     {role === "LECTURER" && (
-                      <td className="px-6 py-4 text-gray-600 truncate">
+                      <td className="px-3 py-2 text-gray-600 truncate text-xs">
                         {u.departmentName || "—"}
                       </td>
                     )}
 
-                    <td className="px-6 py-4 text-gray-500 text-sm">{u.position || u.role}</td>
+                    <td className="px-3 py-2 text-gray-500 text-xs">{u.position || u.role}</td>
 
-                    <td className="px-6 py-4 text-gray-600 truncate">
+                    <td className="px-3 py-2 text-gray-600 truncate max-w-[160px]" title={u.email}>
                       {u.email || "—"}
                     </td>
 
-                    <td className="px-6 py-4 text-gray-600 truncate">
+                    <td className="px-3 py-2 text-gray-600 truncate text-xs">
                       {u.phone || "—"}
                     </td>
 
-                    <td className="px-6 py-4 text-gray-600 truncate">
+                    <td className="px-3 py-2 text-gray-600 truncate text-xs">
                        {u.birthday ? new Date(u.birthday).toLocaleDateString("vi-VN") : "—"}
                     </td>
 
                     {role === "STUDENT" && (
-                      <td className="px-6 py-4 text-center text-gray-600">
+                      <td className="px-3 py-2 text-center text-gray-600 text-xs">
                         {u.gender === true ? "Nam" : u.gender === false ? "Nữ" : "—"}
                       </td>
                     )}
 
-                    <td className="px-6 py-4 text-center">
+                    <td className="px-3 py-2 text-center">
                       <span
-                        className={`px-2 py-1 rounded-full text-xs font-semibold ${
+                        className={`px-1.5 py-0.5 rounded text-[10px] font-bold uppercase border ${
                           u.isActive
-                            ? "bg-green-100 text-green-700"
-                            : "bg-red-100 text-red-700"
+                            ? "bg-green-50 text-green-700 border-green-200"
+                            : "bg-red-50 text-red-700 border-red-200"
                         }`}
                       >
                         {u.isActive ? "Hoạt động" : "Ngưng"}
                       </span>
                     </td>
 
-                    <td className="px-6 py-4 text-right space-x-2 whitespace-nowrap">
+                    <td className="px-3 py-2 text-right space-x-1 whitespace-nowrap">
                       <button
                         onClick={() => openEdit(u)}
-                        className="text-blue-600 hover:bg-blue-50 p-2 rounded transition-colors"
+                        className="text-blue-600 hover:bg-blue-50 p-1 rounded transition-colors"
                         title="Sửa"
                       >
-                        <Edit size={18} />
+                        <Edit size={14} />
                       </button>
                       <button
                         onClick={() => handleDelete(u)}
-                        className="text-red-600 hover:bg-red-50 p-2 rounded transition-colors"
+                        className="text-red-600 hover:bg-red-50 p-1 rounded transition-colors"
                         title="Xóa"
                       >
-                        <Trash2 size={18} />
+                        <Trash2 size={14} />
                       </button>
                     </td>
                   </tr>
@@ -328,7 +328,7 @@ export default function UserController() {
                   <tr>
                     <td 
                       colSpan={role === "STUDENT" ? 10 : role === "LECTURER" ? 9 : 8} 
-                      className="text-center py-8 text-gray-500"
+                      className="text-center py-8 text-gray-500 text-xs"
                     >
                       Không có dữ liệu
                     </td>
@@ -340,20 +340,20 @@ export default function UserController() {
 
           {/* PAGINATION */}
           {totalPages > 1 && (
-            <div className="flex justify-center items-center gap-2 mt-6">
+            <div className="flex justify-center items-center gap-1.5 mt-4 text-xs">
               <button
                 disabled={currentPage === 1}
                 onClick={() => setCurrentPage((p) => p - 1)}
-                className="px-3 py-1 border rounded hover:bg-gray-100 disabled:opacity-50 disabled:hover:bg-transparent"
+                className="px-2 py-1 border rounded hover:bg-gray-100 disabled:opacity-50 disabled:hover:bg-transparent"
               >
-                ← Trước
+                ←
               </button>
 
               {[...Array(totalPages)].map((_, i) => (
                 <button
                   key={i}
                   onClick={() => setCurrentPage(i + 1)}
-                  className={`px-3 py-1 border rounded ${
+                  className={`px-2 py-1 border rounded ${
                     currentPage === i + 1
                       ? "bg-blue-600 text-white border-blue-600"
                       : "hover:bg-gray-100"
@@ -366,9 +366,9 @@ export default function UserController() {
               <button
                 disabled={currentPage === totalPages}
                 onClick={() => setCurrentPage((p) => p + 1)}
-                className="px-3 py-1 border rounded hover:bg-gray-100 disabled:opacity-50 disabled:hover:bg-transparent"
+                className="px-2 py-1 border rounded hover:bg-gray-100 disabled:opacity-50 disabled:hover:bg-transparent"
               >
-                Sau →
+                →
               </button>
             </div>
           )}

@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
 
-export type Role = "STUDENT" | "LECTURER" | "ADMIN";
+export type Role = "STUDENT" | "LECTURER" | "ADMIN" | "SUPPER_ADMIN" | "SUPER_ADMIN";
 
 export interface Semester {
   id: number;
@@ -18,6 +18,8 @@ export interface User {
   mssv: string | null;
   userId: string | number;
   role: Role;
+  token?: string;
+  permissions?: string[]; // ✅ Added permissions
 }
 
 export interface CriteriaItem {

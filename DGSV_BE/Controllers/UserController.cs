@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using DGSV.Api.Data;
 using DGSV.Api.DTO;
+using DGSV.Api.Filters;
 
 namespace DGSV.Api.Controllers
 {
@@ -16,10 +17,12 @@ namespace DGSV.Api.Controllers
             _context = context;
         }
 
+
         // ==================================================
         // GET: api/user/all
         // ==================================================
        [HttpGet("all")]
+       [Permission("USER_VIEW")]
 public async Task<IActionResult> GetAllUsers()
 {
     var students = await _context.Students
@@ -35,8 +38,6 @@ public async Task<IActionResult> GetAllUsers()
             // ✅ QUAN TRỌNG
             ClassId = s.ClassId,
             ClassName = s.Class != null ? s.Class.Name : null,
-            
-            // ✅ Extra Info
             Birthday = s.Birthday,
             Gender = s.Gender,
             Position = s.PositionId,
@@ -93,6 +94,7 @@ public async Task<IActionResult> GetClasses()
         // PUT: api/user/{role}/{id}
         // ==================================================
         [HttpPut("{role}/{id}")]
+        [Permission("USER_MANAGE")]
         public async Task<IActionResult> UpdateUser(
             string role,
             string id,
@@ -101,6 +103,8 @@ public async Task<IActionResult> GetClasses()
             switch (role.ToUpper())
             {
                 case "STUDENT":
+                case "CLASS_MONITOR":
+                case "MONITOR":
                     {
                         var student = await _context.Students.FindAsync(id);
                         if (student == null) return NotFound();
@@ -162,11 +166,14 @@ public async Task<IActionResult> GetClasses()
         // GET: api/user/info/{role}/{id}
         // ==================================================
         [HttpGet("info/{role}/{id}")]
+        // [Permission("USER_VIEW")] // Removing restriction to allow users to view their own info
         public async Task<IActionResult> GetUserDetail(string role, string id)
         {
             switch (role.ToUpper())
             {
                 case "STUDENT":
+                case "CLASS_MONITOR":
+                case "MONITOR":
                     {
                         var student = await _context.Students
                             .Where(s => s.Id == id)
@@ -242,11 +249,14 @@ public async Task<IActionResult> GetClasses()
         // DELETE (SOFT): api/user/{role}/{id}
         // ==================================================
         [HttpDelete("{role}/{id}")]
+        [Permission("USER_MANAGE")]
         public async Task<IActionResult> DeleteUser(string role, string id)
         {
             switch (role.ToUpper())
             {
                 case "STUDENT":
+                case "CLASS_MONITOR":
+                case "MONITOR":
                     {
                         var student = await _context.Students.FindAsync(id);
                         if (student == null) return NotFound();

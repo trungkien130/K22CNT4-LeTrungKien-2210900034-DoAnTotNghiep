@@ -114,95 +114,115 @@ export default function SemesterManager() {
   }
 
   return (
-    <div className="p-6 max-w-[1600px] mx-auto">
-      <div className="flex justify-between items-center mb-6">
-        <h2 className="text-2xl font-bold text-gray-800">Quản lý Học kỳ</h2>
+    <div className="p-4 max-w-[1600px] mx-auto text-sm">
+      <div className="flex justify-between items-center mb-4">
+        <h2 className="text-lg font-bold text-gray-800">Quản lý Học kỳ</h2>
         <button
           onClick={() => {
             setEditing(null);
             resetForm();
             setModalOpen(true);
           }}
-          className="bg-blue-600 text-white px-5 py-2.5 rounded-lg flex items-center gap-2 hover:bg-blue-700 transition shadow-md"
+          className="bg-blue-600 text-white px-3 py-1.5 rounded flex items-center gap-1.5 hover:bg-blue-700 transition shadow-sm"
         >
-          <Plus size={20} /> Thêm mới
+          <Plus size={16} /> Thêm mới
         </button>
       </div>
 
-      <div className="bg-white rounded-xl shadow-lg overflow-hidden border border-gray-100">
-        <div className="overflow-x-auto">
-            <table className="min-w-full">
-            <thead className="bg-gray-50 border-b border-gray-200">
+      <div className="bg-white rounded shadow overflow-x-auto border border-gray-200">
+        <table className="min-w-full whitespace-nowrap">
+          <thead className="bg-gray-50 border-b border-gray-200 text-xs text-gray-700 uppercase">
+            <tr>
+              <th className="px-3 py-2 text-left w-16 font-semibold">ID</th>
+              <th className="px-3 py-2 text-left w-32 font-semibold">Tên Học kỳ</th>
+              <th className="px-3 py-2 text-left w-24 font-semibold">Năm học</th>
+              <th className="px-3 py-2 text-center w-24 font-semibold">Mở SV</th>
+              <th className="px-3 py-2 text-center w-24 font-semibold">Đóng SV</th>
+              <th className="px-3 py-2 text-center w-24 font-semibold">Đóng Lớp</th>
+              <th className="px-3 py-2 text-center w-24 font-semibold">Đóng GV</th>
+              <th className="px-3 py-2 text-center w-24 font-semibold">Trạng thái</th>
+              <th className="px-3 py-2 text-right w-24 font-semibold">Thao tác</th>
+            </tr>
+          </thead>
+          <tbody className="divide-y divide-gray-200 text-sm/relaxed">
+            {data.map((item) => (
+              <tr key={item.id} className="hover:bg-gray-50 transition-colors">
+                <td className="px-3 py-2 text-gray-500">{item.id}</td>
+                <td className="px-3 py-2 font-medium text-gray-900">{item.name}</td>
+                <td className="px-3 py-2 text-gray-600">{item.schoolYear}</td>
+                <td className="px-3 py-2 text-center text-gray-600 text-xs">{formatDate(item.dateOpenStudent)}</td>
+                <td className="px-3 py-2 text-center text-gray-600 text-xs">{formatDate(item.dateEndStudent)}</td>
+                <td className="px-3 py-2 text-center text-gray-600 text-xs">{formatDate(item.dateEndClass)}</td>
+                <td className="px-3 py-2 text-center text-gray-600 text-xs">{formatDate(item.dateEndLecturer)}</td>
+                <td className="px-3 py-2 text-center">
+                    {(() => {
+                        const now = new Date();
+                        const start = item.dateOpenStudent ? new Date(item.dateOpenStudent) : null;
+                        const end = item.dateEndLecturer ? new Date(item.dateEndLecturer) : null; // Assuming Lecturer end is the final deadline
+                        
+                        let statusLabel = "LOCKED";
+                        let statusColor = "bg-gray-100 text-gray-600 border-gray-200";
+
+                        if (!item.isActive) {
+                             statusLabel = "LOCKED";
+                             statusColor = "bg-red-50 text-red-700 border-red-200";
+                        } else {
+                            if (end && now > end) {
+                                statusLabel = "EXPIRED";
+                                statusColor = "bg-orange-50 text-orange-700 border-orange-200";
+                            } else if (start && now < start) {
+                                statusLabel = "UPCOMING";
+                                statusColor = "bg-blue-50 text-blue-700 border-blue-200";
+                            } else {
+                                statusLabel = "ACTIVE";
+                                statusColor = "bg-green-50 text-green-700 border-green-200";
+                            }
+                        }
+
+                        return (
+                            <span className={`inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-bold uppercase border ${statusColor}`}>
+                                {statusLabel}
+                            </span>
+                        );
+                    })()}
+                </td>
+                <td className="px-3 py-2 text-right space-x-1 whitespace-nowrap">
+                  <button
+                    onClick={() => {
+                      setEditing(item);
+                      setForm({
+                        name: item.name || "",
+                        schoolYear: item.schoolYear || "",
+                        dateOpenStudent: item.dateOpenStudent || "",
+                        dateEndStudent: item.dateEndStudent || "",
+                        dateEndClass: item.dateEndClass || "",
+                        dateEndLecturer: item.dateEndLecturer || "",
+                        isActive: item.isActive || false,
+                      });
+                      setModalOpen(true);
+                    }}
+                    className="text-blue-600 hover:bg-blue-50 p-1.5 rounded transition-colors"
+                    title="Sửa"
+                  >
+                    <Edit size={14} />
+                  </button>
+                  <button
+                      onClick={() => handleDelete(item.id)}
+                    className="text-red-600 hover:bg-red-50 p-1.5 rounded transition-colors"
+                    title="Xóa"
+                  >
+                    <Trash2 size={14} />
+                  </button>
+                </td>
+              </tr>
+            ))}
+            {data.length === 0 && (
                 <tr>
-                <th className="px-6 py-4 text-left font-semibold text-gray-600">ID</th>
-                <th className="px-6 py-4 text-left font-semibold text-gray-600">Tên Học kỳ</th>
-                <th className="px-6 py-4 text-left font-semibold text-gray-600">Năm học</th>
-                <th className="px-6 py-4 text-center font-semibold text-gray-600">Mở SV</th>
-                <th className="px-6 py-4 text-center font-semibold text-gray-600">Đóng SV</th>
-                <th className="px-6 py-4 text-center font-semibold text-gray-600">Đóng Lớp</th>
-                <th className="px-6 py-4 text-center font-semibold text-gray-600">Đóng GV</th>
-                <th className="px-6 py-4 text-center font-semibold text-gray-600">Trạng thái</th>
-                <th className="px-6 py-4 text-right font-semibold text-gray-600">Thao tác</th>
+                    <td colSpan={9} className="px-3 py-8 text-center text-gray-500 text-xs">Chưa có dữ liệu học kỳ</td>
                 </tr>
-            </thead>
-            <tbody className="divide-y divide-gray-200">
-                {data.map((item) => (
-                <tr key={item.id} className="hover:bg-gray-50 transition">
-                    <td className="px-6 py-4 text-gray-500">{item.id}</td>
-                    <td className="px-6 py-4 font-medium text-gray-900">{item.name}</td>
-                    <td className="px-6 py-4 text-gray-600">{item.schoolYear}</td>
-                    <td className="px-6 py-4 text-center text-gray-600 text-sm">{formatDate(item.dateOpenStudent)}</td>
-                    <td className="px-6 py-4 text-center text-gray-600 text-sm">{formatDate(item.dateEndStudent)}</td>
-                    <td className="px-6 py-4 text-center text-gray-600 text-sm">{formatDate(item.dateEndClass)}</td>
-                    <td className="px-6 py-4 text-center text-gray-600 text-sm">{formatDate(item.dateEndLecturer)}</td>
-                    <td className="px-6 py-4 text-center">
-                        <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
-                            item.isActive 
-                            ? "bg-green-100 text-green-800"
-                            : "bg-red-100 text-red-800"
-                        }`}>
-                            {item.isActive ? "Active" : "Locked"}
-                        </span>
-                    </td>
-                    <td className="px-6 py-4 text-right space-x-2">
-                    <button
-                        onClick={() => {
-                        setEditing(item);
-                        setForm({
-                            name: item.name || "",
-                            schoolYear: item.schoolYear || "",
-                            // Ensure properties exist to prevent uncontrolled behavior if backend sends incomplete object
-                            dateOpenStudent: item.dateOpenStudent || "",
-                            dateEndStudent: item.dateEndStudent || "",
-                            dateEndClass: item.dateEndClass || "",
-                            dateEndLecturer: item.dateEndLecturer || "",
-                            isActive: item.isActive || false,
-                        });
-                        setModalOpen(true);
-                        }}
-                        className="text-blue-600 hover:bg-blue-100 p-2 rounded transition"
-                        title="Sửa"
-                    >
-                        <Edit size={18} />
-                    </button>
-                    <button
-                         onClick={() => handleDelete(item.id)}
-                        className="text-red-600 hover:bg-red-100 p-2 rounded transition"
-                        title="Xóa"
-                    >
-                        <Trash2 size={18} />
-                    </button>
-                    </td>
-                </tr>
-                ))}
-                {data.length === 0 && (
-                    <tr>
-                        <td colSpan={9} className="px-6 py-8 text-center text-gray-500">Chưa có dữ liệu học kỳ</td>
-                    </tr>
-                )}
-            </tbody>
-            </table>
-        </div>
+            )}
+          </tbody>
+        </table>
       </div>
 
       {modalOpen && (
