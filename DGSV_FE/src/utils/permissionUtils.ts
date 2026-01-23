@@ -15,7 +15,15 @@ export const ADMIN_PERMISSIONS = [
 
 export const hasAdminAccess = (user: User | null): boolean => {
     if (!user) return false;
-    if (user.role === "ADMIN" || user.role === "SUPPER_ADMIN") return true; // Legacy/Super check available
+    const role = user.role?.toUpperCase() || ""; // ✅ Normalize
+
+    const adminRoles = [
+        "ADMIN",
+        "SUPPER_ADMIN", "SUPER_ADMIN", // Underscore
+        "SUPPER ADMIN", "SUPER ADMIN"  // Space
+    ];
+
+    if (adminRoles.includes(role)) return true;
 
     // Check if user has ANY admin permission
     if (user.permissions && user.permissions.some(p => ADMIN_PERMISSIONS.includes(p))) {

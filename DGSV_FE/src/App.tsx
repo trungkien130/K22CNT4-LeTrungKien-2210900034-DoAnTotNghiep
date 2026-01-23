@@ -3,7 +3,7 @@ import PublicRoutes from "./Routes/PublicRoutes";
 
 import UserRoutes from "./Routes/UserRoutes";
 import { hasAdminAccess } from "./utils/permissionUtils";
-import { Routes, Route } from "react-router-dom";
+import { useNavigate, Routes, Route, Navigate } from "react-router-dom"; // ✅ Fixed Import
 import AdminLayout from "./pages/AdminPage/AdminLayOut";
 import Dashboard from "./pages/AdminPage/AdminDashBoard";
 import QuestionController from "./pages/AdminPage/QuestionsControll";
@@ -23,28 +23,36 @@ export default function App() {
     return <PublicRoutes onLogin={login} />;
   }
 
-
-
   // ✅ HYBRID USER (Student/Lecturer + Permissions):
   return (
     <Routes>
-      {/* 1. Admin Section - Only if accessible */}
-      {hasAdminAccess(user) && (
-         <Route path="/admin" element={<AdminLayout onLogout={logout} />}>
-            <Route index element={<Dashboard />} />
-            <Route path="questions" element={<QuestionController />} />
-            <Route path="answers" element={<AnswerController />} />
-            <Route path="evaluations" element={<EvaluationController />} />
-            <Route path="users" element={<UserController />} />
-            <Route path="acounts" element={<AccountController />} />
-            <Route path="semesters" element={<SemesterManager />} />
-            <Route path="departments" element={<DepartmentManager />} />
-            <Route path="classes" element={<ClassManager />} />
-            <Route path="permissions" element={<PermissionManager />} />
-         </Route>
-      )}
+      <Route 
+        path="/admin" 
+        element={
+          hasAdminAccess(user) ? (
+            <AdminLayout onLogout={logout} />
+          ) : (
+            <Navigate to="/" replace />
+          )
+        }
+      >
+        <Route index element={<Dashboard />} />
+        <Route path="questions" element={<QuestionController />} />
+        <Route path="answers" element={<AnswerController />} />
+        <Route path="evaluations" element={<EvaluationController />} />
+        <Route path="users" element={<UserController />} />
+        <Route path="acounts" element={<AccountController />} />
+        <Route path="semesters" element={<SemesterManager />} />
+        <Route path="departments" element={<DepartmentManager />} />
+        <Route path="classes" element={<ClassManager />} />
+        <Route path="permissions" element={<PermissionManager />} />
+      </Route>
 
-      {/* 2. User Section - Everything else falls through to UserRoutes */}
+      {/* 2. Login Transition Handling */}
+      {/* When user logs in, URL is still /login on first render. Redirect correct based on role. */}
+      <Route path="/login" element={<Navigate to={hasAdminAccess(user) ? "/admin" : "/"} replace />} />
+
+      {/* 3. User Section - Everything else falls through to UserRoutes */}
       <Route path="/*" element={<UserRoutes user={user} onLogout={logout} />} />
     </Routes>
   );

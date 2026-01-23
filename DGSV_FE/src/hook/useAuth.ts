@@ -9,7 +9,7 @@ export function useAuth() {
 
   const login = (userData: User) => {
     localStorage.setItem("user", JSON.stringify(userData));
-    setUser(userData); 
+    setUser(userData);
   };
 
   const logout = () => {

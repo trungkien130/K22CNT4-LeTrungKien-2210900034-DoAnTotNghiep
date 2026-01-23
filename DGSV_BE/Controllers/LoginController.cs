@@ -41,13 +41,13 @@ namespace DGSV.Api.Controllers
             if (admin != null && VerifyPassword(request.Password, admin.PasswordHash))
             {
                 var token = GenerateToken(admin.UserName, admin.Role.RoleName, admin.Id.ToString(), admin.Role.Id);
+                SetTokenCookie(token);
                 var permissions = await GetPermissions(admin.Role.Id);
                 return Ok(new
                 {
                     message = "Đăng nhập thành công",
                     role = admin.Role.RoleName,
                     userId = admin.Id,
-                    token,
                     permissions
                 });
             }
@@ -68,6 +68,7 @@ namespace DGSV.Api.Controllers
                 if (VerifyPassword(request.Password, lecturerAccount.PasswordHash))
                 {
                     var token = GenerateToken(lecturerAccount.UserName, lecturerAccount.Role.RoleName, lecturerAccount.LecturerId, lecturerAccount.Role.Id);
+                    SetTokenCookie(token); 
                     var permissions = await GetPermissions(lecturerAccount.Role.Id);
                     return Ok(new
                     {
@@ -75,7 +76,6 @@ namespace DGSV.Api.Controllers
                         role = lecturerAccount.Role.RoleName,
                         userId = lecturerAccount.LecturerId,
                         fullName = lecturerAccount.Lecturer.FullName,
-                        token,
                         permissions
                     });
                 }
@@ -85,7 +85,7 @@ namespace DGSV.Api.Controllers
             var studentAccount = await _context.AccountStudents
                 .Include(x => x.Role)
                 .Include(x => x.Student)
-                .ThenInclude(s => s.Position) // ✅ Include Position
+                .ThenInclude(s => s.Position) 
                 .FirstOrDefaultAsync(x =>
                     x.UserName == request.UserName &&
                     x.IsActive);
@@ -98,9 +98,8 @@ namespace DGSV.Api.Controllers
                 if (VerifyPassword(request.Password, studentAccount.PasswordHash))
                 {
                     var token = GenerateToken(studentAccount.UserName, studentAccount.Role.RoleName, studentAccount.StudentId, studentAccount.Role.Id);
+                    SetTokenCookie(token); 
                     var permissions = await GetPermissions(studentAccount.Role.Id);
-
-                    // ✅ CHECK CLASS MONITOR POSITION
                     bool isMonitor = (studentAccount.Student.PositionId == "LT" || 
                                      (studentAccount.Student.Position != null && 
                                       studentAccount.Student.Position.Name != null &&
@@ -115,8 +114,6 @@ namespace DGSV.Api.Controllers
                     }
                     else 
                     {
-                        // ❌ SAFETY: If user is NOT monitor, ensure they don't have the permission
-                        // (Even if the 'Student' role has it assigned in DB)
                         if (permissions.Contains("CLASS_MONITOR"))
                         {
                             permissions.Remove("CLASS_MONITOR");
@@ -129,7 +126,6 @@ namespace DGSV.Api.Controllers
                         role = studentAccount.Role.RoleName,
                         userId = studentAccount.StudentId,
                         fullName = studentAccount.Student.FullName,
-                        token,
                         permissions
                     });
                 }
@@ -137,10 +133,18 @@ namespace DGSV.Api.Controllers
 
             return Unauthorized("Sai tài khoản hoặc mật khẩu");
         }
+        private void SetTokenCookie(string token)
+        {
+            var cookieOptions = new CookieOptions
+            {
+                HttpOnly = true,
+                Expires = DateTime.Now.AddMinutes(120),
 
-        // =====================================================
-        // ================= PASSWORD VERIFY ===================
-        // =====================================================
+                SameSite = SameSiteMode.Lax,
+                Secure = false
+            };
+            Response.Cookies.Append("jwt", token, cookieOptions);
+        }
         private bool VerifyPassword(string inputPassword, string storedHash)
         {
             if (string.IsNullOrWhiteSpace(storedHash))
@@ -148,18 +152,15 @@ namespace DGSV.Api.Controllers
 
             try
             {
-                // BCrypt hash
                 if (storedHash.StartsWith("$2"))
                 {
                     return BCrypt.Net.BCrypt.Verify(inputPassword, storedHash);
                 }
 
-                // Fallback: mật khẩu cũ (plain text)
                 return storedHash == inputPassword;
             }
             catch (BCrypt.Net.SaltParseException)
             {
-                // Hash lỗi → coi như sai mật khẩu
                 return false;
             }
         }

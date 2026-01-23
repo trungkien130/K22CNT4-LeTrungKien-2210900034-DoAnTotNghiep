@@ -1,6 +1,8 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Mail, Lock, LogIn } from "lucide-react";
 import { loginApi } from "../API/authApi";
+import { hasAdminAccess } from "../utils/permissionUtils";
 import type { User } from "../types";
 
 interface LoginProps {
@@ -8,6 +10,7 @@ interface LoginProps {
 }
 
 export default function Login({ onLogin }: LoginProps) {
+  const navigate = useNavigate(); // Hook for navigation
   const [UserName, setUser] = useState("");
   const [Password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -29,15 +32,20 @@ export default function Login({ onLogin }: LoginProps) {
     try {
       // ✅ AXIOS: nếu sai → nhảy thẳng vào catch
       const res = await loginApi(username, Password);
+      console.log("Login Response Data:", res.data);
+      console.log("Permissions:", res.data.permissions);
 
-      const { role, userId, fullName, token, permissions } = res.data;
+      const { role, userId, fullName, permissions } = res.data;
+
+      // ✅ Normalize Role (ADMIN, STUDENT, LECTURER)
+      const normalizedRole = role ? role.toUpperCase() : "";
 
       const userData: User = {
         name: fullName || username,
-        mssv: role === "STUDENT" ? userId : null,
+        mssv: normalizedRole === "STUDENT" ? userId : null,
         userId,
-        role,
-        token,
+        role: normalizedRole as any, // Force cast to match Role type
+        // token, // ❌ No longer saving token to LocalStorage
         permissions // ✅ Save permissions
       };
 
@@ -45,6 +53,14 @@ export default function Login({ onLogin }: LoginProps) {
 
       // 👉 CHỈ GỌI KHI LOGIN THÀNH CÔNG
       onLogin(userData);
+      
+      // ✅ REDIRECT BASED ON ROLE
+      if (hasAdminAccess(userData)) {
+        navigate("/admin");
+      } else {
+        navigate("/");
+      }
+
     } catch (err: any) {
       console.error("Login error:", err);
 

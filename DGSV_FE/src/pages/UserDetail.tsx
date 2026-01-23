@@ -58,6 +58,12 @@ export default function UserDetail({ user }: UserDetailProps) {
     return "Nữ";
   };
 
+  const getIdLabel = () => {
+    if (user.role === "STUDENT") return "Mã sinh viên";
+    if (user.role === "LECTURER") return "Mã giảng viên";
+    return "Mã định danh";
+  };
+
   if (loading)
     return <p className="text-center">Đang tải thông tin người dùng...</p>;
   if (error) return <p className="text-red-600 text-center">{error}</p>;
@@ -74,7 +80,7 @@ export default function UserDetail({ user }: UserDetailProps) {
         <div className="absolute top-0 right-0 w-32 h-32 bg-blue-50 rounded-full blur-3xl -z-0 translate-x-10 -translate-y-10"></div>
         
         <Field label="Họ và tên" value={userInfo.fullName} isHighlight />
-        <Field label="Mã sinh viên" value={user.mssv || String(user.userId) || "N/A"} />
+        <Field label={getIdLabel()} value={user.mssv || String(user.userId) || "N/A"} />
         <Field label="Ngày sinh" value={formatDate(userInfo.birthday)} />
         <Field label="Email" value={userInfo.email ?? "Chưa cập nhật"} />
         <Field

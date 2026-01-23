@@ -5,21 +5,14 @@ const axiosClient = axios.create({
   headers: {
     "Content-Type": "application/json"
   },
-  withCredentials: false
+  withCredentials: true // ✅ Enable Cookies
 });
 
 /* ===================== REQUEST ===================== */
 axiosClient.interceptors.request.use(
   (config) => {
-    const user = localStorage.getItem("user");
-
-    if (user) {
-      const token = JSON.parse(user).token;
-      if (token) {
-        config.headers.Authorization = `Bearer ${token}`;
-      }
-    }
-
+    // ❌ No longer manually attaching token from localStorage
+    // Browser automatically sends HttpOnly cookies now.
     return config;
   },
   (error) => Promise.reject(error)
