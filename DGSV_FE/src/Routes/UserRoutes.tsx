@@ -9,6 +9,7 @@ import SelfEvaluation from "../pages/SelfEvaluation";
 import MyClass from "../pages/MyClass";
 import LecturerClasses from "../pages/LecturerClasses";
 import PermissionManager from "../pages/PermissionManager";
+import Feedback from "../pages/Feedback";
 import { useState } from "react";
 
 export default function UserRoutes({
@@ -44,6 +45,7 @@ export default function UserRoutes({
             <Route path="/my-class" element={<MyClass />} />
             <Route path="/lecturer-classes" element={<LecturerClasses />} />
             <Route path="/permissions" element={<PermissionManager />} />
+            <Route path="/feedback" element={<Feedback />} />
             <Route path="*" element={<Navigate to="/" />} />
           </Routes>
         </main>

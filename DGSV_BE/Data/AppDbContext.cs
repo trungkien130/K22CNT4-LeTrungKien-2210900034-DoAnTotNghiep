@@ -29,6 +29,7 @@ namespace DGSV.Api.Data
         public DbSet<SumaryOfPoint> SumaryOfPoints { get; set; }
         public DbSet<Permission> Permissions { get; set; }
         public DbSet<RolePermission> RolePermissions { get; set; }
+        public DbSet<Feedback> Feedbacks { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

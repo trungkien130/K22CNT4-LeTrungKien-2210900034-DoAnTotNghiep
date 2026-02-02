@@ -175,7 +175,15 @@ const api = {
   createRole(roleName: string) {
     return axiosClient.post("/permission/create-role", { roleName });
   },
+  /* ================= FEEDBACK ================= */
+  createFeedback(data: any) {
+    return axiosClient.post("/feedback", data);
+  },
+  getMyFeedback(studentId: string | number) {
+    return axiosClient.get(`/feedback/my/${studentId}`);
+  },
 };
+
 
 
 export default api;

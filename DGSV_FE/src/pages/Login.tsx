@@ -10,7 +10,7 @@ interface LoginProps {
 }
 
 export default function Login({ onLogin }: LoginProps) {
-  const navigate = useNavigate(); // Hook for navigation
+  const navigate = useNavigate();
   const [UserName, setUser] = useState("");
   const [Password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -30,31 +30,24 @@ export default function Login({ onLogin }: LoginProps) {
     }
 
     try {
-      // ✅ AXIOS: nếu sai → nhảy thẳng vào catch
       const res = await loginApi(username, Password);
       console.log("Login Response Data:", res.data);
       console.log("Permissions:", res.data.permissions);
 
       const { role, userId, fullName, permissions } = res.data;
 
-      // ✅ Normalize Role (ADMIN, STUDENT, LECTURER)
       const normalizedRole = role ? role.toUpperCase() : "";
 
       const userData: User = {
         name: fullName || username,
         mssv: normalizedRole === "STUDENT" ? userId : null,
         userId,
-        role: normalizedRole as any, // Force cast to match Role type
-        // token, // ❌ No longer saving token to LocalStorage
-        permissions // ✅ Save permissions
+        role: normalizedRole as any, 
+        permissions 
       };
 
       localStorage.setItem("user", JSON.stringify(userData));
-
-      // 👉 CHỈ GỌI KHI LOGIN THÀNH CÔNG
       onLogin(userData);
-      
-      // ✅ REDIRECT BASED ON ROLE
       if (hasAdminAccess(userData)) {
         navigate("/admin");
       } else {
@@ -99,7 +92,6 @@ export default function Login({ onLogin }: LoginProps) {
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-5">
-          {/* USERNAME */}
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">
               Tên đăng nhập
@@ -117,7 +109,6 @@ export default function Login({ onLogin }: LoginProps) {
             </div>
           </div>
 
-          {/* Password */}
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">
               Mật khẩu
@@ -134,14 +125,12 @@ export default function Login({ onLogin }: LoginProps) {
             </div>
           </div>
 
-          {/* ERROR */}
           {error && (
             <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg text-sm text-center">
               {error}
             </div>
           )}
 
-          {/* SUBMIT */}
           <button
             type="submit"
             disabled={loading}

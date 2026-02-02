@@ -9,7 +9,6 @@ var builder = WebApplication.CreateBuilder(args);
 ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
 
 
-// 🔹 DB CONTEXT
 builder.Services.AddDbContext<AppDbContext>(options =>
 {
     options.UseMySql(
@@ -20,7 +19,6 @@ builder.Services.AddDbContext<AppDbContext>(options =>
     );
 });
 
-// 🔹 JWT AUTH
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
     {
@@ -58,7 +56,7 @@ builder.Services.AddCors(options =>
         policy.WithOrigins("http://localhost:5173")
               .AllowAnyHeader()
               .AllowAnyMethod()
-              .AllowCredentials(); // ✅ Allow Cookies
+              .AllowCredentials();
     });
 });
 
@@ -77,7 +75,7 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseCors("AllowReact");
 
-app.UseAuthentication(); // <-- Added Authentication Middleware
+app.UseAuthentication(); 
 app.UseAuthorization();
 app.MapControllers();
 

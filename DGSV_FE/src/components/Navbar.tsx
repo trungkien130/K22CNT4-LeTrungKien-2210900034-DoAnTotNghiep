@@ -35,8 +35,6 @@ export default function Navbar({ user, onLogout, onMenuClick }: NavbarProps) {
           {user.name}
         </div>
         
-        {/* Mobile User Icon / Name could go here if needed, keeping it simple for now */}
-        
         <button
           onClick={onLogout}
           className="flex items-center gap-2 bg-red-500 hover:bg-red-600 px-3 py-2 rounded transition-colors text-sm font-medium"

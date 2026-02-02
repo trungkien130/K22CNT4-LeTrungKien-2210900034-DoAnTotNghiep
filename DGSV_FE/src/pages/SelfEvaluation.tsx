@@ -12,6 +12,7 @@ export default function SelfEvaluation() {
   const location = useLocation(); // Hook
   const [semesters, setSemesters] = useState<any[]>([]);
   const [selectedSemester, setSelectedSemester] = useState<number | null>(null);
+  const [evaluatedSemesterIds, setEvaluatedSemesterIds] = useState<Set<number>>(new Set());
 
   const [groups, setGroups] = useState<QuestionGroup>({});
   const [answersMap, setAnswersMap] = useState<Record<number, Answer[]>>({});
@@ -32,13 +33,19 @@ export default function SelfEvaluation() {
   const loadData = async () => {
     setLoading(true);
     try {
-      // Fetch Semesters, Questions, Answers
-      const [semRes, qRes, aRes] = await Promise.all([
+      // Fetch Semesters, Questions, Answers, and History
+      const [semRes, qRes, aRes, historyRes] = await Promise.all([
         api.getSemesters(),
         api.getQuestions(),
         api.getAnswers(),
+        user?.userId ? api.getEvaluationHistory(user.userId) : Promise.resolve({ data: [] })
       ]);
       setSemesters(semRes.data || []);
+
+      // Store evaluated semester IDs
+      const historyData = historyRes.data || [];
+      const evaluatedIds = new Set<number>(historyData.map((h: any) => Number(h.semesterId)));
+      setEvaluatedSemesterIds(evaluatedIds);
 
       // Group Questions
       const grouped: QuestionGroup = {};
@@ -254,6 +261,17 @@ export default function SelfEvaluation() {
             </div>
           )}
           
+          {/* Already Evaluated Warning */}
+          {selectedSemester && evaluatedSemesterIds.has(selectedSemester) && (
+            <div className="mb-4 p-4 bg-blue-50 border-l-4 border-blue-500 rounded-r-lg flex items-center gap-3 animate-in fade-in slide-in-from-top-1">
+                <div className="text-blue-500"><AlertCircle size={24} /></div>
+                <div>
+                    <h4 className="font-bold text-blue-700">Đã hoàn thành đánh giá</h4>
+                    <p className="text-sm text-blue-600">Bạn đã hoàn thành đánh giá cho học kỳ này.</p>
+                </div>
+            </div>
+          )}
+          
           <div className="flex justify-between items-center">
             <div>
                  {/* Only show calculated total if not submitted or if we successfully mapped scores */}
@@ -276,14 +294,16 @@ export default function SelfEvaluation() {
                 </button>
                     <button 
                         onClick={handleSubmit}
-                        disabled={!selectedSemester || (!!selectedSemester && !semesters.find(s => s.id === selectedSemester)?.isActive)}
+                        disabled={!selectedSemester || (!!selectedSemester && !semesters.find(s => s.id === selectedSemester)?.isActive) || (!!selectedSemester && evaluatedSemesterIds.has(selectedSemester))}
                         className={`px-8 py-3 rounded-lg font-bold shadow-lg transition transform active:scale-95 ${
-                            !selectedSemester || (!!selectedSemester && !semesters.find(s => s.id === selectedSemester)?.isActive)
+                            !selectedSemester || (!!selectedSemester && !semesters.find(s => s.id === selectedSemester)?.isActive) || (!!selectedSemester && evaluatedSemesterIds.has(selectedSemester))
                             ? "bg-gray-400 text-gray-200 cursor-not-allowed shadow-none transform-none"
                             : "bg-blue-600 text-white hover:bg-blue-700"
                         }`}
                     >
-                    {selectedSemester && !semesters.find(s => s.id === selectedSemester)?.isActive 
+                    {selectedSemester && evaluatedSemesterIds.has(selectedSemester)
+                        ? "Đã đánh giá"
+                        : selectedSemester && !semesters.find(s => s.id === selectedSemester)?.isActive 
                         ? "Đã đóng" 
                         : "Gửi Đánh Giá"
                     }

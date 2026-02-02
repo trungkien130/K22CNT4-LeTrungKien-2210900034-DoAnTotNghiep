@@ -1,7 +1,7 @@
 import { useMemo, useEffect } from "react";
 import { NavLink } from "react-router-dom";
 import type { Role } from "../types";
-import { Home, PenTool, History, Settings, PlusCircle, Users, BookOpen, Shield, Layers, HelpCircle } from "lucide-react";
+import { Home, PenTool, History, Settings, PlusCircle, Users, BookOpen, Shield, Layers, HelpCircle, MessageSquare } from "lucide-react";
 import logo from "../../public/Img/logo.png";
 import api from "../API/api";
 import { hasPermission } from "../utils/permissionUtils";
@@ -60,6 +60,10 @@ export default function Sidebar({ role, isOpen = false, onClose }: SidebarProps)
        if (hasPermission(user, "CLASS_MONITOR") || hasPermission(user, "MONITOR")) {
           items.push({ to: "/my-class", label: "Lớp của tôi", icon: <Users className="w-5 h-5" /> });
        }
+
+       // ✅ ADDED: Feedback
+       // ✅ ADDED: Feedback
+       items.push({ to: "/feedback", label: "Đóng góp ý kiến", icon: <MessageSquare className="w-5 h-5" /> });
     }
 
     // ================= LECTURER =================
