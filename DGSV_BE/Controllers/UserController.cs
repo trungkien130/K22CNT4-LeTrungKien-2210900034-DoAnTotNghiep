@@ -168,6 +168,25 @@ public async Task<IActionResult> GetClasses()
                         break;
                     }
 
+                case "ADMIN":
+                case "SUPER_ADMIN":
+                    {
+                        if (!int.TryParse(id, out int adminId))
+                            return BadRequest("Id admin không hợp lệ");
+
+                        var admin = await _context.AccountAdmins.FindAsync(adminId);
+                        if (admin == null) return NotFound();
+
+                        admin.FullName = dto.FullName;
+                        
+                        if (!currentUserId.Equals(id, StringComparison.OrdinalIgnoreCase))
+                        {
+                            admin.IsActive = dto.IsActive;
+                        }
+
+                        break;
+                    }
+
                 default:
                     return BadRequest("Role không hợp lệ");
             }
@@ -232,6 +251,7 @@ public async Task<IActionResult> GetClasses()
                     }
 
                 case "ADMIN":
+                case "SUPER_ADMIN":
                     {
                         if (!int.TryParse(id, out int adminId))
                             return BadRequest("Id admin không hợp lệ");
@@ -296,6 +316,7 @@ public async Task<IActionResult> GetClasses()
                         break;
                     }
                 case "ADMIN":
+                case "SUPER_ADMIN":
                     {
                         if (!int.TryParse(id, out int adminId))
                             return BadRequest();

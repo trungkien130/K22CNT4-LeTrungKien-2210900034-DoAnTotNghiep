@@ -1,7 +1,7 @@
 // src/pages/AdminDashboard.tsx
 import { useEffect, useState } from "react";
 import api from "../../API/api";
-import { Users, BookOpen, School, HelpCircle, FileText, TrendingUp, Activity } from "lucide-react";
+import { Users, School, HelpCircle, TrendingUp } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
 interface Stats {
@@ -22,7 +22,6 @@ export default function AdminDashboard() {
     totalSemesters: 0,
   });
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
 
   useEffect(() => {
     const fetchStats = async () => {
@@ -56,7 +55,6 @@ export default function AdminDashboard() {
       } catch (err) {
         console.error(err);
         // Fallback or just show 0
-        setError("Không thể tải một số dữ liệu thống kê.");
       } finally {
         setLoading(false);
       }

@@ -129,32 +129,33 @@ export default function SemesterManager() {
         </button>
       </div>
 
-      <div className="bg-white rounded shadow overflow-x-auto border border-gray-200">
-        <table className="min-w-full whitespace-nowrap">
-          <thead className="bg-gray-50 border-b border-gray-200 text-xs text-gray-700 uppercase">
+      <div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
+      <div className="overflow-x-auto">
+        <table className="min-w-full whitespace-nowrap text-sm">
+          <thead className="bg-gray-50 text-gray-700 uppercase font-bold border-b">
             <tr>
-              <th className="px-3 py-2 text-left w-16 font-semibold">ID</th>
-              <th className="px-3 py-2 text-left w-32 font-semibold">Tên Học kỳ</th>
-              <th className="px-3 py-2 text-left w-24 font-semibold">Năm học</th>
-              <th className="px-3 py-2 text-center w-24 font-semibold">Mở SV</th>
-              <th className="px-3 py-2 text-center w-24 font-semibold">Đóng SV</th>
-              <th className="px-3 py-2 text-center w-24 font-semibold">Đóng Lớp</th>
-              <th className="px-3 py-2 text-center w-24 font-semibold">Đóng GV</th>
-              <th className="px-3 py-2 text-center w-24 font-semibold">Trạng thái</th>
-              <th className="px-3 py-2 text-right w-24 font-semibold">Thao tác</th>
+              <th className="px-3 py-3 text-left w-16 font-bold">ID</th>
+              <th className="px-3 py-3 text-left font-bold">Tên Học kỳ</th>
+              <th className="px-3 py-3 text-left font-bold">Năm học</th>
+              <th className="px-3 py-3 text-center font-bold">Mở SV</th>
+              <th className="px-3 py-3 text-center font-bold">Đóng SV</th>
+              <th className="px-3 py-3 text-center font-bold">Đóng Lớp</th>
+              <th className="px-3 py-3 text-center font-bold">Đóng GV</th>
+              <th className="px-3 py-3 text-center w-24 font-bold">Trạng thái</th>
+              <th className="px-3 py-3 text-right w-20 font-bold">Thao tác</th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-gray-200 text-sm/relaxed">
+          <tbody className="divide-y divide-gray-100 bg-white">
             {data.map((item) => (
-              <tr key={item.id} className="hover:bg-gray-50 transition-colors">
-                <td className="px-3 py-2 text-gray-500">{item.id}</td>
-                <td className="px-3 py-2 font-medium text-gray-900">{item.name}</td>
-                <td className="px-3 py-2 text-gray-600">{item.schoolYear}</td>
-                <td className="px-3 py-2 text-center text-gray-600 text-xs">{formatDate(item.dateOpenStudent)}</td>
-                <td className="px-3 py-2 text-center text-gray-600 text-xs">{formatDate(item.dateEndStudent)}</td>
-                <td className="px-3 py-2 text-center text-gray-600 text-xs">{formatDate(item.dateEndClass)}</td>
-                <td className="px-3 py-2 text-center text-gray-600 text-xs">{formatDate(item.dateEndLecturer)}</td>
-                <td className="px-3 py-2 text-center">
+              <tr key={item.id} className="hover:bg-blue-50/50 transition-all duration-150 group">
+                <td className="px-3 py-3 text-gray-500">{item.id}</td>
+                <td className="px-3 py-3 font-medium text-gray-900">{item.name}</td>
+                <td className="px-3 py-3 text-gray-600">{item.schoolYear}</td>
+                <td className="px-3 py-3 text-center text-gray-600 text-xs">{formatDate(item.dateOpenStudent)}</td>
+                <td className="px-3 py-3 text-center text-gray-600 text-xs">{formatDate(item.dateEndStudent)}</td>
+                <td className="px-3 py-3 text-center text-gray-600 text-xs">{formatDate(item.dateEndClass)}</td>
+                <td className="px-3 py-3 text-center text-gray-600 text-xs">{formatDate(item.dateEndLecturer)}</td>
+                <td className="px-3 py-3 text-center">
                     {(() => {
                         const now = new Date();
                         const start = item.dateOpenStudent ? new Date(item.dateOpenStudent) : null;
@@ -186,33 +187,35 @@ export default function SemesterManager() {
                         );
                     })()}
                 </td>
-                <td className="px-3 py-2 text-right space-x-1 whitespace-nowrap">
-                  <button
-                    onClick={() => {
-                      setEditing(item);
-                      setForm({
-                        name: item.name || "",
-                        schoolYear: item.schoolYear || "",
-                        dateOpenStudent: item.dateOpenStudent || "",
-                        dateEndStudent: item.dateEndStudent || "",
-                        dateEndClass: item.dateEndClass || "",
-                        dateEndLecturer: item.dateEndLecturer || "",
-                        isActive: item.isActive || false,
-                      });
-                      setModalOpen(true);
-                    }}
-                    className="text-blue-600 hover:bg-blue-50 p-1.5 rounded transition-colors"
-                    title="Sửa"
-                  >
-                    <Edit size={14} />
-                  </button>
-                  <button
-                      onClick={() => handleDelete(item.id)}
-                    className="text-red-600 hover:bg-red-50 p-1.5 rounded transition-colors"
-                    title="Xóa"
-                  >
-                    <Trash2 size={14} />
-                  </button>
+                <td className="px-3 py-3 text-right whitespace-nowrap">
+                  <div className="flex items-center justify-end gap-1">
+                    <button
+                      onClick={() => {
+                        setEditing(item);
+                        setForm({
+                          name: item.name || "",
+                          schoolYear: item.schoolYear || "",
+                          dateOpenStudent: item.dateOpenStudent || "",
+                          dateEndStudent: item.dateEndStudent || "",
+                          dateEndClass: item.dateEndClass || "",
+                          dateEndLecturer: item.dateEndLecturer || "",
+                          isActive: item.isActive || false,
+                        });
+                        setModalOpen(true);
+                      }}
+                      className="text-blue-600 hover:bg-blue-50 p-1 rounded transition-colors"
+                      title="Sửa"
+                    >
+                      <Edit size={13} />
+                    </button>
+                    <button
+                        onClick={() => handleDelete(item.id)}
+                      className="text-red-600 hover:bg-red-50 p-1 rounded transition-colors"
+                      title="Xóa"
+                    >
+                      <Trash2 size={13} />
+                    </button>
+                  </div>
                 </td>
               </tr>
             ))}
@@ -223,6 +226,7 @@ export default function SemesterManager() {
             )}
           </tbody>
         </table>
+        </div>
       </div>
 
       {modalOpen && (

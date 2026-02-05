@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
 
-export type Role = "STUDENT" | "LECTURER" | "ADMIN" | "SUPPER_ADMIN" | "SUPER_ADMIN";
+export type Role = "STUDENT" | "LECTURER" | "ADMIN" | "SUPER_ADMIN";
 
 export interface Semester {
   id: number;

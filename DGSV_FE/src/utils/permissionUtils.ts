@@ -19,7 +19,7 @@ export const hasAdminAccess = (user: User | null): boolean => {
 
     const adminRoles = [
         "ADMIN",
-        "SUPPER_ADMIN", "SUPER_ADMIN", // Underscore
+        "SUPER_ADMIN", // Correct spelling
         "SUPPER ADMIN", "SUPER ADMIN"  // Space
     ];
 
@@ -35,6 +35,6 @@ export const hasAdminAccess = (user: User | null): boolean => {
 
 export const hasPermission = (user: User | null, code: string): boolean => {
     if (!user) return false;
-    if (user.role === "SUPPER_ADMIN") return true;
+    if (user.role === "SUPER_ADMIN") return true;
     return user.permissions?.includes(code) || false;
 };

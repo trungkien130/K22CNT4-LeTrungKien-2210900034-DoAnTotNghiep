@@ -99,28 +99,29 @@ export default function ClassManager() {
         </button>
       </div>
 
-      <div className="bg-white rounded shadow overflow-x-auto border border-gray-200">
-        <table className="min-w-full whitespace-nowrap">
-          <thead className="bg-gray-50 text-xs text-gray-700 uppercase">
+      <div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
+      <div className="overflow-x-auto">
+        <table className="min-w-full whitespace-nowrap text-sm">
+          <thead className="bg-gray-50 text-gray-700 uppercase font-bold border-b">
             <tr>
-              <th className="px-3 py-2 text-left w-16 font-semibold">ID</th>
-              <th className="px-3 py-2 text-left w-32 font-semibold">Tên Lớp</th>
-              <th className="px-3 py-2 text-left w-24 font-semibold">Khóa</th>
-              <th className="px-3 py-2 text-left font-semibold">Khoa</th>
-              <th className="px-3 py-2 text-center w-24 font-semibold">Trạng thái</th>
-              <th className="px-3 py-2 text-right w-24 font-semibold">Thao tác</th>
+              <th className="px-3 py-3 text-left w-16 font-bold">ID</th>
+              <th className="px-3 py-3 text-left font-bold">Tên Lớp</th>
+              <th className="px-3 py-3 text-left font-bold">Khóa</th>
+              <th className="px-3 py-3 text-left font-bold">Khoa</th>
+              <th className="px-3 py-3 text-center w-24 font-bold">Trạng thái</th>
+              <th className="px-3 py-3 text-right w-20 font-bold">Thao tác</th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-gray-200 text-sm/relaxed">
+          <tbody className="divide-y divide-gray-100 bg-white">
             {data.map((item) => (
-              <tr key={item.id} className="hover:bg-gray-50 transition-colors">
-                <td className="px-3 py-2 font-medium text-gray-900">{item.id}</td>
-                <td className="px-3 py-2 font-medium text-gray-700">{item.name}</td>
-                <td className="px-3 py-2 text-gray-600">{item.courseId}</td>
-                <td className="px-3 py-2 text-gray-600 truncate max-w-[200px]" title={item.departmentName}>
+              <tr key={item.id} className="hover:bg-blue-50/50 transition-all duration-150 group">
+                <td className="px-3 py-3 font-medium text-gray-900">{item.id}</td>
+                <td className="px-3 py-3 font-medium text-gray-700">{item.name}</td>
+                <td className="px-3 py-3 text-gray-600">{item.courseId}</td>
+                <td className="px-3 py-3 text-gray-600 truncate max-w-[200px]" title={item.departmentName}>
                     {item.departmentName}
                 </td>
-                <td className="px-3 py-2 text-center">
+                <td className="px-3 py-3 text-center">
                     <span className={`px-1.5 py-0.5 rounded text-[10px] font-bold uppercase border ${
                         item.isActive 
                         ? 'bg-green-50 text-green-700 border-green-200' 
@@ -129,28 +130,30 @@ export default function ClassManager() {
                         {item.isActive ? 'Active' : 'Inactive'}
                     </span>
                 </td>
-                <td className="px-3 py-2 text-right space-x-1 whitespace-nowrap">
-                  <button
-                    onClick={() => {
-                      setEditing(item);
-                      setForm({
-                        name: item.name,
-                        courseId: item.courseId,
-                        departmentId: item.departmentId,
-                        isActive: item.isActive
-                      });
-                      setModalOpen(true);
-                    }}
-                    className="text-blue-600 hover:bg-blue-50 p-1.5 rounded transition-colors"
-                  >
-                    <Edit size={14} />
-                  </button>
-                  <button
-                    onClick={() => handleDelete(item.id)}
-                    className="text-red-600 hover:bg-red-50 p-1.5 rounded transition-colors"
-                  >
-                    <Trash2 size={14} />
-                  </button>
+                <td className="px-3 py-3 text-right whitespace-nowrap">
+                  <div className="flex items-center justify-end gap-1">
+                    <button
+                      onClick={() => {
+                        setEditing(item);
+                        setForm({
+                          name: item.name,
+                          courseId: item.courseId,
+                          departmentId: item.departmentId,
+                          isActive: item.isActive
+                        });
+                        setModalOpen(true);
+                      }}
+                      className="text-blue-600 hover:bg-blue-50 p-1 rounded transition-colors"
+                    >
+                      <Edit size={13} />
+                    </button>
+                    <button
+                      onClick={() => handleDelete(item.id)}
+                      className="text-red-600 hover:bg-red-50 p-1 rounded transition-colors"
+                    >
+                      <Trash2 size={13} />
+                    </button>
+                  </div>
                 </td>
               </tr>
             ))}
@@ -162,6 +165,7 @@ export default function ClassManager() {
             )}
           </tbody>
         </table>
+        </div>
       </div>
 
       {modalOpen && (

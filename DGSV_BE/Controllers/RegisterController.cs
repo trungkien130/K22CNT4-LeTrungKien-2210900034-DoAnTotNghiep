@@ -56,13 +56,24 @@ namespace DGSV.Api.Controllers
                     var fullName = worksheet.Cells[row, 2].Value?.ToString()?.Trim();
                     var birthdayStr = worksheet.Cells[row, 3].Value?.ToString()?.Trim();
                     var className = worksheet.Cells[row, 4].Value?.ToString()?.Trim();
+                    var phone = worksheet.Cells[row, 5].Value?.ToString()?.Trim();
                     
                     if (string.IsNullOrEmpty(mssv) || string.IsNullOrEmpty(fullName)) continue;
 
                     if (await _context.Students.AnyAsync(s => s.Id == mssv))
                     {
-                        errors.Add($"Dòng {row}: MSSV {mssv} đã tồn tại");
+                        errors.Add($"Dòng {row}: MSSV {mssv} đã tồn tại. Vui lòng kiểm tra xem tài khoản này có đang bị ngưng hoạt động không.");
                         continue;
+                    }
+
+                    if (!string.IsNullOrEmpty(phone))
+                    {
+                        if (await _context.Students.AnyAsync(s => s.Phone == phone) || 
+                            await _context.Lecturers.AnyAsync(l => l.Phone == phone))
+                        {
+                            errors.Add($"Dòng {row}: Số điện thoại {phone} đã được sử dụng bởi người dùng khác.");
+                            continue;
+                        }
                     }
 
 
@@ -94,6 +105,7 @@ namespace DGSV.Api.Controllers
                         FullName = fullName,
                         Birthday = birthday,
                         ClassId = classId,
+                        Phone = phone,
                         Gender = null, // Fixed: bool? cannot take string "Khác"
                         PositionId = "SV",
                         IsActive = true
@@ -137,7 +149,7 @@ namespace DGSV.Api.Controllers
         // =========================================================
         [HttpPost("register")]
         [Permission("USER_MANAGE")]
-        public IActionResult RegisterManual([FromBody] RegisterRequestDto req)
+        public async Task<IActionResult> RegisterManual([FromBody] RegisterRequestDto req)
         {
 
 
@@ -148,47 +160,45 @@ namespace DGSV.Api.Controllers
             {
                 return BadRequest("Mã số (ID) là bắt buộc cho Sinh viên và Giảng viên");
             }
-
             bool usernameExists =
-                _context.AccountAdmins.Any(x => x.UserName == req.UserName) ||
-                _context.AccountLecturers.Any(x => x.UserName == req.UserName) ||
-                _context.AccountStudents.Any(x => x.UserName == req.UserName);
+                await _context.AccountAdmins.AnyAsync(x => x.UserName == req.UserName) ||
+                await _context.AccountLecturers.AnyAsync(x => x.UserName == req.UserName) ||
+                await _context.AccountStudents.AnyAsync(x => x.UserName == req.UserName);
 
-
-
-
+            if (usernameExists)
+            {
+                return BadRequest($"Tên đăng nhập {req.UserName} đã tồn tại trong hệ thống");
+            }
 
             if (roleUpper == "STUDENT")
             {
-                if (_context.Students.Any(s => s.Id == req.Id))
-                    return BadRequest($"Mã sinh viên {req.Id} đã tồn tại");
+                if (await _context.Students.AnyAsync(s => s.Id == req.Id))
+                    return BadRequest($"Mã sinh viên {req.Id} đã tồn tại. Vui lòng kiểm tra lại (Người dùng này có thể đang ở trạng thái ngưng hoạt động).");
             }
             else if (roleUpper == "LECTURER")
             {
-                if (_context.Lecturers.Any(l => l.Id == req.Id))
-                    return BadRequest($"Mã giảng viên {req.Id} đã tồn tại");
+                if (await _context.Lecturers.AnyAsync(l => l.Id == req.Id))
+                    return BadRequest($"Mã giảng viên {req.Id} đã tồn tại. Vui lòng kiểm tra lại (Người dùng này có thể đang ở trạng thái ngưng hoạt động).");
             }
 
 
 
-            if (_context.Students.Any(s => s.Email == req.Email) || 
-                _context.Lecturers.Any(l => l.Email == req.Email))
+            if (await _context.Students.AnyAsync(s => s.Email == req.Email) || 
+                await _context.Lecturers.AnyAsync(l => l.Email == req.Email))
             {
                 return BadRequest($"Email {req.Email} đã được sử dụng bởi người dùng khác");
             }
 
             if (!string.IsNullOrEmpty(req.Phone) && 
-               (_context.Students.Any(s => s.Phone == req.Phone) || 
-                _context.Lecturers.Any(l => l.Phone == req.Phone)))
+               (await _context.Students.AnyAsync(s => s.Phone == req.Phone) || 
+                await _context.Lecturers.AnyAsync(l => l.Phone == req.Phone)))
             {
-                // return BadRequest($"Số điện thoại {req.Phone} đã được sử dụng");
-
-
+                return BadRequest($"Số điện thoại {req.Phone} đã được sử dụng bởi người dùng khác");
             }
 
             string passwordHash = BCrypt.Net.BCrypt.HashPassword(req.Password);
 
-            using var transaction = _context.Database.BeginTransaction();
+            using var transaction = await _context.Database.BeginTransactionAsync();
             try
             {
                 if (req.Role.ToUpper() == "ADMIN")
@@ -256,8 +266,8 @@ namespace DGSV.Api.Controllers
                     return BadRequest("Role không hợp lệ");
                 }
 
-                _context.SaveChanges();
-                transaction.Commit();
+                await _context.SaveChangesAsync();
+                await transaction.CommitAsync();
                 return Ok("Tạo tài khoản thành công");
             }
             catch

@@ -136,12 +136,10 @@ export default function PermissionManager() {
     "CLASS_MONITOR": "Lớp trưởng (Xem đánh giá lớp)",
   };
 
-  // Role Name Translation Map
   const roleTranslations: Record<string, string> = {
     "ADMIN": "Quản trị viên",
     "LECTURER": "Giảng viên",
     "STUDENT": "Sinh viên",
-    "SUPPER_ADMIN": "Quản trị cấp cao", // Handling the typo from DB
     "SUPER_ADMIN": "Quản trị cấp cao",
     "VPK": "Văn phòng khoa",
   };
@@ -167,89 +165,89 @@ export default function PermissionManager() {
   };
 
   return (
-    <div className="p-6 max-w-7xl mx-auto">
-      <div className="mb-6 flex items-center justify-between">
-        <h1 className="text-2xl font-bold text-gray-800 flex items-center gap-2">
-          <Shield className="w-8 h-8 text-blue-600" />
+    <div className="p-4 max-w-7xl mx-auto text-xs">
+      <div className="mb-4 flex items-center justify-between">
+        <h1 className="text-lg font-bold text-gray-800 flex items-center gap-2">
+          <Shield className="w-6 h-6 text-blue-600" />
           Phân Quyền Hệ Thống
         </h1>
         {message && (
-          <div className="flex items-center gap-2 px-4 py-2 bg-green-100 text-green-700 rounded-lg animate-fade-in">
-            <Check className="w-4 h-4" />
+          <div className="flex items-center gap-2 px-3 py-1.5 bg-green-100 text-green-700 rounded-lg animate-fade-in text-xs">
+            <Check className="w-3 h-3" />
             {message}
           </div>
         )}
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
         {/* LEFT: ROLES */}
-        <div className="bg-white p-4 rounded-xl shadow-sm border border-gray-200">
-          <div className="flex items-center justify-between mb-4">
-             <h2 className="font-semibold text-gray-700">Vai trò (Roles)</h2>
+        <div className="bg-white p-3 rounded-xl shadow-sm border border-gray-200">
+          <div className="flex items-center justify-between mb-3">
+             <h2 className="font-semibold text-gray-700 text-xs">Vai trò (Roles)</h2>
              <button 
                 onClick={handleAddRole}
                 title="Thêm vai trò mới"
                 className="p-1 rounded-md hover:bg-blue-50 text-blue-600 transition-colors"
              >
-                <div className="w-5 h-5 flex items-center justify-center font-bold text-lg leading-none">+</div>
+                <div className="w-4 h-4 flex items-center justify-center font-bold text-sm leading-none">+</div>
              </button>
           </div>
-          <div className="space-y-2">
+          <div className="space-y-1.5">
             {roles.map((role) => (
               <button
                 key={role.id}
                 onClick={() => setSelectedRole(role.id)}
-                className={`w-full text-left px-4 py-3 rounded-lg transition-colors flex items-center justify-between ${
+                className={`w-full text-left px-3 py-2 rounded-lg transition-colors flex items-center justify-between text-xs ${
                   selectedRole === role.id
                     ? "bg-blue-50 text-blue-700 border border-blue-200 font-medium"
                     : "hover:bg-gray-50 text-gray-600"
                 }`}
               >
                 {roleTranslations[role.roleName] || role.roleName}
-                {selectedRole === role.id && <Check className="w-4 h-4" />}
+                {selectedRole === role.id && <Check className="w-3 h-3" />}
               </button>
             ))}
           </div>
         </div>
 
         {/* RIGHT: PERMISSIONS */}
-        <div className="md:col-span-3 bg-white p-6 rounded-xl shadow-sm border border-gray-200">
-          <div className="flex justify-between items-center mb-6">
-            <h2 className="font-semibold text-gray-700">Danh sách quyền hạn</h2>
+        <div className="md:col-span-3 bg-white p-4 rounded-xl shadow-sm border border-gray-200">
+          <div className="flex justify-between items-center mb-4">
+            <h2 className="font-semibold text-gray-700 text-xs">Danh sách quyền hạn</h2>
             <button
               onClick={handleSave}
               disabled={loading}
-              className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50 transition-colors flex items-center gap-2"
+              className="px-4 py-1.5 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50 transition-colors flex items-center gap-1.5 text-xs"
             >
               {loading ? "Đang lưu..." : "Lưu thay đổi"}
             </button>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
             {Object.entries(groupedPermissions).map(([module, perms]) => (
-              <div key={module} className="border border-gray-100 rounded-lg p-4 bg-gray-50/50">
-                <h3 className="text-sm font-bold text-blue-700 uppercase mb-3 tracking-wider border-b pb-2">
+              <div key={module} className="border border-gray-100 rounded-lg p-3 bg-gray-50/50">
+                <h3 className="text-[11px] font-bold text-blue-700 uppercase mb-2 tracking-wider border-b pb-1.5">
                   {moduleTranslations[module?.trim().toUpperCase()] || module}
                 </h3>
-                <div className="space-y-3">
+                <div className="space-y-2">
                   {perms.map((perm) => (
                     <label
                       key={perm.id}
-                      className="flex items-start gap-3 p-2 hover:bg-white rounded-md cursor-pointer transition-colors"
+                      className="flex items-start gap-2 p-1.5 hover:bg-white rounded-md cursor-pointer transition-colors"
                     >
                       <div className="relative flex items-center mt-0.5">
                         <input
                           type="checkbox"
-                          className="w-5 h-5 border-gray-300 rounded text-blue-600 focus:ring-blue-500"
+                          className="w-4 h-4 border-gray-300 rounded text-blue-600 focus:ring-blue-500"
                           checked={rolePermissions.includes(perm.id)}
                           onChange={() => togglePermission(perm.id)}
                         />
                       </div>
                       <div>
-                        <div className="text-sm font-medium text-gray-800">
+                        <div className="text-xs font-medium text-gray-800">
                           {permissionCodeTranslations[perm.permissionCode] || perm.permissionName}
                         </div>
-                        <div className="text-xs text-gray-500 font-mono mt-0.5">
+                        <div className="text-[10px] text-gray-500 font-mono mt-0.5">
                           {perm.permissionCode}
                         </div>
                       </div>

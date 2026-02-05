@@ -3,13 +3,13 @@ import PublicRoutes from "./Routes/PublicRoutes";
 
 import UserRoutes from "./Routes/UserRoutes";
 import { hasAdminAccess } from "./utils/permissionUtils";
-import { useNavigate, Routes, Route, Navigate } from "react-router-dom"; // ✅ Fixed Import
+import { Routes, Route, Navigate } from "react-router-dom"; // ✅ Fixed Import
 import AdminLayout from "./pages/AdminPage/AdminLayOut";
 import Dashboard from "./pages/AdminPage/AdminDashBoard";
 import QuestionController from "./pages/AdminPage/QuestionsControll";
 import AnswerController from "./pages/AdminPage/AnswerController";
 import UserController from "./pages/AdminPage/UserController";
-import AccountController from "./pages/AdminPage/AcountController";
+import AccountController from "./pages/AdminPage/AccountController";
 import SemesterManager from "./pages/AdminPage/SemesterManager";
 import DepartmentManager from "./pages/AdminPage/DepartmentManager";
 import ClassManager from "./pages/AdminPage/ClassManager";
@@ -41,7 +41,7 @@ export default function App() {
         <Route path="answers" element={<AnswerController />} />
         <Route path="evaluations" element={<EvaluationController />} />
         <Route path="users" element={<UserController />} />
-        <Route path="acounts" element={<AccountController />} />
+        <Route path="accounts" element={<AccountController />} />
         <Route path="semesters" element={<SemesterManager />} />
         <Route path="departments" element={<DepartmentManager />} />
         <Route path="classes" element={<ClassManager />} />

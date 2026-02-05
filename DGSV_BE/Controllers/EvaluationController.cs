@@ -73,7 +73,7 @@ namespace DGSV.Controllers
         [HttpGet("student/{studentId}/semester/{semesterId}")]
         public async Task<IActionResult> GetEvaluation(string studentId, int semesterId)
         {
-            // Manual permission check: Allow EVAL_HISTORY_VIEW (students), EVAL_ADMIN_VIEW (admins), SUPPER_ADMIN role, or any ADMIN role
+            // Manual permission check: Allow EVAL_HISTORY_VIEW (students), EVAL_ADMIN_VIEW (admins), SUPER_ADMIN role, or any ADMIN role
             var user = HttpContext.User;
             
             if (!user.Identity.IsAuthenticated)
@@ -81,9 +81,9 @@ namespace DGSV.Controllers
                 return Unauthorized();
             }
 
-            // Check if user is SUPPER_ADMIN or has ADMIN in role name (bypass permission checks)
+            // Check if user is SUPER_ADMIN or has ADMIN in role name (bypass permission checks)
             var roleNameClaim = user.Claims.FirstOrDefault(c => c.Type == "Role");
-            bool isSuperAdmin = roleNameClaim != null && roleNameClaim.Value == "SUPPER_ADMIN";
+            bool isSuperAdmin = roleNameClaim != null && roleNameClaim.Value == "SUPER_ADMIN";
             bool isAdmin = roleNameClaim != null && roleNameClaim.Value.ToUpper().Contains("ADMIN");
 
             if (!isSuperAdmin && !isAdmin)

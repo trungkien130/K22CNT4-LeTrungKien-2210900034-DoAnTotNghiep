@@ -33,7 +33,7 @@ export default function AdminSidebar({ isOpen = false, onClose }: AdminSidebarPr
   const content = [];
 
   // 1. Dashboard (General)
-  if (role === "ADMIN" || role === "SUPPER_ADMIN" || check("SYSTEM_ADMIN")) {
+  if (role === "ADMIN" || role === "SUPER_ADMIN" || check("SYSTEM_ADMIN")) {
       content.push(
         <NavLink key="dashboard" to="/admin" end className={linkClass} onClick={onClose}>
           <LayoutDashboard size={18} /> Tổng quan
@@ -70,7 +70,7 @@ export default function AdminSidebar({ isOpen = false, onClose }: AdminSidebarPr
   
   // Evaluatons? Maybe "LECTURER_EVAL_STUDENT"?
   
-  const canViewEvaluations = role === "ADMIN" || role === "SUPPER_ADMIN" || check("SYSTEM_ADMIN"); // Or specific
+  const canViewEvaluations = role === "ADMIN" || role === "SUPER_ADMIN" || check("SYSTEM_ADMIN"); // Or specific
   if (canViewEvaluations) {
       content.push(
         <NavLink key="evals" to="/admin/evaluations" className={linkClass} onClick={onClose}>
@@ -101,9 +101,9 @@ export default function AdminSidebar({ isOpen = false, onClose }: AdminSidebarPr
   }
   
   // Accounts (Seems redundant with Users, but in screenshot)
-  if (check("USER_MANAGE") || role === "ADMIN" || role === "SUPPER_ADMIN") {
+  if (check("USER_MANAGE") || role === "ADMIN" || role === "SUPER_ADMIN") {
       content.push(
-        <NavLink key="accounts" to="/admin/acounts" className={linkClass} onClick={onClose}>
+        <NavLink key="accounts" to="/admin/accounts" className={linkClass} onClick={onClose}>
           <Users size={18} /> Tài khoản
         </NavLink>
       );

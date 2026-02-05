@@ -140,56 +140,59 @@ export default function AnswerController() {
         <p className="text-center py-10 text-gray-500">Đang tải...</p>
       ) : (
         <>
-          <div className="bg-white rounded shadow overflow-x-auto border border-gray-200">
-            <table className="min-w-full whitespace-nowrap">
-              <thead className="bg-gray-50 text-xs text-gray-700 uppercase">
+          <div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
+            <div className="overflow-x-auto">
+            <table className="min-w-full text-sm">
+              <thead className="bg-gray-50 text-gray-700 uppercase font-bold border-b">
                 <tr>
-                  <th className="px-3 py-2 text-left w-12 font-semibold">ID</th>
-                  <th className="px-3 py-2 text-left font-semibold">Nội dung</th>
-                  <th className="px-3 py-2 text-center w-20 font-semibold">Điểm</th>
-                  <th className="px-3 py-2 text-center w-24 font-semibold">
+                  <th className="px-3 py-3 text-left w-16 font-bold whitespace-nowrap">ID</th>
+                  <th className="px-3 py-3 text-left font-bold">Nội dung</th>
+                  <th className="px-3 py-3 text-center w-20 font-bold sticky right-[160px] bg-gray-50 z-10 shadow-[-2px_0_4px_rgba(0,0,0,0.05)] whitespace-nowrap">Điểm</th>
+                  <th className="px-3 py-3 text-center w-20 font-bold sticky right-[80px] bg-gray-50 z-10 shadow-[-2px_0_4px_rgba(0,0,0,0.05)] whitespace-nowrap">
                     Q.ID
                   </th>
-                  <th className="px-3 py-2 text-right w-24 font-semibold">
+                  <th className="px-3 py-3 text-right w-20 font-bold sticky right-0 bg-gray-50 z-10 shadow-[-2px_0_4px_rgba(0,0,0,0.05)] whitespace-nowrap">
                     Thao tác
                   </th>
                 </tr>
               </thead>
 
-              <tbody className="divide-y divide-gray-200 text-sm/relaxed">
+              <tbody className="divide-y divide-gray-100 bg-white">
                 {paginatedAnswers.map((a) => (
-                  <tr key={a.id} className="hover:bg-gray-50 transition-colors">
-                    <td className="px-3 py-2 font-medium text-gray-900">{a.id}</td>
+                  <tr key={a.id} className="hover:bg-blue-50/50 transition-all duration-150 group">
+                    <td className="px-3 py-3 font-medium text-gray-900">{a.id}</td>
 
-                    <td className="px-3 py-2">
+                    <td className="px-3 py-3">
                       <div className="line-clamp-2 text-gray-700 min-w-[200px]" title={a.contentAnswer}>
                         {a.contentAnswer}
                       </div>
                     </td>
 
-                    <td className="px-3 py-2 text-center font-semibold text-blue-600">
+                    <td className="px-3 py-3 text-center font-bold text-blue-600 sticky right-[160px] bg-white z-10 shadow-[-2px_0_4px_rgba(0,0,0,0.05)]">
                       {a.answerScore}
                     </td>
 
-                    <td className="px-3 py-2 text-center text-gray-500">
+                    <td className="px-3 py-3 text-center text-gray-500 sticky right-[80px] bg-white z-10 shadow-[-2px_0_4px_rgba(0,0,0,0.05)]">
                       {a.questionId}
                     </td>
 
-                    <td className="px-3 py-2 text-right space-x-1 whitespace-nowrap">
-                      <button
-                        onClick={() => openEdit(a)}
-                        className="text-blue-600 hover:bg-blue-50 p-1.5 rounded transition-colors"
-                        title="Sửa"
-                      >
-                        <Edit size={14} />
-                      </button>
-                      <button
-                        onClick={() => handleDelete(a.id)}
-                        className="text-red-600 hover:bg-red-50 p-1.5 rounded transition-colors"
-                        title="Xóa"
-                      >
-                        <Trash2 size={14} />
-                      </button>
+                    <td className="px-3 py-3 text-right whitespace-nowrap sticky right-0 bg-white z-10 shadow-[-2px_0_4px_rgba(0,0,0,0.05)]">
+                      <div className="flex items-center justify-end gap-1">
+                        <button
+                          onClick={() => openEdit(a)}
+                          className="text-blue-600 hover:bg-blue-50 p-1 rounded transition-colors"
+                          title="Sửa"
+                        >
+                          <Edit size={13} />
+                        </button>
+                        <button
+                          onClick={() => handleDelete(a.id)}
+                          className="text-red-600 hover:bg-red-50 p-1 rounded transition-colors"
+                          title="Xóa"
+                        >
+                          <Trash2 size={13} />
+                        </button>
+                      </div>
                     </td>
                   </tr>
                 ))}
@@ -203,6 +206,7 @@ export default function AnswerController() {
                 )}
               </tbody>
             </table>
+            </div>
           </div>
 
           {/* PAGINATION */}

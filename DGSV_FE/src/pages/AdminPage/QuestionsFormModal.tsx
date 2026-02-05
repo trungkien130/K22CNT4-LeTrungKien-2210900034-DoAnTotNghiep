@@ -55,75 +55,75 @@ export default function QuestionFormModal({
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-             {/* Loại câu hỏi */}
+            {/* Loại câu hỏi */}
             <div>
-                <label className="block text-gray-600 font-medium mb-2">
+              <label className="block text-gray-600 font-medium mb-2">
                 Loại câu hỏi
-                </label>
-                <select
+              </label>
+              <select
                 className="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-colors bg-white"
                 value={form.typeQuestionId}
                 onChange={(e) =>
-                    setForm({ ...form, typeQuestionId: +e.target.value })
+                  setForm({ ...form, typeQuestionId: +e.target.value })
                 }
-                >
+              >
                 <option value={0}>-- Chọn loại --</option>
                 {typeOptions.map((t) => (
-                    <option key={t.id} value={t.id}>
+                  <option key={t.id} value={t.id}>
                     {t.name}
-                    </option>
+                  </option>
                 ))}
-                </select>
+              </select>
             </div>
 
             {/* Nhóm câu hỏi */}
             <div>
-                <label className="block text-gray-600 font-medium mb-2">
+              <label className="block text-gray-600 font-medium mb-2">
                 Nhóm câu hỏi
-                </label>
-                <select
+              </label>
+              <select
                 className="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-colors bg-white"
                 value={form.groupQuestionId}
                 onChange={(e) =>
-                    setForm({ ...form, groupQuestionId: +e.target.value })
+                  setForm({ ...form, groupQuestionId: +e.target.value })
                 }
-                >
+              >
                 <option value={0}>-- Chọn nhóm --</option>
                 {groupOptions.map((g) => (
-                    <option key={g.id} value={g.id}>
+                  <option key={g.id} value={g.id}>
                     {g.name}
-                    </option>
+                  </option>
                 ))}
-                </select>
+              </select>
             </div>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-             {/* Thứ tự */}
+            {/* Thứ tự */}
             <div>
-                <label className="block text-gray-600 font-medium mb-2">
+              <label className="block text-gray-600 font-medium mb-2">
                 Thứ tự hiển thị
-                </label>
-                <input
+              </label>
+              <input
                 type="number"
                 className="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-colors"
                 value={form.orderBy}
                 onChange={(e) => setForm({ ...form, orderBy: +e.target.value })}
                 placeholder="1, 2, 3..."
-                />
+              />
             </div>
 
             {/* Người cập nhật */}
             <div>
-                <label className="block text-gray-600 font-medium mb-2">
+              <label className="block text-gray-600 font-medium mb-2">
                 Người cập nhật
-                </label>
-                <input
+              </label>
+              <input
                 className="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-colors"
                 value={form.updateBy}
                 onChange={(e) => setForm({ ...form, updateBy: e.target.value })}
                 placeholder="Admin..."
-                />
+              />
             </div>
           </div>
         </div>

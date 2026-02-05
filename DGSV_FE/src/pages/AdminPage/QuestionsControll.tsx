@@ -183,39 +183,39 @@ export default function QuestionController() {
               <table className="w-full text-xs text-left">
                 <thead className="bg-gray-50 text-gray-700 uppercase font-bold border-b">
                   <tr>
-                    <th className="px-4 py-3 w-10">ID</th>
-                    <th className="px-4 py-3">Nội dung</th>
-                    <th className="px-4 py-3 w-32 whitespace-nowrap">Loại</th>
-                    <th className="px-4 py-3 w-32 whitespace-nowrap">Nhóm</th>
-                    <th className="px-4 py-3 w-24 text-center whitespace-nowrap">Người tạo</th>
-                    <th className="px-4 py-3 w-20 text-center whitespace-nowrap">Hành động</th>
+                    <th className="px-3 py-3 w-16 text-left font-bold whitespace-nowrap">ID</th>
+                    <th className="px-3 py-3 text-left font-bold">Nội dung</th>
+                    <th className="px-3 py-3 w-32 whitespace-nowrap text-left font-bold">Loại</th>
+                    <th className="px-3 py-3 w-32 whitespace-nowrap text-left font-bold">Nhóm</th>
+                    <th className="px-3 py-3 w-24 text-center whitespace-nowrap font-bold">Người tạo</th>
+                    <th className="px-3 py-3 w-20 text-center whitespace-nowrap font-bold">Hành động</th>
                   </tr>
                 </thead>
 
                 <tbody className="divide-y divide-gray-100">
                   {paginatedQuestions.map((q) => (
                     <tr key={q.id} className="hover:bg-blue-50/50 transition-colors">
-                      <td className="px-4 py-3 font-medium text-gray-900">{q.id}</td>
+                      <td className="px-3 py-3 font-medium text-gray-900">{q.id}</td>
 
-                      <td className="px-4 py-3">
+                      <td className="px-3 py-3">
                         <div className="text-gray-700 font-medium line-clamp-2 md:whitespace-normal" title={q.contentQuestion}>
                           {q.contentQuestion}
                         </div>
                       </td>
 
-                      <td className="px-4 py-3 text-gray-600 truncate max-w-[150px]" title={String(q.typeQuestionName || "")}>
+                      <td className="px-3 py-3 text-gray-600 truncate max-w-[150px]" title={String(q.typeQuestionName || "")}>
                         {q.typeQuestionName || "—"}
                       </td>
 
-                      <td className="px-4 py-3 text-gray-600 truncate max-w-[150px]" title={String(q.groupQuestionName || "")}>
+                      <td className="px-3 py-3 text-gray-600 truncate max-w-[150px]" title={String(q.groupQuestionName || "")}>
                         {q.groupQuestionName || "—"}
                       </td>
 
-                      <td className="px-4 py-3 text-gray-500 text-center truncate max-w-[100px]" title={q.createBy || q.updateBy || ""}>
+                      <td className="px-3 py-3 text-gray-500 text-center truncate max-w-[100px]" title={q.createBy || q.updateBy || ""}>
                         {q.createBy || q.updateBy || "—"}
                       </td>
 
-                      <td className="px-4 py-3 text-center">
+                      <td className="px-3 py-3 text-center">
                         <div className="flex items-center justify-center gap-2">
                             <button
                                 onClick={() => openEdit(q)}

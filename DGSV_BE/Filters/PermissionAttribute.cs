@@ -47,9 +47,9 @@ namespace DGSV.Api.Filters
             // Optimization: Could cache this in MemoryCache or Redis
             
             // 🔹 SUPER ADMIN BYPASS (ROLE BASED)
-            // Check if user has "SUPPER_ADMIN" role (claim "Role")
+            // Check if user has "SUPER_ADMIN" role (claim "Role")
             var roleNameClaim = user.Claims.FirstOrDefault(c => c.Type == "Role");
-            if (roleNameClaim != null && roleNameClaim.Value == "SUPPER_ADMIN")
+            if (roleNameClaim != null && roleNameClaim.Value == "SUPER_ADMIN")
             {
                 return; // Access Granted
             }

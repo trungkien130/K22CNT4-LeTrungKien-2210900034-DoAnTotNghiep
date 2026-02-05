@@ -37,6 +37,7 @@ namespace DGSV.Api.Controllers
                         FullName = x.FullName,
                         IsActive = x.IsActive,
                         Role = x.Role.RoleName,
+                        PasswordHash = x.PasswordHash
                     }).ToListAsync()),
 
                 "lecturer" => Ok(await _context.AccountLecturers
@@ -55,7 +56,8 @@ namespace DGSV.Api.Controllers
                         Phone = x.Lecturer.Phone,
                         Birthday = x.Lecturer.Birthday,
                         DepartmentName = x.Lecturer.Department.Name,
-                        Position = x.Lecturer.PositionId
+                        Position = x.Lecturer.PositionId,
+                        PasswordHash = x.PasswordHash
                     }).ToListAsync()),
 
                 "student" => Ok(await _context.AccountStudents
@@ -72,7 +74,8 @@ namespace DGSV.Api.Controllers
 
                         ClassName = x.Student.Class.Name,
                         Position = x.Student.PositionId,
-                        StudentId = x.StudentId
+                        StudentId = x.StudentId,
+                        PasswordHash = x.PasswordHash
                     }).ToListAsync()),
 
                 _ => BadRequest("Role không hợp lệ")

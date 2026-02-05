@@ -1,7 +1,7 @@
 import { useMemo, useEffect } from "react";
 import { NavLink } from "react-router-dom";
 import type { Role } from "../types";
-import { Home, PenTool, History, Settings, Users, BookOpen, Shield, Layers, HelpCircle, MessageSquare } from "lucide-react";
+import { Home, PenTool, History, Settings, Users, BookOpen, Shield, Layers, HelpCircle, MessageSquare, UserCircle } from "lucide-react";
 import logo from "../../public/Img/logo.png";
 import api from "../API/api";
 import { hasPermission } from "../utils/permissionUtils";
@@ -27,9 +27,7 @@ export default function Sidebar({ role, isOpen = false, onClose }: SidebarProps)
       try {
         if (user) {
           const userId = user.userId ?? user.mssv;
-          const res = await api.getUserInfo(user.role, String(userId));
-          console.log("User info fetched:", res.data);
-          // setUserInfo(res.data);
+          await api.getUserInfo(user.role, String(userId));
         }
       } catch (error) {
         console.error("Sidebar: Failed to fetch user info", error);
@@ -46,7 +44,7 @@ export default function Sidebar({ role, isOpen = false, onClose }: SidebarProps)
     // OR if they are Admin but might want basic views (optional, but requested "access main page")
     // Loose check for role to avoid overlap issues if subtypes are strictly defined
     const r = role as string;
-    if (r === "STUDENT" || r === "ADMIN" || r === "SUPPER_ADMIN" || r === "LECTURER") {
+    if (r === "STUDENT" || r === "ADMIN" || r === "SUPER_ADMIN" || r === "LECTURER") {
         items.push({ to: "/", label: "Tổng quan", icon: <Home className="w-5 h-5" /> });
     }
 
@@ -77,7 +75,7 @@ export default function Sidebar({ role, isOpen = false, onClose }: SidebarProps)
     
     // 1. Quản trị (General Dashboard)
     // Show if has ANY admin access
-    if (hasPermission(user, "SYSTEM_ADMIN") || role === "ADMIN" || (role as string) === "SUPPER_ADMIN") {
+    if (hasPermission(user, "SYSTEM_ADMIN") || role === "ADMIN" || (role as string) === "SUPER_ADMIN") {
         items.push({ to: "/admin", label: "Dashboard Quản trị", icon: <Settings className="w-5 h-5" /> });
     }
 
@@ -96,17 +94,22 @@ export default function Sidebar({ role, isOpen = false, onClose }: SidebarProps)
         items.push({ to: "/admin/classes", label: "Lớp", icon: <PenTool className="w-5 h-5" /> });
     }
 
-    // 5. Users
-    if (hasPermission(user, "USER_VIEW") || hasPermission(user, "USER_MANAGE")) {
-         items.push({ to: "/admin/users", label: "Quản lý người dùng", icon: <Users className="w-5 h-5" /> });
+    // 5. Account Management (Tài khoản)
+    if (hasPermission(user, "USER_VIEW") || hasPermission(user, "USER_MANAGE") || (role as string) === "SUPER_ADMIN" || user?.role === "SUPER_ADMIN") {
+         items.push({ to: "/admin/accounts", label: "Tài khoản", icon: <UserCircle className="w-5 h-5" /> });
     }
 
-    // 6. Permissions
+    // 6. Users
+    if (hasPermission(user, "USER_VIEW") || hasPermission(user, "USER_MANAGE") || (role as string) === "SUPER_ADMIN" || user?.role === "SUPER_ADMIN") {
+         items.push({ to: "/admin/users", label: "Người dùng", icon: <Users className="w-5 h-5" /> });
+    }
+
+    // 7. Permissions
     if (hasPermission(user, "PERMISSION_MANAGE")) {
         items.push({ to: "/permissions", label: "Phân quyền", icon: <Shield className="w-5 h-5" /> });
     }
 
-    // 7. Questions & Answers (New)
+    // 8. Questions & Answers (New)
     if (hasPermission(user, "QUESTION_MANAGE")) {
         items.push({ to: "/admin/questions", label: "Ngân hàng câu hỏi", icon: <HelpCircle className="w-5 h-5" /> });
     }

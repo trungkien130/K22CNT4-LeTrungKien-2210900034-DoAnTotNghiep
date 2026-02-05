@@ -85,7 +85,6 @@ export default function UserController() {
           gender: form.gender,
           classId: form.classId,
         };
-        console.log("Register Payload:", payload);
         await api.register(payload);
         alert("Thêm mới thành công!");
       } else {
@@ -220,80 +219,76 @@ export default function UserController() {
         <p className="text-center py-10 text-gray-500">Đang tải dữ liệu...</p>
       ) : (
         <>
-          <div className="bg-white rounded shadow overflow-x-auto border border-gray-200">
-            <table className="min-w-full whitespace-nowrap">
-              <thead className="bg-gray-50 text-xs text-gray-700 uppercase">
+          <div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
+          <div className="overflow-x-auto">
+            <table className="min-w-full whitespace-nowrap text-sm">
+              <thead className="bg-gray-50 text-gray-700 uppercase font-bold border-b">
                 <tr>
-                  <th className="px-3 py-2 text-left w-12 font-semibold">ID</th>
-                  <th className="px-3 py-2 text-left w-[180px] font-semibold">Họ tên</th>
+                  <th className="px-3 py-3 text-left font-bold">ID</th>
+                  <th className="px-3 py-3 text-left font-bold">Họ tên</th>
                   
-                  {/* ✅ Chỉ hiện cột Lớp nếu là STUDENT */}
-                  {role === "STUDENT" && (
-                    <th className="px-3 py-2 text-left w-20 font-semibold">Lớp</th>
-                  )}
-                  {role === "LECTURER" && (
-                    <th className="px-3 py-2 text-left w-32 font-semibold">Khoa</th>
-                  )}
+                  {role === "STUDENT" && <th className="px-3 py-3 text-left font-bold">Lớp</th>}
+                  {role === "LECTURER" && <th className="px-3 py-3 text-left font-bold">Khoa</th>}
                   
-                  <th className="px-3 py-2 text-left w-24 font-semibold">Chức vụ</th>
-                  <th className="px-3 py-2 text-left w-[160px] font-semibold">Email</th>
-                  <th className="px-3 py-2 text-left w-28 font-semibold">SĐT</th>
-                  <th className="px-3 py-2 text-left w-24 font-semibold">Ngày sinh</th>
+                  <th className="px-3 py-3 text-left font-bold">Chức vụ</th>
+                  <th className="px-3 py-3 text-left font-bold">Email</th>
+                  <th className="px-3 py-3 text-left font-bold">SĐT</th>
+                  <th className="px-3 py-3 text-left font-bold">Ngày sinh</th>
                   
-                  {role === "STUDENT" && <th className="px-3 py-2 text-center w-16 font-semibold">Giới tính</th>}
+                  {role === "STUDENT" && <th className="px-3 py-3 text-center w-16 font-bold">Giới tính</th>}
 
-                  <th className="px-3 py-2 text-center w-24 font-semibold">
+                  <th className="px-3 py-3 text-center w-24 font-bold sticky right-[80px] bg-gray-50 z-10 shadow-[-2px_0_4px_rgba(0,0,0,0.05)]">
                     Trạng thái
                   </th>
-                  <th className="px-3 py-2 text-right w-24 font-semibold">
+                  <th className="px-3 py-3 text-right w-20 font-bold sticky right-0 bg-gray-50 z-10 shadow-[-2px_0_4px_rgba(0,0,0,0.05)]">
                     Thao tác
                   </th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-gray-200 text-sm/relaxed">
+              <tbody className="divide-y divide-gray-100 bg-white">
                 {paginatedUsers.map((u) => (
-                  <tr key={`${u.role}-${u.id}`} className="hover:bg-gray-50 transition-colors">
-                    <td className="px-3 py-2 font-medium text-gray-900">{u.id}</td>
+                  <tr key={`${u.role}-${u.id}`} className="hover:bg-blue-50/50 transition-all duration-150 group">
+                    <td className="px-3 py-3 font-medium text-gray-900">{u.id}</td>
 
-                    <td className="px-3 py-2">
-                      <div className="text-gray-700 font-medium truncate max-w-[180px]" title={u.fullName}>
+                    <td className="px-3 py-3">
+                      <div className="text-gray-700 font-medium truncate max-w-[150px]" title={u.fullName}>
                         {u.fullName}
                       </div>
                     </td>
 
                     {/* ✅ Chỉ hiện cell Lớp nếu là STUDENT */}
                     {role === "STUDENT" && (
-                      <td className="px-3 py-2 text-gray-600 truncate text-xs">
+                      <td className="px-3 py-3 text-gray-600 truncate text-xs">
                         {u.className || "—"}
                       </td>
                     )}
                     {role === "LECTURER" && (
-                      <td className="px-3 py-2 text-gray-600 truncate text-xs">
+                      <td className="px-3 py-3 text-gray-600 truncate text-xs">
                         {u.departmentName || "—"}
                       </td>
                     )}
 
-                    <td className="px-3 py-2 text-gray-500 text-xs">{u.position || u.role}</td>
+                    <td className="px-3 py-3 text-gray-500 text-xs">{u.position || u.role}</td>
 
-                    <td className="px-3 py-2 text-gray-600 truncate max-w-[160px]" title={u.email}>
+                    <td className="px-3 py-3 text-gray-600 truncate max-w-[150px]" title={u.email}>
                       {u.email || "—"}
                     </td>
 
-                    <td className="px-3 py-2 text-gray-600 truncate text-xs">
+                    <td className="px-3 py-3 text-gray-600 truncate text-xs">
                       {u.phone || "—"}
                     </td>
 
-                    <td className="px-3 py-2 text-gray-600 truncate text-xs">
+                    <td className="px-3 py-3 text-gray-600 truncate text-xs">
                        {u.birthday ? new Date(u.birthday).toLocaleDateString("vi-VN") : "—"}
                     </td>
 
                     {role === "STUDENT" && (
-                      <td className="px-3 py-2 text-center text-gray-600 text-xs">
+                      <td className="px-3 py-3 text-center text-gray-600 text-xs">
                         {u.gender === true ? "Nam" : u.gender === false ? "Nữ" : "—"}
                       </td>
                     )}
 
-                    <td className="px-3 py-2 text-center">
+                    <td className="px-3 py-3 text-center sticky right-[80px] bg-white z-10 shadow-[-2px_0_4px_rgba(0,0,0,0.05)]">
                       <span
                         className={`px-1.5 py-0.5 rounded text-[10px] font-bold uppercase border ${
                           u.isActive
@@ -305,21 +300,23 @@ export default function UserController() {
                       </span>
                     </td>
 
-                    <td className="px-3 py-2 text-right space-x-1 whitespace-nowrap">
-                      <button
-                        onClick={() => openEdit(u)}
-                        className="text-blue-600 hover:bg-blue-50 p-1 rounded transition-colors"
-                        title="Sửa"
-                      >
-                        <Edit size={14} />
-                      </button>
-                      <button
-                        onClick={() => handleDelete(u)}
-                        className="text-red-600 hover:bg-red-50 p-1 rounded transition-colors"
-                        title="Xóa"
-                      >
-                        <Trash2 size={14} />
-                      </button>
+                    <td className="px-3 py-3 text-right whitespace-nowrap sticky right-0 bg-white z-10 shadow-[-2px_0_4px_rgba(0,0,0,0.05)]">
+                      <div className="flex items-center justify-end gap-1">
+                        <button
+                          onClick={() => openEdit(u)}
+                          className="text-blue-600 hover:bg-blue-50 p-1 rounded transition-colors"
+                          title="Sửa"
+                        >
+                          <Edit size={13} />
+                        </button>
+                        <button
+                          onClick={() => handleDelete(u)}
+                          className="text-red-600 hover:bg-red-50 p-1 rounded transition-colors"
+                          title="Xóa"
+                        >
+                          <Trash2 size={13} />
+                        </button>
+                      </div>
                     </td>
                   </tr>
                 ))}
@@ -336,6 +333,7 @@ export default function UserController() {
                 )}
               </tbody>
             </table>
+            </div>
           </div>
 
           {/* PAGINATION */}

@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import api from "../../API/api";
 import type { Role, Account, RegisterForm } from "../../types";
 import { Trash2, Edit, Filter } from "lucide-react";
-import AccountFormModal from "./AcountFormModal";
+import AccountFormModal from "./AccountFormModal";
 import CustomDropdown from "../../components/AdminComponent/CustomDropdown";
 
 const ITEMS_PER_PAGE = 10;
@@ -133,30 +133,30 @@ export default function AccountController() {
       {loading ? (
         <p className="text-center py-10 text-gray-500">Đang tải dữ liệu...</p>
       ) : (
-        <div className="bg-white rounded shadow overflow-x-auto border border-gray-200">
-        <table className="min-w-full whitespace-nowrap">
-          <thead className="bg-gray-50 text-xs text-gray-700 uppercase">
+        <div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
+        <div className="overflow-x-auto">
+        <table className="min-w-full whitespace-nowrap text-sm">
+          <thead className="bg-gray-50 text-gray-700 uppercase font-bold border-b">
             <tr>
-              <th className="px-3 py-2 text-left w-12 font-semibold">ID</th>
-              <th className="px-3 py-2 text-left font-semibold">Username</th>
-              <th className="px-3 py-2 text-left font-semibold">Họ tên</th>
-
-              <th className="px-3 py-2 text-center w-24 font-semibold">
+              <th className="px-3 py-3 text-left w-16 font-bold">ID</th>
+              <th className="px-3 py-3 text-left font-bold">Username</th>
+              <th className="px-3 py-3 text-left font-bold">Họ tên</th>
+              <th className="px-3 py-3 text-center w-24 font-bold sticky right-[80px] bg-gray-50 z-10 shadow-[-2px_0_4px_rgba(0,0,0,0.05)]">
                 Trạng thái
               </th>
-              <th className="px-3 py-2 text-right w-24 font-semibold">
+              <th className="px-3 py-3 text-right w-20 font-bold sticky right-0 bg-gray-50 z-10 shadow-[-2px_0_4px_rgba(0,0,0,0.05)]">
                 Thao tác
               </th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-gray-200 text-sm/relaxed">
+          <tbody className="divide-y divide-gray-100 bg-white">
             {paginatedAccounts.map((acc) => (
-              <tr key={acc.id} className="hover:bg-gray-50 transition-colors">
-                <td className="px-3 py-2 font-medium text-gray-900 text-center">{acc.id}</td>
-                <td className="px-3 py-2 font-medium text-gray-700">{acc.userName}</td>
-                <td className="px-3 py-2 text-gray-600">{acc.fullName || "—"}</td>
+              <tr key={acc.id} className="hover:bg-blue-50/50 transition-all duration-150 group">
+                <td className="px-3 py-3 font-medium text-gray-900 text-center">{acc.id}</td>
+                <td className="px-3 py-3 font-medium text-gray-700">{acc.userName}</td>
+                <td className="px-3 py-3 text-gray-600">{acc.fullName || "—"}</td>
 
-                <td className="px-3 py-2 text-center">
+                <td className="px-3 py-3 text-center sticky right-[80px] bg-white z-10 shadow-[-2px_0_4px_rgba(0,0,0,0.05)]">
                   <span
                     className={`px-1.5 py-0.5 rounded text-[10px] font-bold uppercase border ${
                       acc.isActive
@@ -167,21 +167,23 @@ export default function AccountController() {
                     {acc.isActive ? "Hoạt động" : "Ngưng"}
                   </span>
                 </td>
-                <td className="px-3 py-2 text-right space-x-1 whitespace-nowrap">
-                  <button
-                    onClick={() => openEdit(acc)}
-                    className="text-blue-600 hover:bg-blue-50 p-1.5 rounded transition-colors"
-                    title="Sửa"
-                  >
-                    <Edit size={14} />
-                  </button>
-                  <button
-                    onClick={() => handleDelete(acc.id)}
-                    className="text-red-600 hover:bg-red-50 p-1.5 rounded transition-colors"
-                    title="Xóa"
-                  >
-                    <Trash2 size={14} />
-                  </button>
+                <td className="px-3 py-3 text-right whitespace-nowrap sticky right-0 bg-white z-10 shadow-[-2px_0_4px_rgba(0,0,0,0.05)]">
+                  <div className="flex items-center justify-end gap-1">
+                    <button
+                      onClick={() => openEdit(acc)}
+                      className="text-blue-600 hover:bg-blue-50 p-1 rounded transition-colors"
+                      title="Sửa"
+                    >
+                      <Edit size={13} />
+                    </button>
+                    <button
+                      onClick={() => handleDelete(acc.id)}
+                      className="text-red-600 hover:bg-red-50 p-1 rounded transition-colors"
+                      title="Xóa"
+                    >
+                      <Trash2 size={13} />
+                    </button>
+                  </div>
                 </td>
               </tr>
             ))}
@@ -194,6 +196,7 @@ export default function AccountController() {
             )}
           </tbody>
         </table>
+        </div>
       </div>
       )}
 
