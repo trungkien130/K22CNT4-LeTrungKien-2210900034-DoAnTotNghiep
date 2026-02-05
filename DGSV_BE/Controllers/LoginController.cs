@@ -28,7 +28,7 @@ namespace DGSV.Api.Controllers
             if (string.IsNullOrWhiteSpace(request.UserName) ||
                 string.IsNullOrWhiteSpace(request.Password))
             {
-                return BadRequest("Thiếu UserName hoặc Password");
+                return BadRequest("Vui lòng nhập tài khoản và mật khẩu");
             }
 
             // ================= ADMIN =================
@@ -51,6 +51,7 @@ namespace DGSV.Api.Controllers
                     permissions
                 });
             }
+
 
             // ================= LECTURER =================
             var lecturerAccount = await _context.AccountLecturers
@@ -81,11 +82,12 @@ namespace DGSV.Api.Controllers
                 }
             }
 
+
             // ================= STUDENT =================
             var studentAccount = await _context.AccountStudents
                 .Include(x => x.Role)
                 .Include(x => x.Student)
-                .ThenInclude(s => s.Position) 
+                .ThenInclude(s => s.Position)  
                 .FirstOrDefaultAsync(x =>
                     x.UserName == request.UserName &&
                     x.IsActive);
@@ -98,6 +100,7 @@ namespace DGSV.Api.Controllers
                 if (VerifyPassword(request.Password, studentAccount.PasswordHash))
                 {
                     var token = GenerateToken(studentAccount.UserName, studentAccount.Role.RoleName, studentAccount.StudentId, studentAccount.Role.Id);
+
                     SetTokenCookie(token); 
                     var permissions = await GetPermissions(studentAccount.Role.Id);
                     bool isMonitor = (studentAccount.Student.PositionId == "LT" || 
@@ -133,6 +136,7 @@ namespace DGSV.Api.Controllers
 
             return Unauthorized("Sai tài khoản hoặc mật khẩu");
         }
+        
         private void SetTokenCookie(string token)
         {
             var cookieOptions = new CookieOptions

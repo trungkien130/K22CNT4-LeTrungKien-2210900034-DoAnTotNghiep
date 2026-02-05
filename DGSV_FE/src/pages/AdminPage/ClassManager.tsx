@@ -37,20 +37,41 @@ export default function ClassManager() {
   }, []);
 
   const handleSubmit = async () => {
-    try {
-      if (editing) {
-        await api.updateClass(editing.id, form);
-      } else {
-        await api.createClass(form);
-      }
-      setModalOpen(false);
-      setEditing(null);
-      setForm({ name: "", courseId: "", departmentId: 0, isActive: true });
-      fetchData();
-    } catch (err) {
+  if (!form.name.trim()) {
+    alert("Tên lớp không được để trống");
+    return;
+  }
+
+  if (form.departmentId === 0) {
+    alert("Vui lòng chọn khoa");
+    return;
+  }
+
+  const payload = {
+    ...form,
+    courseId: form.courseId.trim() || null
+  };
+
+  try {
+    if (editing) {
+      await api.updateClass(editing.id, payload);
+    } else {
+      await api.createClass(payload);
+    }
+
+    setModalOpen(false);
+    setEditing(null);
+    setForm({ name: "", courseId: "", departmentId: 0, isActive: true });
+    fetchData();
+  } catch (err: any) {
+    if (err.response?.data) {
+      alert(JSON.stringify(err.response.data, null, 2));
+    } else {
       alert("Lỗi lưu dữ liệu");
     }
-  };
+  }
+};
+
 
   const handleDelete = async (id: number) => {
     if (!confirm("Xóa lớp này?")) return;

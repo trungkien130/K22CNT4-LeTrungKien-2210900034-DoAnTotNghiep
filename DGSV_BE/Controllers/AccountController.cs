@@ -37,7 +37,6 @@ namespace DGSV.Api.Controllers
                         FullName = x.FullName,
                         IsActive = x.IsActive,
                         Role = x.Role.RoleName,
-                        // Admin doesn't have extra fields usually, but we set nulls explicitly or leave defaults
                     }).ToListAsync()),
 
                 "lecturer" => Ok(await _context.AccountLecturers
@@ -52,12 +51,11 @@ namespace DGSV.Api.Controllers
                         IsActive = x.IsActive,
                         Role = x.Role.RoleName,
 
-                        // ✅ Extra Info
                         Email = x.Lecturer.Email,
                         Phone = x.Lecturer.Phone,
                         Birthday = x.Lecturer.Birthday,
                         DepartmentName = x.Lecturer.Department.Name,
-                        Position = x.Lecturer.PositionId // or Name if you join Position
+                        Position = x.Lecturer.PositionId
                     }).ToListAsync()),
 
                 "student" => Ok(await _context.AccountStudents
@@ -72,14 +70,9 @@ namespace DGSV.Api.Controllers
                         IsActive = x.IsActive,
                         Role = x.Role.RoleName,
 
-                        // ✅ Extra Info
-                        Email = x.Student.Email,
-                        Phone = x.Student.Phone,
-                        Birthday = x.Student.Birthday,
-                        Gender = x.Student.Gender,
                         ClassName = x.Student.Class.Name,
                         Position = x.Student.PositionId,
-                        StudentId = x.StudentId // ✅ Map MSSV
+                        StudentId = x.StudentId
                     }).ToListAsync()),
 
                 _ => BadRequest("Role không hợp lệ")
@@ -155,7 +148,7 @@ namespace DGSV.Api.Controllers
         // ================= CHANGE PASSWORD ===================
         // =====================================================
         [HttpPut("{role}/{id}/change-password")]
-        [Permission("USER_MANAGE")] // Only Admins should change other people's passwords here
+        // [Permission("USER_MANAGE")] - Removed to allow self-change
         public async Task<IActionResult> ChangePassword(
             string role,
             string id,
@@ -163,6 +156,33 @@ namespace DGSV.Api.Controllers
         {
             if (string.IsNullOrWhiteSpace(dto.NewPassword))
                 return BadRequest("Mật khẩu không hợp lệ");
+
+            // 1. Check Permissions
+            var currentUserId = User.FindFirst("UserId")?.Value;
+            
+            Console.WriteLine($"[DEBUG] ChangePassword - Role: {role}, ID: {id}, CurrentUserId: {currentUserId}");
+
+            // Allow if updating self (Case Insensitive)
+            if (currentUserId == null || !currentUserId.Equals(id, StringComparison.OrdinalIgnoreCase))
+            {
+                Console.WriteLine($"[DEBUG] ID Mismatch or Null. Check USER_MANAGE.");
+                // Otherwise require USER_MANAGE permission
+                var roleIdStr = User.FindFirst("RoleId")?.Value;
+                if (!int.TryParse(roleIdStr, out int roleId))
+                {
+                    Console.WriteLine($"[DEBUG] RoleId not found.");
+                    return Forbid();
+                }
+
+                var hasPermission = await _context.RolePermissions
+                    .AnyAsync(rp => rp.RoleId == roleId && rp.Permission.PermissionCode == "USER_MANAGE");
+
+                if (!hasPermission)
+                {
+                    Console.WriteLine($"[DEBUG] No USER_MANAGE permission.");
+                    return Forbid();
+                }
+            }
 
             role = role.ToLower();
             var hash = BCrypt.Net.BCrypt.HashPassword(dto.NewPassword);

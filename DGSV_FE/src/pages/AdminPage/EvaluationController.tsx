@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import api from "../../API/api";
 import type { Question, Answer, Account } from "../../types";
-import { Search, Filter, PenTool, CheckSquare } from "lucide-react";
+import { Search, Filter, PenTool, CheckSquare, Users, Eye } from "lucide-react";
+import { getGradeInfo } from "../../utils/gradeUtils";
 
 
 export default function EvaluationController() {
@@ -13,6 +14,10 @@ export default function EvaluationController() {
   const [selectedSemester, setSelectedSemester] = useState<number | null>(null);
   const [selectedClass, setSelectedClass] = useState<number | null>(null);
   const [selectedStudent, setSelectedStudent] = useState<string | null>(null); // MSSV
+  
+  // Class Summary State
+  const [classEvaluations, setClassEvaluations] = useState<any[]>([]);
+  const [viewMode, setViewMode] = useState<"individual" | "class">("individual");
 
   // View State
   const [isViewEnabled, setIsViewEnabled] = useState(false);
@@ -26,6 +31,25 @@ export default function EvaluationController() {
   
   // Flat Map for easy lookup: AnswerId -> Answer
   const [flatAnswers, setFlatAnswers] = useState<Record<number, Answer>>({});
+  
+  // Aggregated score helper
+  const calculateStudentTotal = (items: { answerId: number, count: number }[]) => {
+      let total = 0;
+      items.forEach(item => {
+          const ans = flatAnswers[item.answerId];
+          if (ans) {
+              const score = ans.answerScore;
+              if (item.count > 1 && score < 0) {
+                  total += score * item.count;
+              } else {
+                  total += score;
+              }
+          }
+      });
+      if (total > 100) return 100;
+      if (total < -100) return -100;
+      return total;
+  };
 
   
   const [loading, setLoading] = useState(false);
@@ -44,10 +68,7 @@ export default function EvaluationController() {
   }, [selectedClass]);
 
   // Reset view if other filters change
-  useEffect(() => {
-      setIsViewEnabled(false);
-  }, [selectedSemester, selectedStudent]);
-
+  // Removed useEffect to prevent conflict with detail view navigation
 
   const fetchInitialData = async () => {
     setLoading(true);
@@ -83,12 +104,55 @@ export default function EvaluationController() {
   };
 
   const handleSearch = () => {
-      if (!selectedSemester || !selectedStudent) {
-          alert("Vui lòng chọn Học kỳ và Sinh viên!");
+      if (!selectedSemester) {
+          alert("Vui lòng chọn Học kỳ!");
           return;
       }
+      
       setIsViewEnabled(true);
-      fetchUserEvaluation(selectedStudent, selectedSemester);
+
+      if (selectedStudent) {
+          setViewMode("individual");
+          fetchUserEvaluation(selectedStudent, selectedSemester);
+      } else if (selectedClass) {
+          setViewMode("class");
+          fetchClassEvaluations(selectedSemester);
+      } else {
+          alert("Vui lòng chọn Lớp hoặc Sinh viên!");
+      }
+  };
+
+  const fetchClassEvaluations = async (semesterId: number) => {
+      setLoading(true);
+      try {
+          const classStudents = students; // assumes students are already filtered by fetchStudents
+          
+          const promises = classStudents.map(student => 
+              api.getEvaluation((student as any).studentId || student.id, semesterId)
+                 .then(res => ({ student, data: res.data as { answerId: number, count: number }[] }))
+                 .catch(() => ({ student, data: [] }))
+          );
+
+          const results = await Promise.all(promises);
+          
+          const processed = results.map(({ student, data }) => {
+              const totalScore = calculateStudentTotal(data);
+              const hasData = data.length > 0;
+              return {
+                  student,
+                  totalScore: hasData ? totalScore : 0,
+                  isEvaluated: hasData,
+                  grade: getGradeInfo(hasData ? totalScore : 0) // Default to 0/F if no data? Or handle not evaluated?
+              };
+          });
+          
+          setClassEvaluations(processed);
+
+      } catch (error) {
+          console.error("Error fetching class evaluations", error);
+      } finally {
+          setLoading(false);
+      }
   };
 
   const fetchUserEvaluation = async (studentId: string, semesterId: number) => {
@@ -237,7 +301,10 @@ export default function EvaluationController() {
                     <select 
                         className="w-full border border-gray-300 p-2 rounded-lg focus:ring-1 focus:ring-blue-500 focus:border-blue-500 bg-white text-xs"
                         value={selectedSemester || ""}
-                        onChange={e => setSelectedSemester(Number(e.target.value))}
+                        onChange={e => {
+                            setSelectedSemester(Number(e.target.value));
+                            setIsViewEnabled(false);
+                        }}
                     >
                         <option value="">-- Chọn Học kỳ --</option>
                         {semesters.map(s => (
@@ -254,7 +321,10 @@ export default function EvaluationController() {
                     <select 
                         className="w-full border border-gray-300 p-2 rounded-lg focus:ring-1 focus:ring-blue-500 focus:border-blue-500 bg-white text-xs"
                         value={selectedClass || ""}
-                        onChange={e => setSelectedClass(Number(e.target.value))}
+                        onChange={e => {
+                            setSelectedClass(Number(e.target.value));
+                            setIsViewEnabled(false);
+                        }}
                     >
                         <option value="">-- Chọn Lớp --</option>
                         {classes.map(c => (
@@ -271,7 +341,10 @@ export default function EvaluationController() {
                     <select 
                         className="w-full border border-gray-300 p-2 rounded-lg focus:ring-1 focus:ring-blue-500 focus:border-blue-500 bg-white text-xs disabled:bg-gray-100 disabled:text-gray-400"
                         value={selectedStudent || ""}
-                        onChange={e => setSelectedStudent(e.target.value)}
+                        onChange={e => {
+                            setSelectedStudent(e.target.value);
+                            setIsViewEnabled(false);
+                        }}
                         disabled={!selectedClass}
                     >
                         <option value="">-- Chọn Sinh viên --</option>
@@ -285,7 +358,7 @@ export default function EvaluationController() {
             {/* Actions */}
             <button
                 onClick={handleSearch}
-                disabled={!selectedSemester || !selectedStudent || loading}
+                disabled={!selectedSemester || loading}
                 className="w-full mt-2 bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 rounded-lg transition shadow-sm flex items-center justify-center gap-1.5 disabled:opacity-50 disabled:cursor-not-allowed text-xs"
             >
                 <Search size={14} />
@@ -312,6 +385,85 @@ export default function EvaluationController() {
                     </p>
                 </div>
             </div>
+        ) : viewMode === "class" ? (
+             <div className="flex-1 overflow-y-auto p-4 animate-in fade-in slide-in-from-bottom-4 duration-500">
+                <div className="bg-white p-4 rounded-xl shadow-sm border border-gray-100 mb-4 flex items-center justify-between">
+                    <div className="flex items-center gap-2">
+                            <Users className="w-5 h-5 text-blue-600" />
+                            <h2 className="text-lg font-bold text-gray-800">
+                                Tổng hợp đánh giá lớp
+                            </h2>
+                    </div>
+                    <div className="flex gap-4 text-xs text-gray-500 bg-gray-50 px-3 py-1.5 rounded-lg border border-gray-200">
+                         <span>Lớp: <strong className="text-gray-700">{classes.find(c => c.id === selectedClass)?.name}</strong></span>
+                        <span className="text-gray-300">|</span>
+                        <span>Học kỳ ID: <strong className="text-gray-700">{selectedSemester}</strong></span>
+                    </div>
+                </div>
+
+                <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+                    <table className="w-full text-left border-collapse">
+                        <thead className="bg-gray-50 text-gray-600 text-xs uppercase tracking-wider font-semibold">
+                            <tr>
+                                <th className="p-3 border-b">#</th>
+                                <th className="p-3 border-b">MSSV</th>
+                                <th className="p-3 border-b">Họ và tên</th>
+                                <th className="p-3 border-b text-center">Trạng thái</th>
+                                <th className="p-3 border-b text-right">Tổng điểm</th>
+                                <th className="p-3 border-b text-center">Xếp loại</th>
+                                <th className="p-3 border-b text-center">Thao tác</th>
+                            </tr>
+                        </thead>
+                        <tbody className="divide-y divide-gray-100 text-sm">
+                            {classEvaluations.length > 0 ? classEvaluations.map((item, index) => (
+                                <tr key={item.student.id} className="hover:bg-blue-50/30 transition-colors">
+                                    <td className="p-3 text-gray-500">{index + 1}</td>
+                                    <td className="p-3 font-medium text-gray-800">{(item.student as any).studentId || item.student.userName}</td>
+                                    <td className="p-3 text-gray-700">{item.student.fullName}</td>
+                                    <td className="p-3 text-center">
+                                        {item.isEvaluated ? (
+                                            <span className="px-2 py-1 rounded-full bg-green-100 text-green-700 text-xs font-semibold">Đã đánh giá</span>
+                                        ) : (
+                                            <span className="px-2 py-1 rounded-full bg-gray-100 text-gray-500 text-xs font-semibold">Chưa đánh giá</span>
+                                        )}
+                                    </td>
+                                    <td className={`p-3 text-right font-bold ${item.isEvaluated ? (item.totalScore >= 50 ? 'text-blue-600' : 'text-red-500') : 'text-gray-300'}`}>
+                                        {item.isEvaluated ? item.totalScore : "--"}
+                                    </td>
+                                    <td className="p-3 flex justify-center">
+                                        {item.isEvaluated ? (
+                                             <div className={`px-2 py-1 rounded text-xs font-bold border ${item.grade.color} ${item.grade.textColor}`}>
+                                                {item.grade.letter}
+                                             </div>
+                                        ) : (
+                                            <span className="text-gray-300">-</span>
+                                        )}
+                                    </td>
+                                    <td className="p-3 text-center">
+                                        <button 
+                                            onClick={() => {
+                                                setSelectedStudent((item.student as any).studentId);
+                                                fetchUserEvaluation((item.student as any).studentId, selectedSemester!);
+                                                setViewMode("individual");
+                                            }}
+                                            className="text-blue-600 hover:bg-blue-50 p-1.5 rounded-lg transition"
+                                            title="Xem chi tiết"
+                                        >
+                                            <Eye size={16} />
+                                        </button>
+                                    </td>
+                                </tr>
+                            )) : (
+                                <tr>
+                                    <td colSpan={7} className="p-8 text-center text-gray-500">
+                                        Không tìm thấy sinh viên nào trong lớp này.
+                                    </td>
+                                </tr>
+                            )}
+                        </tbody>
+                    </table>
+                </div>
+             </div>
         ) : (
             <>
                 <div className="flex-1 overflow-y-auto p-4 animate-in fade-in slide-in-from-bottom-4 duration-500">

@@ -1,7 +1,7 @@
 import { useMemo, useEffect } from "react";
 import { NavLink } from "react-router-dom";
 import type { Role } from "../types";
-import { Home, PenTool, History, Settings, PlusCircle, Users, BookOpen, Shield, Layers, HelpCircle, MessageSquare } from "lucide-react";
+import { Home, PenTool, History, Settings, Users, BookOpen, Shield, Layers, HelpCircle, MessageSquare } from "lucide-react";
 import logo from "../../public/Img/logo.png";
 import api from "../API/api";
 import { hasPermission } from "../utils/permissionUtils";
@@ -70,7 +70,6 @@ export default function Sidebar({ role, isOpen = false, onClose }: SidebarProps)
     if (role === "LECTURER") {
        items.push(
          { to: "/lecturer-classes", label: "Lớp giảng dạy", icon: <BookOpen className="w-5 h-5" /> },
-         { to: "/add-evaluation", label: "Thêm đánh giá", icon: <PlusCircle className="w-5 h-5" /> }
        );
     }
 

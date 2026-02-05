@@ -17,7 +17,7 @@ namespace DGSV.Api.Controllers
             _context = context;
         }
 
-        // GET: api/permission/roles
+
         [HttpGet("roles")]
         [Permission("PERMISSION_MANAGE")]
         public async Task<IActionResult> GetRoles()
@@ -26,7 +26,7 @@ namespace DGSV.Api.Controllers
             return Ok(roles);
         }
 
-        // POST: api/permission/create-role
+
         [HttpPost("create-role")]
         [Permission("PERMISSION_MANAGE")]
         public async Task<IActionResult> CreateRole([FromBody] DGSV.Api.DTO.RoleCreateDto dto)
@@ -51,7 +51,7 @@ namespace DGSV.Api.Controllers
             return Ok(role);
         }
 
-        // GET: api/permission
+
         [HttpGet]
         [Permission("PERMISSION_MANAGE")]
         public async Task<IActionResult> GetAll()
@@ -60,7 +60,7 @@ namespace DGSV.Api.Controllers
             return Ok(permissions);
         }
 
-        // GET: api/permission/role/{roleId}
+
         [HttpGet("role/{roleId}")]
         [Permission("PERMISSION_MANAGE")]
         public async Task<IActionResult> GetByRole(int roleId)
@@ -74,8 +74,6 @@ namespace DGSV.Api.Controllers
             return Ok(rolePermissions);
         }
 
-        // POST: api/permission/role/{roleId}
-        // Body: List of Permission IDs to add
         [HttpPost("role/{roleId}")]
         [Permission("PERMISSION_MANAGE")]
         public async Task<IActionResult> AssignToRole(int roleId, [FromBody] List<int> permissionIds)
@@ -83,19 +81,21 @@ namespace DGSV.Api.Controllers
             var roleExists = await _context.Roles.AnyAsync(r => r.Id == roleId);
             if (!roleExists) return NotFound("Role not found");
 
-            // 1. Get current permissions
+
+
             var currentPerms = await _context.RolePermissions
                 .Where(rp => rp.RoleId == roleId)
                 .ToListAsync();
 
-            // 2. Identify to Add
+
+
             var currentIds = currentPerms.Select(p => p.PermissionId).ToList();
             var toAdd = permissionIds.Except(currentIds).ToList();
 
-            // 3. Identify to Remove (Permissions currently in DB but NOT in the new list)
+
+
             var toRemove = currentPerms.Where(p => !permissionIds.Contains(p.PermissionId)).ToList();
 
-            // 4. Apply changes
             if (toAdd.Any())
             {
                 var newRolePermissions = toAdd.Select(pid => new RolePermission
@@ -121,7 +121,7 @@ namespace DGSV.Api.Controllers
             });
         }
         
-        // DELETE: api/permission/role/{roleId}/{permissionId}
+
         [HttpDelete("role/{roleId}/{permissionId}")]
         [Permission("PERMISSION_MANAGE")]
         public async Task<IActionResult> RemoveFromRole(int roleId, int permissionId)

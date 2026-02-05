@@ -30,10 +30,9 @@ namespace DGSV.Api.Controllers
             if (string.IsNullOrWhiteSpace(semester.Name))
                 return BadRequest("Invalid data");
 
-            // Assuming Name/SchoolYear pair should be unique or something, but strictly ID check is tricky for int auto-inc
-            // If manual ID is intended, we'd need to verify if > 0 and not exists.
-            // For now, let's assume auto-increment or simple insert.
-            
+            if (string.IsNullOrWhiteSpace(semester.Name))
+                return BadRequest("Invalid data");
+
             _context.Semesters.Add(semester);
             await _context.SaveChangesAsync();
             return Ok(semester);

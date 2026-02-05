@@ -34,14 +34,11 @@ public async Task<IActionResult> GetAllUsers()
             Role = "STUDENT",
             Email = s.Email,
             Phone = s.Phone,
-
-            // ✅ QUAN TRỌNG
             ClassId = s.ClassId,
             ClassName = s.Class != null ? s.Class.Name : null,
             Birthday = s.Birthday,
             Gender = s.Gender,
             Position = s.PositionId,
-
             IsActive = s.IsActive
         }).ToListAsync();
 
@@ -54,12 +51,9 @@ public async Task<IActionResult> GetAllUsers()
             Role = "LECTURER",
             Email = l.Email,
             Phone = l.Phone,
-            
-            // ✅ Extra Info
             Birthday = l.Birthday,
             DepartmentName = l.Department != null ? l.Department.Name : null,
             Position = l.PositionId,
-
             IsActive = l.IsActive
         }).ToListAsync();
 
@@ -74,7 +68,6 @@ public async Task<IActionResult> GetAllUsers()
 
     return Ok(admins.Concat(lecturers).Concat(students));
 }
-
 // ==================================================
 // GET: api/user/classes
 // ==================================================
@@ -88,18 +81,34 @@ public async Task<IActionResult> GetClasses()
     Console.WriteLine($"Found {classes.Count} classes.");
     return Ok(classes);
 }
-
-
         // ==================================================
         // PUT: api/user/{role}/{id}
         // ==================================================
         [HttpPut("{role}/{id}")]
-        [Permission("USER_MANAGE")]
+        // [Permission("USER_MANAGE")] - Removed to allow self-update
         public async Task<IActionResult> UpdateUser(
             string role,
             string id,
             [FromBody] UserUpdateDto dto)
         {
+            // 1. Check Permissions
+            var currentUserId = User.FindFirst("UserId")?.Value;
+
+            // Allow if updating self (Case Insensitive)
+            if (currentUserId == null || !currentUserId.Equals(id, StringComparison.OrdinalIgnoreCase))
+            {
+                // Otherwise require USER_MANAGE permission
+                var roleIdStr = User.FindFirst("RoleId")?.Value;
+                if (!int.TryParse(roleIdStr, out int roleId))
+                    return Forbid();
+
+                var hasPermission = await _context.RolePermissions
+                    .AnyAsync(rp => rp.RoleId == roleId && rp.Permission.PermissionCode == "USER_MANAGE");
+
+                if (!hasPermission)
+                    return Forbid();
+            }
+
             switch (role.ToUpper())
             {
                 case "STUDENT":
@@ -112,20 +121,26 @@ public async Task<IActionResult> GetClasses()
                         student.FullName = dto.FullName;
                         student.Email = dto.Email;
                         student.Phone = dto.Phone;
-                        student.IsActive = dto.IsActive;
-                        var accountStudent = await _context.AccountStudents
-                            .FirstOrDefaultAsync(a => a.StudentId == student.Id);
+                        // Only Admin/Manager can change status (Active/Inactive)
+                        // User updating themselves cannot ban themselves (usually)
+                        // Ideally we should separate DTOs or check permission for IsActive change
+                        // For now, keeping as is but we might want to restrict IsActive change for self-update
+                        
+                        // Fix: If self-update, prevent IsActive change unless Admin?
+                        // The user request was just to "allow update", I'll stick to that.
+                        // Only allow status change if not self (meaning it's an admin/manager)
+                        if (!currentUserId.Equals(id, StringComparison.OrdinalIgnoreCase)) 
+                        {
+                            student.IsActive = dto.IsActive;
+                            var accountStudent = await _context.AccountStudents.FirstOrDefaultAsync(a => a.StudentId == student.Id);
+                            if (accountStudent != null) accountStudent.IsActive = dto.IsActive;
+                        }
 
-                        if (accountStudent != null)
-                            accountStudent.IsActive = dto.IsActive;
-
-                        // ✅ Update ClassId if provided
                         if (dto.ClassId.HasValue)
                         {
                             student.ClassId = dto.ClassId.Value;
                         }
 
-                        // ✅ Update Birthday/Gender
                         student.Birthday = dto.Birthday;
                         student.Gender = dto.Gender;
 
@@ -140,17 +155,15 @@ public async Task<IActionResult> GetClasses()
                         lecturer.FullName = dto.FullName;
                         lecturer.Email = dto.Email;
                         lecturer.Phone = dto.Phone;
-                        lecturer.IsActive = dto.IsActive;
                         
-                        // ✅ Update Birthday (Lecturer has no Gender)
+                        if (!currentUserId.Equals(id, StringComparison.OrdinalIgnoreCase))
+                        {
+                            lecturer.IsActive = dto.IsActive;
+                            var accountLecturer = await _context.AccountLecturers.FirstOrDefaultAsync(a => a.LecturerId == lecturer.Id);
+                            if (accountLecturer != null) accountLecturer.IsActive = dto.IsActive;
+                        }
+                        
                         lecturer.Birthday = dto.Birthday;
-
-                        // 🔥 SYNC ACCOUNT LECTURER
-                        var accountLecturer = await _context.AccountLecturers
-                            .FirstOrDefaultAsync(a => a.LecturerId == lecturer.Id);
-
-                        if (accountLecturer != null)
-                            accountLecturer.IsActive = dto.IsActive;
 
                         break;
                     }
@@ -166,7 +179,6 @@ public async Task<IActionResult> GetClasses()
         // GET: api/user/info/{role}/{id}
         // ==================================================
         [HttpGet("info/{role}/{id}")]
-        // [Permission("USER_VIEW")] // Removing restriction to allow users to view their own info
         public async Task<IActionResult> GetUserDetail(string role, string id)
         {
             switch (role.ToUpper())
@@ -187,9 +199,9 @@ public async Task<IActionResult> GetClasses()
                                 Role = "STUDENT",
                                 Birthday = s.Birthday,
                                 ClassId = s.ClassId,
-                                ClassName = s.Class != null ? s.Class.Name : "", // ✅ Lấy tên lớp
+                                ClassName = s.Class != null ? s.Class.Name : "",
                                 Gender = s.Gender == null? null: (s.Gender == true ? "Nam" : "Nữ"),
-                                Position = s.PositionId // ✅ Thêm chức vụ
+                                Position = s.PositionId
                             })
                             .FirstOrDefaultAsync();
 
@@ -210,7 +222,7 @@ public async Task<IActionResult> GetClasses()
                                 Phone = l.Phone,
                                 IsActive = l.IsActive,
                                 Role = "LECTURER",
-                                Position = l.PositionId // ✅ Thêm chức vụ
+                                Position = l.PositionId
                             })
                             .FirstOrDefaultAsync();
 
@@ -276,26 +288,19 @@ public async Task<IActionResult> GetClasses()
                     {
                         var lecturer = await _context.Lecturers.FindAsync(id);
                         if (lecturer == null) return NotFound();
-
                         lecturer.IsActive = false;
-
                         var accountLecturer = await _context.AccountLecturers
                             .FirstOrDefaultAsync(a => a.LecturerId == lecturer.Id);
-
                         if (accountLecturer != null)
                             accountLecturer.IsActive = false;
-
                         break;
                     }
-
                 case "ADMIN":
                     {
                         if (!int.TryParse(id, out int adminId))
                             return BadRequest();
-
                         var admin = await _context.AccountAdmins.FindAsync(adminId);
                         if (admin == null) return NotFound();
-
                         admin.IsActive = false;
                         break;
                     }
@@ -303,7 +308,6 @@ public async Task<IActionResult> GetClasses()
                 default:
                     return BadRequest("Role không hợp lệ");
             }
-
             await _context.SaveChangesAsync();
             return Ok("Người dùng đã bị khóa");
         }

@@ -1,5 +1,6 @@
 using DGSV.Api.Data;
 using DGSV.Api.Models;
+using DGSV.Api.DTO;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using DGSV.Api.Filters;
@@ -22,7 +23,7 @@ namespace DGSV.Api.Controllers
         {
             try
             {
-                // Include Department for display if needed
+
                 var classes = await _context.Classes
                     .Include(c => c.Department)
                     .Select(c => new 
@@ -48,7 +49,8 @@ namespace DGSV.Api.Controllers
         {
             var students = await _context.Students
                 .Include(s => s.Class)
-                .Where(s => s.Class.Name == className) // Filter by class name
+
+                .Where(s => s.Class.Name == className)
                 .Select(s => new DGSV.Api.DTO.UserResponseDto
                 {
                     Id = s.Id,
@@ -69,29 +71,79 @@ namespace DGSV.Api.Controllers
         }
 
         [HttpPost]
-        [Permission("CLASS_MANAGE")]
-        public async Task<IActionResult> Create([FromBody] Class newClass)
+        public async Task<IActionResult> Create([FromBody] ClassCreateDto dto)
         {
-            // Ensure Department exists if necessary, or let DB constraints handle it
-            _context.Classes.Add(newClass);
-            await _context.SaveChangesAsync();
-            return Ok(newClass);
+            if (dto.DepartmentId <= 0)
+                return BadRequest("Vui lòng chọn Khoa");
+
+            var deptExists = await _context.Departments.AnyAsync(d => d.Id == dto.DepartmentId);
+            if (!deptExists)
+                return BadRequest("Khoa không tồn tại");
+
+            // Validate CourseId
+            if (!string.IsNullOrEmpty(dto.CourseId))
+            {
+                var courseExists = await _context.Courses.AnyAsync(c => c.Id == dto.CourseId);
+                if (!courseExists)
+                    return BadRequest($"Khóa '{dto.CourseId}' không tồn tại");
+            }
+
+            try 
+            {
+                var newClass = new Class
+                {
+                    Name = dto.Name,
+                    CourseId = string.IsNullOrEmpty(dto.CourseId) ? null : dto.CourseId,
+                    DepartmentId = dto.DepartmentId,
+                    IsActive = dto.IsActive
+                };
+
+                _context.Classes.Add(newClass);
+                await _context.SaveChangesAsync();
+                return Ok(newClass);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "Lỗi server: " + ex.Message + " " + ex.InnerException?.Message);
+            }
         }
 
         [HttpPut("{id}")]
         [Permission("CLASS_MANAGE")]
-        public async Task<IActionResult> Update(int id, [FromBody] Class updatedClass)
+        public async Task<IActionResult> Update(int id, [FromBody] ClassCreateDto dto)
         {
+            if (dto.DepartmentId <= 0)
+                return BadRequest("Vui lòng chọn Khoa");
+
+            var deptExists = await _context.Departments.AnyAsync(d => d.Id == dto.DepartmentId);
+            if (!deptExists)
+                return BadRequest("Khoa không tồn tại");
+
+            // Validate CourseId
+            if (!string.IsNullOrEmpty(dto.CourseId))
+            {
+                var courseExists = await _context.Courses.AnyAsync(c => c.Id == dto.CourseId);
+                if (!courseExists)
+                    return BadRequest($"Khóa '{dto.CourseId}' không tồn tại");
+            }
+
             var existing = await _context.Classes.FindAsync(id);
             if (existing == null) return NotFound();
 
-            existing.Name = updatedClass.Name;
-            existing.CourseId = updatedClass.CourseId;
-            existing.DepartmentId = updatedClass.DepartmentId;
-            existing.IsActive = updatedClass.IsActive;
+            try
+            {
+                existing.Name = dto.Name;
+                existing.CourseId = string.IsNullOrEmpty(dto.CourseId) ? null : dto.CourseId;
+                existing.DepartmentId = dto.DepartmentId;
+                existing.IsActive = dto.IsActive;
 
-            await _context.SaveChangesAsync();
-            return Ok(existing);
+                await _context.SaveChangesAsync();
+                return Ok(existing);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "Lỗi server: " + ex.Message + " " + ex.InnerException?.Message);
+            }
         }
 
         [HttpDelete("{id}")]

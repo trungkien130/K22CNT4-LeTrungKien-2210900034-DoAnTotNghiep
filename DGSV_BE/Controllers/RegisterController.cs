@@ -39,11 +39,13 @@ namespace DGSV.Api.Controllers
             var worksheet = package.Workbook.Worksheets[0];
             var rowCount = worksheet.Dimension.Rows;
 
-            int successCount = 0;
-            var errors = new List<string>();
 
-            // Default hardcoded password for imported users
+
+
+
             string defaultPasswordHash = BCrypt.Net.BCrypt.HashPassword("123456");
+            var errors = new List<string>();
+            int successCount = 0;
 
             for (int row = 2; row <= rowCount; row++)
             {
@@ -63,12 +65,14 @@ namespace DGSV.Api.Controllers
                         continue;
                     }
 
-                    // Parse Birthday
+
+
                     DateTime birthday = DateTime.Now;
                     if (DateTime.TryParse(birthdayStr, out var d)) birthday = d;
-                    else if (DateTime.TryParseExact(birthdayStr, "dd/MM/yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out var d2)) birthday = d2;
 
-                    // Find or Create Class
+
+
+
                     int classId = 1; // Default
                     if (!string.IsNullOrEmpty(className))
                     {
@@ -82,7 +86,8 @@ namespace DGSV.Api.Controllers
                         classId = cls.Id;
                     }
 
-                    // Create Student
+
+
                     var student = new Student
                     {
                         Id = mssv,
@@ -93,9 +98,11 @@ namespace DGSV.Api.Controllers
                         PositionId = "SV",
                         IsActive = true
                     };
-                    _context.Students.Add(student);
 
-                    // Create Account
+
+
+
+                    _context.Students.Add(student);
                     var account = new AccountStudent
                     {
                         UserName = mssv, // Username = MSSV
@@ -132,10 +139,10 @@ namespace DGSV.Api.Controllers
         [Permission("USER_MANAGE")]
         public IActionResult RegisterManual([FromBody] RegisterRequestDto req)
         {
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
 
-            // ✅ Manual Validation for ID
+
+
+
             var roleUpper = req.Role.ToUpper();
             if ((roleUpper == "STUDENT" || roleUpper == "LECTURER") && string.IsNullOrWhiteSpace(req.Id))
             {
@@ -147,10 +154,10 @@ namespace DGSV.Api.Controllers
                 _context.AccountLecturers.Any(x => x.UserName == req.UserName) ||
                 _context.AccountStudents.Any(x => x.UserName == req.UserName);
 
-            if (usernameExists)
-                return BadRequest("Username đã tồn tại");
 
-            // ✅ CHECK DUPLICATE ID (MSSV / MSGV)
+
+
+
             if (roleUpper == "STUDENT")
             {
                 if (_context.Students.Any(s => s.Id == req.Id))
@@ -162,8 +169,8 @@ namespace DGSV.Api.Controllers
                     return BadRequest($"Mã giảng viên {req.Id} đã tồn tại");
             }
 
-            // ✅ CHECK DUPLICATE EMAIL / PHONE
-            // Check in Students
+
+
             if (_context.Students.Any(s => s.Email == req.Email) || 
                 _context.Lecturers.Any(l => l.Email == req.Email))
             {
@@ -175,9 +182,8 @@ namespace DGSV.Api.Controllers
                 _context.Lecturers.Any(l => l.Phone == req.Phone)))
             {
                 // return BadRequest($"Số điện thoại {req.Phone} đã được sử dụng");
-                // Optional: strictly enforce phone uniqueness? Maybe warn? 
-                // User asked to "avoid duplicates", usually implies strict check.
-                return BadRequest($"Số điện thoại {req.Phone} đã được sử dụng");
+
+
             }
 
             string passwordHash = BCrypt.Net.BCrypt.HashPassword(req.Password);
@@ -228,9 +234,11 @@ namespace DGSV.Api.Controllers
                         Birthday = req.Birthday,
                         Email = req.Email,
                         Phone = req.Phone,
+
+
                         Gender = req.Gender,
                         PositionId = req.Position == "Lớp Trưởng" ? "LT" : "SV",
-                        ClassId = req.ClassId ?? 1, // ✅ Use provided ClassId or default to 1
+                        ClassId = req.ClassId ?? 1,
                         IsActive = true
                     });
 

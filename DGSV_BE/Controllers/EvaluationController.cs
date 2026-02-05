@@ -29,7 +29,6 @@ namespace DGSV.Controllers
             using var transaction = _context.Database.BeginTransaction();
             try
             {
-                // 1. Clear old evaluation for this semester (Replace strategy)
                 var oldAnswers = await _context.SelfAnswers
                     .Where(x => x.StudentId == dto.StudentId && x.SemesterId == dto.SemesterId)
                     .ToListAsync();
@@ -39,13 +38,11 @@ namespace DGSV.Controllers
                     _context.SelfAnswers.RemoveRange(oldAnswers);
                 }
 
-                // 2. Add new
                 var newAnswers = new List<SelfAnswer>();
                 if (dto.Details != null)
                 {
                     foreach (var d in dto.Details)
                     {
-                        // Duplicate rows for Count
                         for (int i = 0; i < d.Count; i++)
                         {
                             newAnswers.Add(new SelfAnswer
@@ -74,13 +71,46 @@ namespace DGSV.Controllers
         
         // GET: api/Evaluations/student/{studentId}/semester/{semesterId}
         [HttpGet("student/{studentId}/semester/{semesterId}")]
-        [Permission("EVAL_HISTORY_VIEW")]
         public async Task<IActionResult> GetEvaluation(string studentId, int semesterId)
         {
-             var answers = await _context.SelfAnswers
+            // Manual permission check: Allow EVAL_HISTORY_VIEW (students), EVAL_ADMIN_VIEW (admins), SUPPER_ADMIN role, or any ADMIN role
+            var user = HttpContext.User;
+            
+            if (!user.Identity.IsAuthenticated)
+            {
+                return Unauthorized();
+            }
+
+            // Check if user is SUPPER_ADMIN or has ADMIN in role name (bypass permission checks)
+            var roleNameClaim = user.Claims.FirstOrDefault(c => c.Type == "Role");
+            bool isSuperAdmin = roleNameClaim != null && roleNameClaim.Value == "SUPPER_ADMIN";
+            bool isAdmin = roleNameClaim != null && roleNameClaim.Value.ToUpper().Contains("ADMIN");
+
+            if (!isSuperAdmin && !isAdmin)
+            {
+                // Get RoleId from Claims
+                var roleIdClaim = user.Claims.FirstOrDefault(c => c.Type == "RoleId");
+                if (roleIdClaim == null || !int.TryParse(roleIdClaim.Value, out int roleId))
+                {
+                    return Forbid();
+                }
+
+                // Check if user has either EVAL_HISTORY_VIEW or EVAL_ADMIN_VIEW permission
+                var hasPermission = await _context.RolePermissions
+                    .AnyAsync(rp => rp.RoleId == roleId && 
+                        (rp.Permission.PermissionCode == "EVAL_HISTORY_VIEW" || 
+                         rp.Permission.PermissionCode == "EVAL_ADMIN_VIEW"));
+
+                if (!hasPermission)
+                {
+                    return Forbid();
+                }
+            }
+
+            var answers = await _context.SelfAnswers
                 .Where(x => x.StudentId == studentId && x.SemesterId == semesterId)
                 .ToListAsync();
-             return Ok(answers);
+            return Ok(answers);
         }
 
         // GET: api/Evaluations/history/{studentId}
@@ -119,13 +149,10 @@ namespace DGSV.Controllers
                     {
                          if (answerDefs.TryGetValue(ans.AnswerId, out int score))
                          {
-                             // Note: SelfAnswer stores duplicate rows for penalty count, 
-                             // so summing them up works correctly for both positive (count=1) and negative (count=N).
                              total += score;
                          }
                     }
 
-                    // Clamp -100 to 100
                     if (total > 100) total = 100;
                     if (total < -100) total = -100;
 
@@ -135,7 +162,7 @@ namespace DGSV.Controllers
                         SemesterName = sem?.Name ?? "Unknown",
                         SchoolYear = sem?.SchoolYear ?? "",
                         TotalScore = total,
-                        EvaluationDate = DateTime.Now // Placeholder as we don't track CreateDate in SelfAnswer yet
+                        EvaluationDate = DateTime.Now
                     };
                 })
                 .OrderByDescending(x => x.SemesterId)

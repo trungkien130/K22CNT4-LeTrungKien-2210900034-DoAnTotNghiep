@@ -39,6 +39,7 @@ namespace DGSV.Api.Data
 
                 new Permission { PermissionCode = "EVAL_SELF", PermissionName = "Tự đánh giá", Module = "EVALUATION" },
                 new Permission { PermissionCode = "EVAL_HISTORY_VIEW", PermissionName = "Xem lịch sử đánh giá", Module = "EVALUATION" },
+                new Permission { PermissionCode = "EVAL_ADMIN_VIEW", PermissionName = "Xem đánh giá của tất cả sinh viên (Admin)", Module = "EVALUATION" },
                 
                 new Permission { PermissionCode = "LECTURER_VIEW_CLASSES", PermissionName = "Xem lớp được phân công", Module = "LECTURER" },
                 new Permission { PermissionCode = "LECTURER_EVAL_STUDENT", PermissionName = "Đánh giá sinh viên", Module = "LECTURER" },
