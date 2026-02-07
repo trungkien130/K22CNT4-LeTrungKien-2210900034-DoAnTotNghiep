@@ -3,6 +3,14 @@
   "WorkspaceRootPath": "C:\\Users\\ACER\\Desktop\\DoAnTotNghiep\\K22CNT4-LeTrungKien-2210900034-DoAnTotNghiep\\DGSV_BE\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{5C2AACC5-F324-8F97-7F88-B86BE902E02F}|DGSV.csproj|c:\\users\\acer\\desktop\\doantotnghiep\\k22cnt4-letrungkien-2210900034-doantotnghiep\\dgsv_be\\dgsv.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "RelativeMoniker": "D:0:0:{5C2AACC5-F324-8F97-7F88-B86BE902E02F}|DGSV.csproj|solutionrelative:dgsv.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5C2AACC5-F324-8F97-7F88-B86BE902E02F}|DGSV.csproj|c:\\users\\acer\\desktop\\doantotnghiep\\k22cnt4-letrungkien-2210900034-doantotnghiep\\dgsv_be\\dgsv.csproj||{04B8AB82-A572-4FEF-95CE-5222444B6B64}|",
+      "RelativeMoniker": "D:0:0:{5C2AACC5-F324-8F97-7F88-B86BE902E02F}|DGSV.csproj|solutionrelative:dgsv.csproj||{04B8AB82-A572-4FEF-95CE-5222444B6B64}|"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{5C2AACC5-F324-8F97-7F88-B86BE902E02F}|DGSV.csproj|c:\\users\\acer\\desktop\\doantotnghiep\\k22cnt4-letrungkien-2210900034-doantotnghiep\\dgsv_be\\models\\class.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{5C2AACC5-F324-8F97-7F88-B86BE902E02F}|DGSV.csproj|solutionrelative:models\\class.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -123,6 +131,31 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
+              "Title": "DGSV",
+              "DocumentMoniker": "C:\\Users\\ACER\\Desktop\\DoAnTotNghiep\\K22CNT4-LeTrungKien-2210900034-DoAnTotNghiep\\DGSV_BE\\DGSV.csproj",
+              "RelativeDocumentMoniker": "DGSV.csproj",
+              "ToolTip": "C:\\Users\\ACER\\Desktop\\DoAnTotNghiep\\K22CNT4-LeTrungKien-2210900034-DoAnTotNghiep\\DGSV_BE\\DGSV.csproj",
+              "RelativeToolTip": "DGSV.csproj",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2026-02-06T06:11:53.824Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "DGSV",
+              "DocumentMoniker": "C:\\Users\\ACER\\Desktop\\DoAnTotNghiep\\K22CNT4-LeTrungKien-2210900034-DoAnTotNghiep\\DGSV_BE\\DGSV.csproj",
+              "RelativeDocumentMoniker": "DGSV.csproj",
+              "ToolTip": "C:\\Users\\ACER\\Desktop\\DoAnTotNghiep\\K22CNT4-LeTrungKien-2210900034-DoAnTotNghiep\\DGSV_BE\\DGSV.csproj",
+              "RelativeToolTip": "DGSV.csproj",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2026-02-06T06:11:35.594Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
               "Title": "Class.cs",
               "DocumentMoniker": "C:\\Users\\ACER\\Desktop\\DoAnTotNghiep\\K22CNT4-LeTrungKien-2210900034-DoAnTotNghiep\\DGSV_BE\\Models\\Class.cs",
               "RelativeDocumentMoniker": "Models\\Class.cs",
@@ -135,7 +168,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 8,
               "Title": "QuestionController.cs",
               "DocumentMoniker": "C:\\Users\\ACER\\Desktop\\DoAnTotNghiep\\K22CNT4-LeTrungKien-2210900034-DoAnTotNghiep\\DGSV_BE\\Controllers\\QuestionController.cs",
               "RelativeDocumentMoniker": "Controllers\\QuestionController.cs",
@@ -147,7 +180,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 7,
               "Title": "UserResponseDto.cs",
               "DocumentMoniker": "C:\\Users\\ACER\\Desktop\\DoAnTotNghiep\\K22CNT4-LeTrungKien-2210900034-DoAnTotNghiep\\DGSV_BE\\DTO\\UserResponseDto.cs",
               "RelativeDocumentMoniker": "DTO\\UserResponseDto.cs",
@@ -159,7 +192,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 9,
               "Title": "LoginController.cs",
               "DocumentMoniker": "C:\\Users\\ACER\\Desktop\\DoAnTotNghiep\\K22CNT4-LeTrungKien-2210900034-DoAnTotNghiep\\DGSV_BE\\Controllers\\LoginController.cs",
               "RelativeDocumentMoniker": "Controllers\\LoginController.cs",
@@ -171,7 +204,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 4,
               "Title": "RegisterController.cs",
               "DocumentMoniker": "C:\\Users\\ACER\\Desktop\\DoAnTotNghiep\\K22CNT4-LeTrungKien-2210900034-DoAnTotNghiep\\DGSV_BE\\Controllers\\RegisterController.cs",
               "RelativeDocumentMoniker": "Controllers\\RegisterController.cs",
@@ -183,7 +216,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 5,
               "Title": "RegisterFromExcelDto.cs",
               "DocumentMoniker": "C:\\Users\\ACER\\Desktop\\DoAnTotNghiep\\K22CNT4-LeTrungKien-2210900034-DoAnTotNghiep\\DGSV_BE\\DTO\\RegisterFromExcelDto.cs",
               "RelativeDocumentMoniker": "DTO\\RegisterFromExcelDto.cs",
@@ -195,7 +228,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 3,
               "Title": "UserController.cs",
               "DocumentMoniker": "C:\\Users\\ACER\\Desktop\\DoAnTotNghiep\\K22CNT4-LeTrungKien-2210900034-DoAnTotNghiep\\DGSV_BE\\Controllers\\UserController.cs",
               "RelativeDocumentMoniker": "Controllers\\UserController.cs",
@@ -207,7 +240,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 6,
               "Title": "AccountController.cs",
               "DocumentMoniker": "C:\\Users\\ACER\\Desktop\\DoAnTotNghiep\\K22CNT4-LeTrungKien-2210900034-DoAnTotNghiep\\DGSV_BE\\Controllers\\AccountController.cs",
               "RelativeDocumentMoniker": "Controllers\\AccountController.cs",
@@ -219,7 +252,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 10,
               "Title": "AnswerListController.cs",
               "DocumentMoniker": "C:\\Users\\ACER\\Desktop\\DoAnTotNghiep\\K22CNT4-LeTrungKien-2210900034-DoAnTotNghiep\\DGSV_BE\\Controllers\\AnswerListController.cs",
               "RelativeDocumentMoniker": "Controllers\\AnswerListController.cs",
@@ -231,7 +264,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 11,
               "Title": "AdminController.cs",
               "DocumentMoniker": "C:\\Users\\ACER\\Desktop\\DoAnTotNghiep\\K22CNT4-LeTrungKien-2210900034-DoAnTotNghiep\\DGSV_BE\\Controllers\\AdminController.cs",
               "RelativeDocumentMoniker": "Controllers\\AdminController.cs",
@@ -243,7 +276,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 10,
+              "DocumentIndex": 12,
               "Title": "UserCreateDto.cs",
               "DocumentMoniker": "C:\\Users\\ACER\\Desktop\\DoAnTotNghiep\\K22CNT4-LeTrungKien-2210900034-DoAnTotNghiep\\DGSV_BE\\DTO\\UserCreateDto.cs",
               "RelativeDocumentMoniker": "DTO\\UserCreateDto.cs",
@@ -255,7 +288,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 20,
+              "DocumentIndex": 22,
               "Title": "QuestionCreateDto.cs",
               "DocumentMoniker": "C:\\Users\\ACER\\Desktop\\DoAnTotNghiep\\K22CNT4-LeTrungKien-2210900034-DoAnTotNghiep\\DGSV_BE\\DTO\\QuestionCreateDto.cs",
               "RelativeDocumentMoniker": "DTO\\QuestionCreateDto.cs",
@@ -267,7 +300,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 16,
+              "DocumentIndex": 18,
               "Title": "AccountUpdateDto.cs",
               "DocumentMoniker": "C:\\Users\\ACER\\Desktop\\DoAnTotNghiep\\K22CNT4-LeTrungKien-2210900034-DoAnTotNghiep\\DGSV_BE\\DTO\\AccountUpdateDto.cs",
               "RelativeDocumentMoniker": "DTO\\AccountUpdateDto.cs",
@@ -279,7 +312,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 11,
+              "DocumentIndex": 13,
               "Title": "UserUpdateDto.cs",
               "DocumentMoniker": "C:\\Users\\ACER\\Desktop\\DoAnTotNghiep\\K22CNT4-LeTrungKien-2210900034-DoAnTotNghiep\\DGSV_BE\\DTO\\UserUpdateDto.cs",
               "RelativeDocumentMoniker": "DTO\\UserUpdateDto.cs",
@@ -291,7 +324,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 14,
+              "DocumentIndex": 16,
               "Title": "AnswerList.cs",
               "DocumentMoniker": "C:\\Users\\ACER\\Desktop\\DoAnTotNghiep\\K22CNT4-LeTrungKien-2210900034-DoAnTotNghiep\\DGSV_BE\\Models\\AnswerList.cs",
               "RelativeDocumentMoniker": "Models\\AnswerList.cs",
@@ -303,7 +336,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 12,
+              "DocumentIndex": 14,
               "Title": "Student.cs",
               "DocumentMoniker": "C:\\Users\\ACER\\Desktop\\DoAnTotNghiep\\K22CNT4-LeTrungKien-2210900034-DoAnTotNghiep\\DGSV_BE\\Models\\Student.cs",
               "RelativeDocumentMoniker": "Models\\Student.cs",
@@ -315,7 +348,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 13,
+              "DocumentIndex": 15,
               "Title": "AccountResponseDto.cs",
               "DocumentMoniker": "C:\\Users\\ACER\\Desktop\\DoAnTotNghiep\\K22CNT4-LeTrungKien-2210900034-DoAnTotNghiep\\DGSV_BE\\DTO\\AccountResponseDto.cs",
               "RelativeDocumentMoniker": "DTO\\AccountResponseDto.cs",
@@ -327,7 +360,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 22,
+              "DocumentIndex": 24,
               "Title": "AnswerCreateDto.cs",
               "DocumentMoniker": "C:\\Users\\ACER\\Desktop\\DoAnTotNghiep\\K22CNT4-LeTrungKien-2210900034-DoAnTotNghiep\\DGSV_BE\\DTO\\AnswerCreateDto.cs",
               "RelativeDocumentMoniker": "DTO\\AnswerCreateDto.cs",
@@ -339,7 +372,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 15,
+              "DocumentIndex": 17,
               "Title": "GenderHelper.cs",
               "DocumentMoniker": "C:\\Users\\ACER\\Desktop\\DoAnTotNghiep\\K22CNT4-LeTrungKien-2210900034-DoAnTotNghiep\\DGSV_BE\\Helpers\\GenderHelper.cs",
               "RelativeDocumentMoniker": "Helpers\\GenderHelper.cs",
@@ -351,7 +384,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 17,
+              "DocumentIndex": 19,
               "Title": "LoginRequestDto.cs",
               "DocumentMoniker": "C:\\Users\\ACER\\Desktop\\DoAnTotNghiep\\K22CNT4-LeTrungKien-2210900034-DoAnTotNghiep\\DGSV_BE\\DTO\\LoginRequestDto.cs",
               "RelativeDocumentMoniker": "DTO\\LoginRequestDto.cs",
@@ -363,7 +396,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 21,
+              "DocumentIndex": 23,
               "Title": "AnswerResponseDto.cs",
               "DocumentMoniker": "C:\\Users\\ACER\\Desktop\\DoAnTotNghiep\\K22CNT4-LeTrungKien-2210900034-DoAnTotNghiep\\DGSV_BE\\DTO\\AnswerResponseDto.cs",
               "RelativeDocumentMoniker": "DTO\\AnswerResponseDto.cs",
@@ -375,7 +408,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 18,
+              "DocumentIndex": 20,
               "Title": "ChangePasswordDto.cs",
               "DocumentMoniker": "C:\\Users\\ACER\\Desktop\\DoAnTotNghiep\\K22CNT4-LeTrungKien-2210900034-DoAnTotNghiep\\DGSV_BE\\DTO\\ChangePasswordDto.cs",
               "RelativeDocumentMoniker": "DTO\\ChangePasswordDto.cs",
@@ -387,7 +420,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 19,
+              "DocumentIndex": 21,
               "Title": "QuestionResponseDto.cs",
               "DocumentMoniker": "C:\\Users\\ACER\\Desktop\\DoAnTotNghiep\\K22CNT4-LeTrungKien-2210900034-DoAnTotNghiep\\DGSV_BE\\DTO\\QuestionResponseDto.cs",
               "RelativeDocumentMoniker": "DTO\\QuestionResponseDto.cs",
@@ -399,7 +432,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 24,
+              "DocumentIndex": 26,
               "Title": "AccountStudent.cs",
               "DocumentMoniker": "C:\\Users\\ACER\\Desktop\\DoAnTotNghiep\\K22CNT4-LeTrungKien-2210900034-DoAnTotNghiep\\DGSV_BE\\Models\\AccountStudent.cs",
               "RelativeDocumentMoniker": "Models\\AccountStudent.cs",
@@ -411,7 +444,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 25,
+              "DocumentIndex": 27,
               "Title": "AccountLecturer.cs",
               "DocumentMoniker": "C:\\Users\\ACER\\Desktop\\DoAnTotNghiep\\K22CNT4-LeTrungKien-2210900034-DoAnTotNghiep\\DGSV_BE\\Models\\AccountLecturer.cs",
               "RelativeDocumentMoniker": "Models\\AccountLecturer.cs",
@@ -423,7 +456,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 26,
+              "DocumentIndex": 28,
               "Title": "AccountAdmin.cs",
               "DocumentMoniker": "C:\\Users\\ACER\\Desktop\\DoAnTotNghiep\\K22CNT4-LeTrungKien-2210900034-DoAnTotNghiep\\DGSV_BE\\Models\\AccountAdmin.cs",
               "RelativeDocumentMoniker": "Models\\AccountAdmin.cs",
@@ -435,7 +468,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 23,
+              "DocumentIndex": 25,
               "Title": "AppDbContext.cs",
               "DocumentMoniker": "C:\\Users\\ACER\\Desktop\\DoAnTotNghiep\\K22CNT4-LeTrungKien-2210900034-DoAnTotNghiep\\DGSV_BE\\Data\\AppDbContext.cs",
               "RelativeDocumentMoniker": "Data\\AppDbContext.cs",

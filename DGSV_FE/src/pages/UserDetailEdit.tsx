@@ -32,12 +32,21 @@ export function EditUserModal({
   const handleSave = async () => {
     try {
       setLoading(true);
-      // Payload expects boolean for gender, string for birthday (ISO or YYYY-MM-DD)
-      const payload = {
-          ...form,
+      // Build payload conditionally based on role
+      // Lecturer model doesn't have Gender field, so exclude it
+      const payload: any = {
+          fullName: form.fullName,
+          email: form.email,
+          phone: form.phone,
+          birthday: form.birthday,
           isActive: userInfo.isActive, // ✅ Preserve active status
-          // ensure birthday format if needed. Form input gives YYYY-MM-DD which is usually fine.
       };
+      
+      // Only include gender for STUDENT role (Lecturer model doesn't have this field)
+      if (role === "STUDENT") {
+          payload.gender = form.gender;
+      }
+      
       await api.updateUser(role, userInfo.id, payload);
       onSaved();
       onClose();

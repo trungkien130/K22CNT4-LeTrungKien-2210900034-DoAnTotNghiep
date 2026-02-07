@@ -57,6 +57,7 @@ namespace DGSV.Api.Controllers
                         Birthday = x.Lecturer.Birthday,
                         DepartmentName = x.Lecturer.Department.Name,
                         Position = x.Lecturer.PositionId,
+                        LecturerId = x.LecturerId,
                         PasswordHash = x.PasswordHash
                     }).ToListAsync()),
 

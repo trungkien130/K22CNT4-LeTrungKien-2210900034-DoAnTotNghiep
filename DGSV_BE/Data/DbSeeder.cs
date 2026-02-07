@@ -29,6 +29,7 @@ namespace DGSV.Api.Data
                 new Permission { PermissionCode = "USER_CREATE", PermissionName = "Thêm người dùng mới", Module = "USER MANAGEMENT" },
                 new Permission { PermissionCode = "USER_EDIT", PermissionName = "Sửa thông tin người dùng", Module = "USER MANAGEMENT" },
                 new Permission { PermissionCode = "USER_DELETE", PermissionName = "Xóa người dùng", Module = "USER MANAGEMENT" },
+                new Permission { PermissionCode = "USER_MANAGE", PermissionName = "Quản lý người dùng (Tổng hợp)", Module = "USER MANAGEMENT" },
                 
                 new Permission { PermissionCode = "CLASS_MANAGE", PermissionName = "Quản lý lớp học", Module = "CLASS MANAGEMENT" },
                 new Permission { PermissionCode = "CLASS_VIEW_LIST", PermissionName = "Xem danh sách lớp", Module = "CLASS MANAGEMENT" },

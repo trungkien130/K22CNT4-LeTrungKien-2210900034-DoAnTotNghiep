@@ -241,6 +241,7 @@ public async Task<IActionResult> GetClasses()
                                 Phone = l.Phone,
                                 IsActive = l.IsActive,
                                 Role = "LECTURER",
+                                Birthday = l.Birthday,
                                 Position = l.PositionId
                             })
                             .FirstOrDefaultAsync();

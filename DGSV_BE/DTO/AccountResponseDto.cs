@@ -15,6 +15,7 @@
         public string? DepartmentName { get; set; }
         public string? Position { get; set; }
         public string? StudentId { get; set; }
+        public string? LecturerId { get; set; }
         public string? PasswordHash { get; set; }
     }
 }

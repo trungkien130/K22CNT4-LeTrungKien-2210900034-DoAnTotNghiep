@@ -93,7 +93,9 @@ export default function AccountController() {
 
         // Update password if provided
         if (form.password) {
-          await api.changePassword(role, editing.id, form.password);
+          // ✅ Use studentId/lecturerId for password change, not account.id
+          const userId = editing.studentId || editing.lecturerId || editing.id;
+          await api.changePassword(role, userId, form.password);
         }
         
         alert("Cập nhật thành công!");

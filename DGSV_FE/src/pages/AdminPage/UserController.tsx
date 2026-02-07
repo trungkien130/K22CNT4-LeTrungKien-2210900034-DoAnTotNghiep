@@ -186,10 +186,10 @@ export default function UserController() {
                     if (!file) return;
                     try {
                       await api.importExcel(file);
-                      alert("Import thành công!");
+                      alert("Thêm mới thành công!");
                       fetchUsers();
                     } catch {
-                      alert("Import thất bại!");
+                      alert("Thêm mới thất bại!");
                     }
                     e.target.value = "";
                   }}

@@ -131,6 +131,8 @@ export interface Account {
   className?: string;
   departmentName?: string;
   position?: string;
+  studentId?: string; // ✅ For accessing student-specific endpoints
+  lecturerId?: string; // ✅ For accessing lecturer-specific endpoints
   role?: string; // Sometimes returned as string in DTO
 }
 
